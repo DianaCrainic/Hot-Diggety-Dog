@@ -23,7 +23,7 @@ namespace WebAPI
         {
             services.AddCors(options =>
             {
-                options.AddPolicy(Messages.Origins, builder =>
+                options.AddPolicy(Constants.Origins, builder =>
                 {
                     builder.AllowAnyHeader()
                     .AllowAnyMethod()
