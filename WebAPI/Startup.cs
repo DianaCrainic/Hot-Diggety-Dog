@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using WebAPI.Data;
 using WebAPI.Resources;
+using WebAPI.Services;
 
 namespace WebAPI
 {
@@ -30,7 +31,8 @@ namespace WebAPI
                 });
             });
 
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>))
+                    .AddScoped(typeof(IJwtService), typeof(JwtService));
 
             services.AddControllers();
 

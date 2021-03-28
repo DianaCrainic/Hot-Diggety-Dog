@@ -1,0 +1,10 @@
+﻿namespace WebAPI.Resources
+{
+    public class Constants
+    {
+        public const string Origins = "_allowSpecificOrigins";
+        public const string UserItem = "User";
+        public const string AuthorizationHeader = "Authorization";
+        public const string IdField = "id";
+    }
+}
