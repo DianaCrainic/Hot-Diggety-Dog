@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web.Helpers;
 using WebAPI.Data;
 using WebAPI.Entities;
@@ -16,7 +15,6 @@ namespace WebAPI.Controllers
     [ApiController]
     public class UserController : Controller
     {
-        
         private readonly IRepository<User> _repository;
         private readonly IJwtService _jwtService;
 
@@ -25,12 +23,10 @@ namespace WebAPI.Controllers
             _repository = usersRepository;
             _jwtService = jwtService;
         }
-
-        [Authorize]
         [HttpGet]
         public ActionResult<IEnumerable<User>> GetUsers()
         {
-            return  View(_repository.GetAll());
+            return Ok(_repository.GetAll());
         }
 
         [HttpGet("{id}")]
@@ -43,10 +39,10 @@ namespace WebAPI.Controllers
                 return NotFound(Messages.NotFoundMessage("User", id));
             }
 
-            return user;
+            return Ok(user);
         }
 
-        [HttpPost]
+        [HttpPost("Register")]
         public ActionResult<User> Register(RegisterRequest registerRequest)
         {
             if (UserWithEmailExists(registerRequest.Email) || UserWithUsernameExists(registerRequest.Username))
@@ -68,8 +64,8 @@ namespace WebAPI.Controllers
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
 
-        [HttpPost("authenticate")]
-        public ActionResult Authenticate(Data.AuthenticateRequest authenticateRequest)
+        [HttpPost("Authenticate")]
+        public ActionResult Authenticate(AuthenticateRequest authenticateRequest)
         {
             User user = _repository.GetAll().SingleOrDefault(
                 u => u.Username == authenticateRequest.Username &&
@@ -90,7 +86,6 @@ namespace WebAPI.Controllers
             return Ok(authenticateResult);
         }
 
-        [Authorize]
         [HttpDelete("{id}")]
         public ActionResult<User> DeleteUser(Guid id)
         {
