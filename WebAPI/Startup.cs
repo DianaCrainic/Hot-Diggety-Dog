@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,6 +22,11 @@ namespace WebAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<DataContext>(options =>
+            {
+                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+            });
+
             services.AddCors(options =>
             {
                 options.AddPolicy(Constants.Origins, builder =>
@@ -31,6 +37,8 @@ namespace WebAPI
                 });
             });
 
+            services.AddScoped<IHotDogStandService, HotDogStandService>();
+            services.AddScoped<IProductService, ProductService>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>))
                     .AddScoped(typeof(IJwtService), typeof(JwtService));
 
