@@ -17,11 +17,12 @@ namespace WebAPI.Controllers
     {
         private readonly IRepository<User> _repository;
         private readonly IJwtService _jwtService;
-
-        public UserController(IRepository<User> usersRepository, IJwtService jwtService)
+        private readonly IUserService _userService;
+        public UserController(IUserService userService,IRepository<User> usersRepository, IJwtService jwtService)
         {
             _repository = usersRepository;
             _jwtService = jwtService;
+            _userService = userService;
         }
         [HttpGet]
         public ActionResult<IEnumerable<User>> GetUsers()
@@ -45,22 +46,12 @@ namespace WebAPI.Controllers
         [HttpPost("Register")]
         public ActionResult<User> Register(RegisterRequest registerRequest)
         {
-            if (UserWithEmailExists(registerRequest.Email) || UserWithUsernameExists(registerRequest.Username))
+            User user = _userService.UserValidator(registerRequest);
+            if (user==null)
             {
                 return BadRequest(Messages.DuplicateUsernameOrEmail);
-            }
-
-            registerRequest.Password = Crypto.SHA256(registerRequest.Password);
-
-            User user = new User
-            {
-                Email = registerRequest.Email,
-                Username = registerRequest.Username,
-                Password = registerRequest.Password
-            };
-
+            }            
             _repository.Create(user);
-           
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
 
@@ -100,14 +91,5 @@ namespace WebAPI.Controllers
             return NoContent();
         }
 
-        private bool UserWithEmailExists(string email)
-        {
-            return _repository.GetAll().Where(u => u.Email == email).FirstOrDefault() != null;
-        }
-
-        private bool UserWithUsernameExists(string username)
-        {
-            return _repository.GetAll().Where(u => u.Username == username).FirstOrDefault() != null;
-        }
     }
 }
