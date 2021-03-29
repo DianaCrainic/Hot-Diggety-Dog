@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,19 +10,19 @@ using WebAPI.Services;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/users")]
+    [Route("api/v1/users")]
     [ApiController]
-    public class UserController : Controller
+    public class UsersController : Controller
     {
         private readonly IRepository<User> _repository;
         private readonly IJwtService _jwtService;
-        private readonly IUserService _userService;
-        public UserController(IUserService userService,IRepository<User> usersRepository, IJwtService jwtService)
+
+        public UsersController(IRepository<User> usersRepository, IJwtService jwtService)
         {
             _repository = usersRepository;
             _jwtService = jwtService;
-            _userService = userService;
         }
+
         [HttpGet]
         public ActionResult<IEnumerable<User>> GetUsers()
         {
@@ -43,19 +42,26 @@ namespace WebAPI.Controllers
             return Ok(user);
         }
 
-        [HttpPost("Register")]
+        [HttpPost("register")]
         public ActionResult<User> Register(RegisterRequest registerRequest)
         {
-            User user = _userService.UserValidator(registerRequest);
-            if (user==null)
+            if (UserWithEmailExists(registerRequest.Email) || UserWithUsernameExists(registerRequest.Username))
             {
                 return BadRequest(Messages.DuplicateUsernameOrEmail);
-            }            
+            }
+
+            User user = new()
+            {
+                Email = registerRequest.Email,
+                Username = registerRequest.Username,
+                Password = Crypto.SHA256(registerRequest.Password)
+            };
+
             _repository.Create(user);
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
 
-        [HttpPost("Authenticate")]
+        [HttpPost("authenticate")]
         public ActionResult Authenticate(AuthenticateRequest authenticateRequest)
         {
             User user = _repository.GetAll().SingleOrDefault(
@@ -67,7 +73,7 @@ namespace WebAPI.Controllers
                 return BadRequest(Messages.InvalidCredentials);
             }
 
-            AuthenticateResult authenticateResult = new AuthenticateResult
+            AuthenticateResult authenticateResult = new()
             {
                 Id = user.Id,
                 Username = user.Username,
@@ -80,16 +86,25 @@ namespace WebAPI.Controllers
         [HttpDelete("{id}")]
         public ActionResult<User> DeleteUser(Guid id)
         {
-            User user =  _repository.GetById(id);
+            User user = _repository.GetById(id);
             if (user == null)
             {
                 return NotFound(Messages.NotFoundMessage("User", id));
             }
 
             _repository.Remove(user);
-            
+
             return NoContent();
         }
 
+        private bool UserWithEmailExists(string email)
+        {
+            return _repository.GetAll().Where(u => u.Email == email).Any();
+        }
+
+        private bool UserWithUsernameExists(string username)
+        {
+            return _repository.GetAll().Where(u => u.Username == username).Any();
+        }
     }
 }

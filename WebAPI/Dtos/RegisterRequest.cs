@@ -1,5 +1,5 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using WebAPI.Resources;
 
 namespace WebAPI.Data
 {
@@ -9,11 +9,11 @@ namespace WebAPI.Data
         public string Username { get; set; }
 
         [Required]
-        [EmailAddress(ErrorMessage = "Invalid email")]
+        [EmailAddress(ErrorMessage = Messages.InvalidEmail)]
         public string Email { get; set; }
 
         [Required]
-        [MinLength(6, ErrorMessage = "The Password field must be a minimum of 6 characters")]
+        [MinLength(6, ErrorMessage = Messages.PasswordLengthError)]
         public string Password { get; set; }
     }
 }

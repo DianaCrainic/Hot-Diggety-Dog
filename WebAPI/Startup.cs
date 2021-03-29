@@ -38,10 +38,9 @@ namespace WebAPI
                 });
             });
 
-            
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>))
                     .AddScoped(typeof(IJwtService), typeof(JwtService))
-                    .AddScoped(typeof(IUserService), typeof(UserService)).Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+                    .Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
             services.AddControllers();
 
