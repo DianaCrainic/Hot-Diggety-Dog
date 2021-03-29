@@ -18,7 +18,7 @@ namespace WebAPI.Data
             SetHotDogStandProperties(modelBuilder);
             SetProductProperties(modelBuilder);
 
-            SeedStands(modelBuilder);
+            SeedHotDogStands(modelBuilder);
             SeedProducts(modelBuilder);
 
             base.OnModelCreating(modelBuilder);
@@ -35,6 +35,7 @@ namespace WebAPI.Data
                 .IsRequired()
                 .HasColumnName("address");
         }
+
         private void SetProductProperties(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Product>()
@@ -59,32 +60,29 @@ namespace WebAPI.Data
                .IsRequired()
                .HasColumnName("category");
         }
-
-        private void SeedStands(ModelBuilder model)
+        private void SeedHotDogStands(ModelBuilder model)
         {
             model.Entity<HotDogStand>()
                 .HasData(
-                new HotDogStand { Id = Guid.NewGuid(), Address = "Strada Lalelelor" },
-                new HotDogStand { Id = Guid.NewGuid(), Address = "Strada Malinilor" },
-                new HotDogStand { Id = Guid.NewGuid(), Address = "Strada Copou" },
-                new HotDogStand { Id = Guid.NewGuid(), Address = "Strada Stramosilor" },
-                new HotDogStand { Id = Guid.NewGuid(), Address = "Strada Brailei" }
+                    new HotDogStand { Id = Guid.NewGuid(), Address = "Grimmer's Road" },
+                    new HotDogStand { Id = Guid.NewGuid(), Address = "Fieldfare Banks" },
+                    new HotDogStand { Id = Guid.NewGuid(), Address = "Imperial Passage" },
+                    new HotDogStand { Id = Guid.NewGuid(), Address = "Woodville Square" },
+                    new HotDogStand { Id = Guid.NewGuid(), Address = "Lindsey Circle" },
+                    new HotDogStand { Id = Guid.NewGuid(), Address = "Alexander Banks" }
                 );
-
         }
 
         private void SeedProducts(ModelBuilder model)
         {
             model.Entity<Product>()
                 .HasData(
-                new Product { Id = Guid.NewGuid(), Name = "Ketchup Tommy", Description = "Ketchup for hot dogs", Category = "Sauce" },
-                new Product { Id = Guid.NewGuid(), Name = "Happy Bunny", Description = "Bun for hot dog", Category = "Bread" },
-                new Product { Id = Guid.NewGuid(), Name = "Sausage", Description = "Sausage for hot dogs", Category = "Meat" },
-                new Product { Id = Guid.NewGuid(), Name = "Golden Mustard", Description = "Mustard for hot dogs", Category = "Sauce" },
-                new Product { Id = Guid.NewGuid(), Name = "Vinegar oil", Description = "Oil for cooking", Category = "Oils" }
+                    new Product { Id = Guid.NewGuid(), Name = "Hot Dog", Description = "Basic hot dog with ketchup/mustard", Category = "HotDogs" },
+                    new Product { Id = Guid.NewGuid(), Name = "Hot Onion Dog", Description = "Hot dog with caramelized onions and ketchup", Category = "HotDogs" },
+                    new Product { Id = Guid.NewGuid(), Name = "Bacon Melt", Description = "Hot dog with melted gouda cheese and bacon", Category = "HotDogs" },
+                    new Product { Id = Guid.NewGuid(), Name = "Fries", Description = "Regular fries", Category = "Extras" },
+                    new Product { Id = Guid.NewGuid(), Name = "Coke", Description = "Cola bottle", Category = "Drinks" }
                 );
-
         }
-
     }
 }

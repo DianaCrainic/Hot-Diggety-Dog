@@ -29,7 +29,7 @@ namespace WebAPI.Controllers
         {
             HotDogStand stand = _repository.GetById(id);
 
-            if(stand == null)
+            if (stand == null)
             {
                 return NotFound(Messages.NotFoundMessage("HotDogStand", id));
             }
@@ -40,7 +40,7 @@ namespace WebAPI.Controllers
         [HttpPost]
         public ActionResult CreateNewStand(HotDogStand stand)
         {
-            if(stand == null)
+            if (stand == null)
             {
                 return BadRequest("Invalid data!");
             }
@@ -63,7 +63,6 @@ namespace WebAPI.Controllers
 
             }
 
-
             _repository.Update(stand);
             return NoContent();
         }
@@ -81,6 +80,5 @@ namespace WebAPI.Controllers
             _repository.Remove(stand);
             return NoContent();
         }
-
     }
 }

@@ -62,7 +62,7 @@ namespace WebAPI.Controllers
                 return NotFound(Messages.NotFoundMessage("Product", product.Id));
 
             }
-            
+
             _repository.Update(product);
             return NoContent();
         }
