@@ -12,9 +12,11 @@ namespace WebAPI.Data
         }
 
         public DbSet<HotDogStand> HotDogStands { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            SetUserProperties(modelBuilder);
             SetHotDogStandProperties(modelBuilder);
             SetProductProperties(modelBuilder);
 
@@ -22,6 +24,28 @@ namespace WebAPI.Data
             SeedProducts(modelBuilder);
 
             base.OnModelCreating(modelBuilder);
+        }
+
+        private void SetUserProperties(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>()
+                .Property(u => u.Id)
+                .HasColumnName("id");
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.Username)
+                .IsRequired()
+                .HasColumnName("username");
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.Email)
+                .IsRequired()
+                .HasColumnName("email");
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.Password)
+                .IsRequired()
+                .HasColumnName("password");
         }
 
         private void SetHotDogStandProperties(ModelBuilder modelBuilder)
@@ -60,6 +84,7 @@ namespace WebAPI.Data
                .IsRequired()
                .HasColumnName("category");
         }
+
         private void SeedHotDogStands(ModelBuilder model)
         {
             model.Entity<HotDogStand>()
@@ -77,12 +102,13 @@ namespace WebAPI.Data
         {
             model.Entity<Product>()
                 .HasData(
-                    new Product { Id = Guid.NewGuid(), Name = "Hot Dog", Description = "Basic hot dog with ketchup/mustard", Category = "HotDogs" },
-                    new Product { Id = Guid.NewGuid(), Name = "Hot Onion Dog", Description = "Hot dog with caramelized onions and ketchup", Category = "HotDogs" },
-                    new Product { Id = Guid.NewGuid(), Name = "Bacon Melt", Description = "Hot dog with melted gouda cheese and bacon", Category = "HotDogs" },
-                    new Product { Id = Guid.NewGuid(), Name = "Fries", Description = "Regular fries", Category = "Extras" },
-                    new Product { Id = Guid.NewGuid(), Name = "Coke", Description = "Cola bottle", Category = "Drinks" }
+                    new Product { Id = Guid.NewGuid(), Name = "Hot Dog", Description = "Basic hot dog with ketchup/mustard", Category = "HotDogs", Price = 10 },
+                    new Product { Id = Guid.NewGuid(), Name = "Hot Onion Dog", Description = "Hot dog with caramelized onions and ketchup", Category = "HotDogs", Price = 12.5F },
+                    new Product { Id = Guid.NewGuid(), Name = "Bacon Melt", Description = "Hot dog with melted gouda cheese and bacon", Category = "HotDogs", Price = 15 },
+                    new Product { Id = Guid.NewGuid(), Name = "Fries", Description = "Regular fries", Category = "Extras", Price = 7.5F },
+                    new Product { Id = Guid.NewGuid(), Name = "Coke", Description = "Cola bottle", Category = "Drinks", Price = 5 }
                 );
         }
     }
 }
+
