@@ -1,6 +1,6 @@
 ﻿namespace WebAPI.Resources
 {
-    public class Constants
+    public static class Constants
     {
         public const string Origins = "_allowSpecificOrigins";
         public const string UserItem = "User";

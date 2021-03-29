@@ -99,12 +99,12 @@ namespace WebAPI.Controllers
 
         private bool UserWithEmailExists(string email)
         {
-            return _repository.GetAll().Where(u => u.Email == email).Any();
+            return _repository.GetAll().Any(u => u.Email == email);
         }
 
         private bool UserWithUsernameExists(string username)
         {
-            return _repository.GetAll().Where(u => u.Username == username).Any();
+            return _repository.GetAll().Any(u => u.Username == username);
         }
     }
 }

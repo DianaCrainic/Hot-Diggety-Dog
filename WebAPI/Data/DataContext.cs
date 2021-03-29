@@ -26,7 +26,7 @@ namespace WebAPI.Data
             base.OnModelCreating(modelBuilder);
         }
 
-        private void SetUserProperties(ModelBuilder modelBuilder)
+        private static void SetUserProperties(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
                 .Property(u => u.Id)
@@ -48,7 +48,7 @@ namespace WebAPI.Data
                 .HasColumnName("password");
         }
 
-        private void SetHotDogStandProperties(ModelBuilder modelBuilder)
+        private static void SetHotDogStandProperties(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<HotDogStand>()
                 .Property(s => s.Id)
@@ -60,7 +60,7 @@ namespace WebAPI.Data
                 .HasColumnName("address");
         }
 
-        private void SetProductProperties(ModelBuilder modelBuilder)
+        private static void SetProductProperties(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Product>()
                 .Property(p => p.Id)
@@ -85,7 +85,7 @@ namespace WebAPI.Data
                .HasColumnName("category");
         }
 
-        private void SeedHotDogStands(ModelBuilder model)
+        private static void SeedHotDogStands(ModelBuilder model)
         {
             model.Entity<HotDogStand>()
                 .HasData(
@@ -98,7 +98,7 @@ namespace WebAPI.Data
                 );
         }
 
-        private void SeedProducts(ModelBuilder model)
+        private static void SeedProducts(ModelBuilder model)
         {
             model.Entity<Product>()
                 .HasData(
