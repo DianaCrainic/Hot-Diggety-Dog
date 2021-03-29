@@ -37,8 +37,7 @@ namespace WebAPI
                 });
             });
 
-            services.AddScoped<IHotDogStandService, HotDogStandService>();
-            services.AddScoped<IProductService, ProductService>();
+            
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>))
                     .AddScoped(typeof(IJwtService), typeof(JwtService));
 

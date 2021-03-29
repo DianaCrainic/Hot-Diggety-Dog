@@ -10,5 +10,6 @@ namespace WebAPI.Data
         void Create(T entity);
         void Update(T entity);
         void Remove(T entity);
+        bool Exists(T entity);
     }
 }

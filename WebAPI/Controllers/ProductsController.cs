@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using WebAPI.Data;
 using WebAPI.Entities;
-using WebAPI.Services;
+using WebAPI.Resources;
 
 namespace WebAPI.Controllers
 {
@@ -10,43 +11,74 @@ namespace WebAPI.Controllers
     [Route("api/v1/products")]
     public class ProductsController : ControllerBase
     {
-        private readonly IProductService _productService;
+        private readonly IRepository<Product> _repository;
 
-        public ProductsController(IProductService productService)
+        public ProductsController(IRepository<Product> repository)
         {
-            _productService = productService;
+            _repository = repository;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<Product>> GetProducts()
         {
-            return _productService.GetProducts();
+            return Ok(_repository.GetAll());
         }
 
         [HttpGet("{id}")]
         public ActionResult<Product> GetProductById(Guid id)
         {
-            return _productService.GetProductById(id);
+            Product product = _repository.GetById(id);
+
+            if (product == null)
+            {
+                return NotFound(Messages.NotFoundMessage("Product", id));
+            }
+
+            return Ok(product);
         }
 
         [HttpPost]
         public ActionResult CreateNewProduct(Product product)
         {
-            _productService.CreateProduct(product);
+            if (product == null)
+            {
+                return BadRequest("Invalid data!");
+            }
+
+            _repository.Create(product);
             return CreatedAtAction("GetProductById", new { id = product.Id }, product);
         }
 
         [HttpPut]
-        public ActionResult UpdateStand(Product product)
+        public ActionResult UpdateProduct(Product product)
         {
-            _productService.UpdateProduct(product);
+            if (product == null)
+            {
+                return BadRequest("Invalid data!");
+            }
+
+            if (!_repository.Exists(product))
+            {
+                return NotFound(Messages.NotFoundMessage("Product", product.Id));
+
+            }
+            
+            _repository.Update(product);
             return NoContent();
         }
 
         [HttpDelete]
-        public ActionResult RemoveStand(Product product)
+        public ActionResult RemoveProduct(Guid id)
         {
-            _productService.RemoveProduct(product);
+            Product product = _repository.GetById(id);
+
+            if (product == null)
+            {
+                return NotFound(Messages.NotFoundMessage("Product", id));
+
+            }
+
+            _repository.Remove(product);
             return NoContent();
         }
     }

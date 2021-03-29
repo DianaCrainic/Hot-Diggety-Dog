@@ -32,5 +32,10 @@ namespace WebAPI.Data
             _context.Update(entity);
             _context.SaveChanges();
         }
+
+        bool IRepository<T>.Exists(T entity)
+        {
+           return _context.Set<T>().Any(en => en.Id == entity.Id);
+        }
     }
 }
