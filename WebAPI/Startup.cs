@@ -61,6 +61,8 @@ namespace WebAPI
 
             app.UseRouting();
 
+            app.UseCors(Constants.Origins);
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

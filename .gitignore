@@ -361,3 +361,4 @@ MigrationBackup/
 bin/
 obj/
 *.db
+.sonarqube/
