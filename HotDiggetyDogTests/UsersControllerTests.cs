@@ -53,7 +53,7 @@ namespace HotDiggetyDogTests
             Guid id = Guid.NewGuid();
 
             // Act
-            ActionResult<User> actionResult = usersController.GetUser(id);
+            ActionResult<User> actionResult = usersController.GetUserById(id);
 
             // Assert
             Assert.IsType<NotFoundObjectResult>(actionResult.Result);

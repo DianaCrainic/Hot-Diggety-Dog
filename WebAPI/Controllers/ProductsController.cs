@@ -31,18 +31,18 @@ namespace WebAPI.Controllers
 
             if (product == null)
             {
-                return NotFound(Messages.NotFoundMessage("Product", id));
+                return NotFound(Messages.NotFoundMessage(EntitiesConstants.ProductEntity, id));
             }
 
             return Ok(product);
         }
 
         [HttpPost]
-        public ActionResult CreateNewProduct(Product product)
+        public ActionResult CreateProduct(Product product)
         {
             if (product == null)
             {
-                return BadRequest("Invalid data!");
+                return BadRequest(Messages.InvalidData);
             }
 
             _repository.Create(product);
@@ -54,13 +54,12 @@ namespace WebAPI.Controllers
         {
             if (product == null)
             {
-                return BadRequest("Invalid data!");
+                return BadRequest(Messages.InvalidData);
             }
 
             if (!_repository.Exists(product))
             {
-                return NotFound(Messages.NotFoundMessage("Product", product.Id));
-
+                return NotFound(Messages.NotFoundMessage(EntitiesConstants.ProductEntity, product.Id));
             }
 
             _repository.Update(product);
@@ -74,8 +73,7 @@ namespace WebAPI.Controllers
 
             if (product == null)
             {
-                return NotFound(Messages.NotFoundMessage("Product", id));
-
+                return NotFound(Messages.NotFoundMessage(EntitiesConstants.ProductEntity, id));
             }
 
             _repository.Remove(product);

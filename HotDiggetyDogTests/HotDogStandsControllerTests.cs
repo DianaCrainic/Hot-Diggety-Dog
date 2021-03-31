@@ -60,7 +60,7 @@ namespace HotDiggetyDogTests
             HotDogStand stand = null;
 
             // Act
-            ActionResult<HotDogStand> actionResult = hotDogStandsController.CreateNewStand(stand);
+            ActionResult<HotDogStand> actionResult = hotDogStandsController.CreateStand(stand);
 
             // Assert
             Assert.IsType<BadRequestObjectResult>(actionResult.Result);

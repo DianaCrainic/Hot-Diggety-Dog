@@ -62,7 +62,7 @@ namespace HotDiggetyDogTests
             Product product = null;
 
             // Act
-            ActionResult<Product> actionResult = productsController.CreateNewProduct(product);
+            ActionResult<Product> actionResult = productsController.CreateProduct(product);
 
             // Assert
             Assert.IsType<BadRequestObjectResult>(actionResult.Result);

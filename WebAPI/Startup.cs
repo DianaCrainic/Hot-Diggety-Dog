@@ -25,7 +25,7 @@ namespace WebAPI
         {
             services.AddDbContext<DataContext>(options =>
             {
-                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlite(Configuration.GetConnectionString(Constants.DefaultConnectionString));
             });
 
             services.AddCors(options =>
