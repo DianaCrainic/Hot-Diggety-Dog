@@ -30,13 +30,13 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<User> GetUser(Guid id)
+        public ActionResult<User> GetUserById(Guid id)
         {
             User user = _repository.GetById(id);
 
             if (user == null)
             {
-                return NotFound(Messages.NotFoundMessage("User", id));
+                return NotFound(Messages.NotFoundMessage(EntitiesConstants.UserEntity, id));
             }
 
             return Ok(user);
@@ -58,7 +58,7 @@ namespace WebAPI.Controllers
             };
 
             _repository.Create(user);
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return CreatedAtAction("GetUserById", new { id = user.Id }, user);
         }
 
         [HttpPost("authenticate")]
@@ -89,7 +89,7 @@ namespace WebAPI.Controllers
             User user = _repository.GetById(id);
             if (user == null)
             {
-                return NotFound(Messages.NotFoundMessage("User", id));
+                return NotFound(Messages.NotFoundMessage(EntitiesConstants.UserEntity, id));
             }
 
             _repository.Remove(user);

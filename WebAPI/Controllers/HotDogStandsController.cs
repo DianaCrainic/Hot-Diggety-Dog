@@ -31,18 +31,18 @@ namespace WebAPI.Controllers
 
             if (stand == null)
             {
-                return NotFound(Messages.NotFoundMessage("HotDogStand", id));
+                return NotFound(Messages.NotFoundMessage(EntitiesConstants.HotDogStandEntity, id));
             }
 
             return Ok(stand);
         }
 
         [HttpPost]
-        public ActionResult CreateNewStand(HotDogStand stand)
+        public ActionResult CreateStand(HotDogStand stand)
         {
             if (stand == null)
             {
-                return BadRequest("Invalid data!");
+                return BadRequest(Messages.InvalidData);
             }
 
             _repository.Create(stand);
@@ -54,13 +54,12 @@ namespace WebAPI.Controllers
         {
             if (stand == null)
             {
-                return BadRequest("Invalid data!");
+                return BadRequest(Messages.InvalidData);
             }
 
             if (!_repository.Exists(stand))
             {
-                return NotFound(Messages.NotFoundMessage("HotDogStand", stand.Id));
-
+                return NotFound(Messages.NotFoundMessage(EntitiesConstants.HotDogStandEntity, stand.Id));
             }
 
             _repository.Update(stand);
@@ -74,7 +73,7 @@ namespace WebAPI.Controllers
 
             if (stand == null)
             {
-                return NotFound(Messages.NotFoundMessage("HotDogStand", id));
+                return NotFound(Messages.NotFoundMessage(EntitiesConstants.HotDogStandEntity, id));
             }
 
             _repository.Remove(stand);

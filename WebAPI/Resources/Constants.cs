@@ -7,5 +7,6 @@
         public const string AuthorizationHeader = "Authorization";
         public const string IdField = "id";
         public const int JwtValidityInHours = 3;
+        public const string DefaultConnectionString = "DefaultConnection";
     }
 }
