@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using WebAPI.Controllers;
 using WebAPI.Data;
@@ -40,6 +41,37 @@ namespace HotDiggetyDogTests
 
             // Assert
             Assert.IsType<OkObjectResult>(actionResult.Result);
+        }
+
+
+        [Fact]
+        public void GetUserWithNew_GeneratedGuid_ShouldReturn_NotFound()
+        {
+            UsersController usersController = Create_SystemUnderTest();
+
+            //Arrange
+            Guid id = Guid.NewGuid();
+
+            // Act
+            ActionResult<User> actionResult = usersController.GetUser(id);
+
+            // Assert
+            Assert.IsType<NotFoundObjectResult>(actionResult.Result);
+        }
+
+        [Fact]
+        public void DeleteUserWithNew_GeneratedGuid_ShouldReturn_NotFound()
+        {
+            UsersController usersController = Create_SystemUnderTest();
+
+            //Arrange
+            Guid id = Guid.NewGuid();
+
+            // Act
+            ActionResult<User> actionResult = usersController.DeleteUser(id);
+
+            // Assert
+            Assert.IsType<NotFoundObjectResult>(actionResult.Result);
         }
     }
 }
