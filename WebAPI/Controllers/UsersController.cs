@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web.Helpers;
 using WebAPI.Data;
 using WebAPI.Entities;
+using WebAPI.Helpers.Authorization;
 using WebAPI.Resources;
 using WebAPI.Services;
 
@@ -23,6 +24,7 @@ namespace WebAPI.Controllers
             _jwtService = jwtService;
         }
 
+        [RoleAuthorize(Role.ADMIN)]
         [HttpGet]
         public ActionResult<IEnumerable<User>> GetUsers()
         {
@@ -54,7 +56,8 @@ namespace WebAPI.Controllers
             {
                 Email = registerRequest.Email,
                 Username = registerRequest.Username,
-                Password = Crypto.SHA256(registerRequest.Password)
+                Password = Crypto.SHA256(registerRequest.Password),
+                Role = Role.CUSTOMER
             };
 
             _repository.Create(user);
@@ -77,12 +80,14 @@ namespace WebAPI.Controllers
             {
                 Id = user.Id,
                 Username = user.Username,
+                Role = user.Role.ToString(),
                 Token = _jwtService.GenerateJwtToken(user)
             };
 
             return Ok(authenticateResult);
         }
 
+        [RoleAuthorize(Role.ADMIN)]
         [HttpDelete("{id}")]
         public ActionResult<User> DeleteUser(Guid id)
         {

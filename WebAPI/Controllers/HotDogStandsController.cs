@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using WebAPI.Data;
 using WebAPI.Entities;
+using WebAPI.Helpers.Authorization;
 using WebAPI.Resources;
 
 namespace WebAPI.Controllers
@@ -37,6 +38,7 @@ namespace WebAPI.Controllers
             return Ok(stand);
         }
 
+        [RoleAuthorize(Role.ADMIN)]
         [HttpPost]
         public ActionResult CreateStand(HotDogStand stand)
         {
@@ -49,6 +51,7 @@ namespace WebAPI.Controllers
             return CreatedAtAction("GetStandById", new { id = stand.Id }, stand);
         }
 
+        [RoleAuthorize(Role.ADMIN)]
         [HttpPut]
         public ActionResult UpdateStand(HotDogStand stand)
         {
@@ -66,6 +69,7 @@ namespace WebAPI.Controllers
             return NoContent();
         }
 
+        [RoleAuthorize(Role.ADMIN)]
         [HttpDelete]
         public ActionResult RemoveStand(Guid id)
         {
