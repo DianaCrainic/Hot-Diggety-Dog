@@ -61,6 +61,8 @@ namespace WebAPI
 
             app.UseRouting();
 
+            app.UseMiddleware<JwtMiddleware>();
+
             app.UseCors(Constants.Origins);
 
             app.UseAuthorization();

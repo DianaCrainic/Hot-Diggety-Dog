@@ -12,8 +12,8 @@ namespace HotDiggetyDogTests
 
         private void SeedUsers()
         {
-            DataContext.Users.Add(new User { Id = Guid.NewGuid(), Username = "UserName1", Email = "username1@gmail.com", Password = Crypto.SHA256("UserName1") });
-            DataContext.Users.Add(new User { Id = Guid.NewGuid(), Username = "UserName2", Email = "username2@gmail.com", Password = Crypto.SHA256("UserName2") });
+            DataContext.Users.Add(new User { Id = Guid.NewGuid(), Username = "UserName1", Email = "username1@gmail.com", Password = Crypto.SHA256("UserName1"), Role = Role.CUSTOMER });
+            DataContext.Users.Add(new User { Id = Guid.NewGuid(), Username = "UserName2", Email = "username2@gmail.com", Password = Crypto.SHA256("UserName2"), Role = Role.CUSTOMER });
         }
 
         public void SeedHotDogStands()

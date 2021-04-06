@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Web.Helpers;
 using WebAPI.Entities;
 
 namespace WebAPI.Data
@@ -12,7 +13,7 @@ namespace WebAPI.Data
         }
 
         public DbSet<HotDogStand> HotDogStands { get; set; }
-	    public DbSet<Product> Products { get; set; }
+        public DbSet<Product> Products { get; set; }
         public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -21,6 +22,7 @@ namespace WebAPI.Data
             SetHotDogStandProperties(modelBuilder);
             SetProductProperties(modelBuilder);
 
+            SeedUsers(modelBuilder);
             SeedHotDogStands(modelBuilder);
             SeedProducts(modelBuilder);
 
@@ -42,6 +44,11 @@ namespace WebAPI.Data
                 .Property(u => u.Email)
                 .IsRequired()
                 .HasColumnName("email");
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.Role)
+                .IsRequired()
+                .HasColumnName("role");
 
             modelBuilder.Entity<User>()
                 .Property(u => u.Password)
@@ -84,6 +91,17 @@ namespace WebAPI.Data
                .HasMaxLength(100)
                .IsRequired()
                .HasColumnName("category");
+        }
+
+        private static void SeedUsers(ModelBuilder model)
+        {
+            model.Entity<User>()
+                .HasData(
+                    new User { Id = Guid.NewGuid(), Username = "customer", Email = "customer@gmail.com", Password = Crypto.SHA256("customer"), Role = Role.CUSTOMER },
+                    new User { Id = Guid.NewGuid(), Username = "admin", Email = "admin@gmail.com", Password = Crypto.SHA256("admin"), Role = Role.ADMIN },
+                    new User { Id = Guid.NewGuid(), Username = "operator", Email = "operator@gmail.com", Password = Crypto.SHA256("operator"), Role = Role.OPERATOR },
+                    new User { Id = Guid.NewGuid(), Username = "supplier", Email = "supplier@gmail.com", Password = Crypto.SHA256("supplier"), Role = Role.SUPPLIER }
+                );
         }
 
         private static void SeedHotDogStands(ModelBuilder model)

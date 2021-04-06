@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using WebAPI.Data;
 using WebAPI.Entities;
+using WebAPI.Helpers.Authorization;
 using WebAPI.Resources;
 
 namespace WebAPI.Controllers
@@ -37,6 +38,7 @@ namespace WebAPI.Controllers
             return Ok(product);
         }
 
+        [RoleAuthorize(Role.ADMIN)]
         [HttpPost]
         public ActionResult CreateProduct(Product product)
         {
@@ -49,6 +51,7 @@ namespace WebAPI.Controllers
             return CreatedAtAction("GetProductById", new { id = product.Id }, product);
         }
 
+        [RoleAuthorize(Role.ADMIN)]
         [HttpPut]
         public ActionResult UpdateProduct(Product product)
         {
@@ -66,6 +69,7 @@ namespace WebAPI.Controllers
             return NoContent();
         }
 
+        [RoleAuthorize(Role.ADMIN)]
         [HttpDelete]
         public ActionResult RemoveProduct(Guid id)
         {
