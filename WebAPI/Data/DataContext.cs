@@ -15,12 +15,9 @@ namespace WebAPI.Data
         public DbSet<HotDogStand> HotDogStands { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<User> Users { get; set; }
-
-        
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderProduct> OrdersProducts { get; set; }
         
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             SetUserProperties(modelBuilder);
@@ -28,19 +25,16 @@ namespace WebAPI.Data
             SetProductProperties(modelBuilder);
             SetOrderProperties(modelBuilder);
             SetOrderProductProperties(modelBuilder);
-            
 
-            
             SeedUsers(modelBuilder);
             SeedHotDogStands(modelBuilder);
             SeedProducts(modelBuilder);
 
-            SeedOrders(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }
 
-        
-        private static void SetOrderProperties(ModelBuilder modelBuilder) {
+        private static void SetOrderProperties(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<Order>()
                 .Property(o => o.Id)
                 .HasColumnName("id");
@@ -73,32 +67,28 @@ namespace WebAPI.Data
                 .Property(q => q.Quantity)
                 .HasColumnName("quantity");
         }
+
         private static void SetUserProperties(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
                 .Property(u => u.Id)
                 .HasColumnName("id");
-
             modelBuilder.Entity<User>()
                 .Property(u => u.Username)
                 .IsRequired()
                 .HasColumnName("username");
-
             modelBuilder.Entity<User>()
                 .Property(u => u.Email)
                 .IsRequired()
                 .HasColumnName("email");
-
             modelBuilder.Entity<User>()
                 .Property(u => u.Role)
                 .IsRequired()
                 .HasColumnName("role");
-
             modelBuilder.Entity<User>()
                 .Property(u => u.Password)
                 .IsRequired()
                 .HasColumnName("password");
-
         }
 
         private static void SetHotDogStandProperties(ModelBuilder modelBuilder)
@@ -106,7 +96,6 @@ namespace WebAPI.Data
             modelBuilder.Entity<HotDogStand>()
                 .Property(s => s.Id)
                 .HasColumnName("id");
-
             modelBuilder.Entity<HotDogStand>()
                 .Property(s => s.Address)
                 .IsRequired()
@@ -118,19 +107,16 @@ namespace WebAPI.Data
             modelBuilder.Entity<Product>()
                 .Property(p => p.Id)
                 .HasColumnName("id");
-
             modelBuilder.Entity<Product>()
                 .Property(p => p.Name)
                 .HasMaxLength(100)
                 .IsRequired()
                 .HasColumnName("name");
-
             modelBuilder.Entity<Product>()
                .Property(p => p.Description)
                .HasMaxLength(500)
                .IsRequired()
                .HasColumnName("description");
-
             modelBuilder.Entity<Product>()
                .Property(p => p.Category)
                .HasMaxLength(100)
@@ -172,25 +158,6 @@ namespace WebAPI.Data
                     new Product { Id = Guid.NewGuid(), Name = "Fries", Description = "Regular fries", Category = "Extras", Price = 7.5F },
                     new Product { Id = Guid.NewGuid(), Name = "Coke", Description = "Coke bottle", Category = "Drinks", Price = 5 }
                 );
-        }
-
-        private void SeedOrders(ModelBuilder model)
-        {
-            /*
-            Random rand = new Random();
-            Operator op = new Operator { Id = Guid.NewGuid(), OperatorName = "Alex" };
-            model.Entity<Operator>().HasData(op);
-            
-            for (int i=1;i<=10;i++)
-            {
-                model.Entity<Order>()
-                    .HasData(
-                        new Order { Id = Guid.NewGuid(),OperatorId=Guid.NewGuid(),Operator=op, UserId = Guid.NewGuid(), User = null, Timestamp = DateTime.Now, Total = rand.NextDouble() }
-                    );
-            }
-            
-            */
-
         }
     }
 }

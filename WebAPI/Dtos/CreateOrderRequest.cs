@@ -17,6 +17,5 @@ namespace WebAPI.Dtos
 
         [Required]
         public List<AddProductToOrderRequest> Products { get; set; }
-
     }
 }

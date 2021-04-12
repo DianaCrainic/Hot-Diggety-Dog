@@ -7,11 +7,11 @@ using WebAPI.Resources;
 namespace WebAPI.Helpers.Authorization
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class RoleAuthorize : Attribute, IAuthorizationFilter
+    public class RoleAuthorizeAttribute : Attribute, IAuthorizationFilter
     {
         private readonly Role _role;
 
-        public RoleAuthorize(Role role)
+        public RoleAuthorizeAttribute(Role role)
         {
             _role = role;
         }

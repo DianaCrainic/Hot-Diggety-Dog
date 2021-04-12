@@ -13,14 +13,13 @@ namespace WebAPI.Entities
         [ForeignKey("Operator")]
         public Guid OperatorId { set; get; }
 
-
         [ForeignKey("User")]
         public Guid UserId { set; get; }
-
 
         [JsonIgnore]
         [InverseProperty("ClientOrders")]
         public User User { get; set; }
+
         [JsonIgnore]
         [InverseProperty("OperatorOrders")]
         public User Operator { get; set; }

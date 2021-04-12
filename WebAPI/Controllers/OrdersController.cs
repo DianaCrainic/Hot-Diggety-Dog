@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using WebAPI.Data;
 using WebAPI.Dtos;
 using WebAPI.Entities;
+using WebAPI.Helpers.Authorization;
 using WebAPI.Resources;
 
 namespace WebAPI.Controllers
@@ -16,6 +17,7 @@ namespace WebAPI.Controllers
         private readonly IRepository<User> _usersRepository;
         private readonly IRepository<OrderProduct> _orderProductRepository;
         private readonly IRepository<Product> _productsRepository;
+
         public OrdersController(IRepository<Order> ordersRepository, IRepository<User> usersRepository, IRepository<OrderProduct> orderPorductRepository, IRepository<Product> productsRepository)
         {
             _ordersRepository = ordersRepository;
@@ -42,7 +44,9 @@ namespace WebAPI.Controllers
 
             return Ok(order);
         }
-        [HttpPost("CreateOrder")]
+
+        [RoleAuthorize(Role.OPERATOR)]
+        [HttpPost]
         public ActionResult CreateOrder(CreateOrderRequest orderRequest)
         {
             if (orderRequest == null)
@@ -52,35 +56,34 @@ namespace WebAPI.Controllers
 
             User operatorUser = _usersRepository.GetById(orderRequest.OperatorId);
             User customerUser = _usersRepository.GetById(orderRequest.UserId);
-
-
             if (operatorUser.Role != Role.OPERATOR || customerUser.Role != Role.CUSTOMER)
             {
                 return BadRequest(Messages.InvalidData);
             }
 
-            double T = 0;
-
-            foreach (AddProductToOrderRequest req in orderRequest.Products)
+            double totalPrice = 0;
+            foreach (AddProductToOrderRequest request in orderRequest.Products)
             {
-                if (_productsRepository.GetById(req.ProductId) != null)
+                if (_productsRepository.GetById(request.ProductId) != null)
                 {
-                    T += _productsRepository.GetById(req.ProductId).Price * req.Quantity;
+                    totalPrice += _productsRepository.GetById(request.ProductId).Price * request.Quantity;
                 }
                 else
                 {
                     return NotFound();
                 }
-
             }
-            Order order = new Order() { OperatorId = orderRequest.OperatorId, UserId = orderRequest.UserId, Timestamp = orderRequest.Timestamp, Total = T };
 
+            Order order = new() { OperatorId = orderRequest.OperatorId, UserId = orderRequest.UserId, Timestamp = orderRequest.Timestamp, Total = totalPrice };
             _ordersRepository.Create(order);
-
-            foreach (AddProductToOrderRequest req in orderRequest.Products)
+            foreach (AddProductToOrderRequest request in orderRequest.Products)
             {
-                _orderProductRepository.Create(new OrderProduct() { OrderId = order.Id, ProductId = req.ProductId });
-
+                _orderProductRepository.Create(new OrderProduct()
+                {
+                    OrderId = order.Id,
+                    ProductId = request.ProductId,
+                    Quantity = request.Quantity
+                });
             }
             return CreatedAtAction("GetOrderById", new { id = order.Id }, order);
         }

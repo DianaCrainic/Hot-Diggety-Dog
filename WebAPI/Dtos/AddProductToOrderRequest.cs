@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-
 namespace WebAPI.Dtos
 {
     public class AddProductToOrderRequest
@@ -11,6 +10,5 @@ namespace WebAPI.Dtos
 
        [Required]
        public int Quantity { get; set; }
-
     }
 }
