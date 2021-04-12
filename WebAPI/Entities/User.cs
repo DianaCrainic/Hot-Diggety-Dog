@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using WebAPI.Data;
 
 namespace WebAPI.Entities
@@ -11,5 +12,9 @@ namespace WebAPI.Entities
 
         [JsonIgnore]
         public string Password { get; set; }
+        [JsonIgnore]
+        public ICollection<Order> ClientOrders{get;set;}
+        [JsonIgnore]
+        public ICollection<Order> OperatorOrders { get; set; }
     }
 }

@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAPI.Data;
 
-namespace WebAPI.Data.Migrations
+namespace WebAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210412173614_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,34 +37,94 @@ namespace WebAPI.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c7d40123-7e01-44d4-bc2a-3a82872c6f20"),
+                            Id = new Guid("d45045d7-0d2c-44b0-97f5-f1b11ed98dff"),
                             Address = "Grimmer's Road"
                         },
                         new
                         {
-                            Id = new Guid("8cb4c5f0-0ff9-49f0-87df-6852d78f5601"),
+                            Id = new Guid("6e4f7be7-1b8f-4d85-9498-f4eae295f451"),
                             Address = "Fieldfare Banks"
                         },
                         new
                         {
-                            Id = new Guid("9acfa6fd-7bf5-40e5-8019-0212ab39da0d"),
+                            Id = new Guid("2124d56f-e724-4d5a-a873-d06945af2336"),
                             Address = "Imperial Passage"
                         },
                         new
                         {
-                            Id = new Guid("33d0cf59-33fc-425a-ac5c-622137759ed8"),
+                            Id = new Guid("573fff02-9a30-4d57-b2e1-6bb9ce89b1a6"),
                             Address = "Woodville Square"
                         },
                         new
                         {
-                            Id = new Guid("ec4ac133-0b8f-49f3-b0b0-e89f5a2d2f9b"),
+                            Id = new Guid("18b5105a-bd83-43b0-867b-112be45b4e30"),
                             Address = "Lindsey Circle"
                         },
                         new
                         {
-                            Id = new Guid("0b864e0b-c85c-461d-ac25-8d135da5efd2"),
+                            Id = new Guid("eae26977-6799-440e-8088-e8cf1e54abe5"),
                             Address = "Alexander Banks"
                         });
+                });
+
+            modelBuilder.Entity("WebAPI.Entities.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("OperatorId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("operator_id");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("timesptamp");
+
+                    b.Property<double>("Total")
+                        .HasColumnType("REAL")
+                        .HasColumnName("total");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OperatorId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("WebAPI.Entities.OrderProduct", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("order_id");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("product_id");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("quantity");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrdersProducts");
                 });
 
             modelBuilder.Entity("WebAPI.Entities.Product", b =>
@@ -100,7 +162,7 @@ namespace WebAPI.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("97f454b0-a44c-407e-a7ba-26d2b42de062"),
+                            Id = new Guid("99fca172-ce7a-40b4-870c-febb3d23c0c0"),
                             Category = "HotDogs",
                             Description = "Basic hot dog with ketchup/mustard",
                             Name = "Hot Dog",
@@ -108,7 +170,7 @@ namespace WebAPI.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8acf400e-45a3-447e-ad44-a70dfd26a7da"),
+                            Id = new Guid("5b4d64d9-b150-47bb-b852-a34e5b6a1bf6"),
                             Category = "HotDogs",
                             Description = "Hot dog with caramelized onions and ketchup",
                             Name = "Hot Onion Dog",
@@ -116,7 +178,7 @@ namespace WebAPI.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8ed02c83-36ea-45af-a728-5e250e91fd28"),
+                            Id = new Guid("c94e970e-4804-4bec-aeee-184c15450fbf"),
                             Category = "HotDogs",
                             Description = "Hot dog with melted gouda cheese and bacon",
                             Name = "Bacon Melt",
@@ -124,7 +186,7 @@ namespace WebAPI.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("4999ecc3-fab3-4ca3-acb8-23ab800eda98"),
+                            Id = new Guid("973a2600-e3d1-4c7e-ab49-247fcfe99e09"),
                             Category = "Extras",
                             Description = "Regular fries",
                             Name = "Fries",
@@ -132,7 +194,7 @@ namespace WebAPI.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("77ab8221-e742-4712-ad85-d88e0cfd237b"),
+                            Id = new Guid("7a16889a-3309-4471-b37d-a9098048c8d3"),
                             Category = "Drinks",
                             Description = "Coke bottle",
                             Name = "Coke",
@@ -173,7 +235,7 @@ namespace WebAPI.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e69e27e6-1d3c-44ab-9cb3-8f7a21e5e27d"),
+                            Id = new Guid("5aabb1a0-b316-4281-9e28-fc5a0a7947cd"),
                             Email = "customer@gmail.com",
                             Password = "B6C45863875E34487CA3C155ED145EFE12A74581E27BEFEC5AA661B8EE8CA6DD",
                             Role = 0,
@@ -181,7 +243,7 @@ namespace WebAPI.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("dd4900c7-6025-433e-a0ee-643484b2c9ae"),
+                            Id = new Guid("1dc9fd95-b148-4ec3-b765-2e5eb4881094"),
                             Email = "admin@gmail.com",
                             Password = "8C6976E5B5410415BDE908BD4DEE15DFB167A9C873FC4BB8A81F6F2AB448A918",
                             Role = 3,
@@ -189,7 +251,7 @@ namespace WebAPI.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d2cb518b-4978-41ba-a021-eba20abcf050"),
+                            Id = new Guid("5a9151ba-16f3-4f5f-8ac1-1f39d6ab357b"),
                             Email = "operator@gmail.com",
                             Password = "06E55B633481F7BB072957EABCF110C972E86691C3CFEDABE088024BFFE42F23",
                             Role = 1,
@@ -197,12 +259,57 @@ namespace WebAPI.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("65e5daee-9d34-48db-b924-7581395412a9"),
+                            Id = new Guid("b60f2f68-612a-4607-9174-e0735d594d40"),
                             Email = "supplier@gmail.com",
                             Password = "955ED10B73D6265B1ADCF768B94F8DD5D91F33309DB94B6B3AF4EFA822F1D9AF",
                             Role = 2,
                             Username = "supplier"
                         });
+                });
+
+            modelBuilder.Entity("WebAPI.Entities.Order", b =>
+                {
+                    b.HasOne("WebAPI.Entities.User", "Operator")
+                        .WithMany("OperatorOrders")
+                        .HasForeignKey("OperatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebAPI.Entities.User", "User")
+                        .WithMany("ClientOrders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Operator");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WebAPI.Entities.OrderProduct", b =>
+                {
+                    b.HasOne("WebAPI.Entities.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebAPI.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("WebAPI.Entities.User", b =>
+                {
+                    b.Navigation("ClientOrders");
+
+                    b.Navigation("OperatorOrders");
                 });
 #pragma warning restore 612, 618
         }
