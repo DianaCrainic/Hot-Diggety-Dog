@@ -16,7 +16,7 @@ namespace WebAPI.Controllers
         private readonly IRepository<User> _usersRepository;
         private readonly IRepository<OrderProduct> _orderProductRepository;
         private readonly IRepository<Product> _productsRepository;
-        public OrdersController(IRepository<Order> ordersRepository, IRepository<User> usersRepository,IRepository<OrderProduct> orderPorductRepository, IRepository<Product> productsRepository)
+        public OrdersController(IRepository<Order> ordersRepository, IRepository<User> usersRepository, IRepository<OrderProduct> orderPorductRepository, IRepository<Product> productsRepository)
         {
             _ordersRepository = ordersRepository;
             _usersRepository = usersRepository;
@@ -53,33 +53,33 @@ namespace WebAPI.Controllers
             User operatorUser = _usersRepository.GetById(orderRequest.OperatorId);
             User customerUser = _usersRepository.GetById(orderRequest.UserId);
 
-            
+
             if (operatorUser.Role != Role.OPERATOR || customerUser.Role != Role.CUSTOMER)
             {
                 return BadRequest(Messages.InvalidData);
             }
 
-            double T=0;
+            double T = 0;
 
-            foreach(AddProductToOrderRequest req in orderRequest.Products)
+            foreach (AddProductToOrderRequest req in orderRequest.Products)
             {
-                if (_productsRepository.GetById(req.ProductId) != null )
+                if (_productsRepository.GetById(req.ProductId) != null)
                 {
-                    T+= _productsRepository.GetById(req.ProductId).Price*req.Quantity;
+                    T += _productsRepository.GetById(req.ProductId).Price * req.Quantity;
                 }
                 else
                 {
                     return NotFound();
                 }
-                
+
             }
-            Order order = new Order() {OperatorId=orderRequest.OperatorId,UserId=orderRequest.UserId,Timestamp=orderRequest.Timestamp,Total=T};
+            Order order = new Order() { OperatorId = orderRequest.OperatorId, UserId = orderRequest.UserId, Timestamp = orderRequest.Timestamp, Total = T };
 
             _ordersRepository.Create(order);
 
             foreach (AddProductToOrderRequest req in orderRequest.Products)
             {
-                _orderProductRepository.Create(new OrderProduct() {OrderId=order.Id ,ProductId=req.ProductId});
+                _orderProductRepository.Create(new OrderProduct() { OrderId = order.Id, ProductId = req.ProductId });
 
             }
             return CreatedAtAction("GetOrderById", new { id = order.Id }, order);

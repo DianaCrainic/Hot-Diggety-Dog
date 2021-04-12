@@ -6,8 +6,8 @@ using WebAPI.Data;
 namespace WebAPI.Entities
 {
     public class OrderProduct : BaseEntity
-    {   
-        
+    {
+
         public Guid OrderId { get; set; }
         [JsonIgnore]
         public virtual Order Order { get; set; }
