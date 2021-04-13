@@ -15,12 +15,16 @@ namespace WebAPI.Data
         public DbSet<HotDogStand> HotDogStands { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<User> Users { get; set; }
-
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderProduct> OrdersProducts { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             SetUserProperties(modelBuilder);
             SetHotDogStandProperties(modelBuilder);
             SetProductProperties(modelBuilder);
+            SetOrderProperties(modelBuilder);
+            SetOrderProductProperties(modelBuilder);
 
             SeedUsers(modelBuilder);
             SeedHotDogStands(modelBuilder);
@@ -29,27 +33,58 @@ namespace WebAPI.Data
             base.OnModelCreating(modelBuilder);
         }
 
+        private static void SetOrderProperties(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Order>()
+                .Property(o => o.Id)
+                .HasColumnName("id");
+            modelBuilder.Entity<Order>()
+                .Property(op => op.OperatorId)
+                .HasColumnName("operator_id");
+            modelBuilder.Entity<Order>()
+                .Property(o => o.UserId)
+                .HasColumnName("user_id");
+            modelBuilder.Entity<Order>()
+                .Property(o => o.Timestamp)
+                .HasColumnName("timesptamp");
+            modelBuilder.Entity<Order>()
+                .Property(o => o.Total)
+                .HasColumnName("total");
+        }
+
+        private static void SetOrderProductProperties(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<OrderProduct>()
+                .Property(o => o.Id)
+                .HasColumnName("id");
+            modelBuilder.Entity<OrderProduct>()
+                .Property(o => o.OrderId)
+                .HasColumnName("order_id");
+            modelBuilder.Entity<OrderProduct>()
+                .Property(p => p.ProductId)
+                .HasColumnName("product_id");
+            modelBuilder.Entity<OrderProduct>()
+                .Property(q => q.Quantity)
+                .HasColumnName("quantity");
+        }
+
         private static void SetUserProperties(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
                 .Property(u => u.Id)
                 .HasColumnName("id");
-
             modelBuilder.Entity<User>()
                 .Property(u => u.Username)
                 .IsRequired()
                 .HasColumnName("username");
-
             modelBuilder.Entity<User>()
                 .Property(u => u.Email)
                 .IsRequired()
                 .HasColumnName("email");
-
             modelBuilder.Entity<User>()
                 .Property(u => u.Role)
                 .IsRequired()
                 .HasColumnName("role");
-
             modelBuilder.Entity<User>()
                 .Property(u => u.Password)
                 .IsRequired()
@@ -61,7 +96,6 @@ namespace WebAPI.Data
             modelBuilder.Entity<HotDogStand>()
                 .Property(s => s.Id)
                 .HasColumnName("id");
-
             modelBuilder.Entity<HotDogStand>()
                 .Property(s => s.Address)
                 .IsRequired()
@@ -73,19 +107,16 @@ namespace WebAPI.Data
             modelBuilder.Entity<Product>()
                 .Property(p => p.Id)
                 .HasColumnName("id");
-
             modelBuilder.Entity<Product>()
                 .Property(p => p.Name)
                 .HasMaxLength(100)
                 .IsRequired()
                 .HasColumnName("name");
-
             modelBuilder.Entity<Product>()
                .Property(p => p.Description)
                .HasMaxLength(500)
                .IsRequired()
                .HasColumnName("description");
-
             modelBuilder.Entity<Product>()
                .Property(p => p.Category)
                .HasMaxLength(100)
