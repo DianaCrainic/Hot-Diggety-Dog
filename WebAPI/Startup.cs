@@ -40,6 +40,7 @@ namespace WebAPI
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>))
                     .AddScoped(typeof(IJwtService), typeof(JwtService))
+                    .AddScoped(typeof(ICsvService), typeof(CsvService))
                     .Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
             services.AddControllers();
