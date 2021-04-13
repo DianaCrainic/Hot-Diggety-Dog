@@ -77,7 +77,7 @@ namespace WebAPI.Controllers
                 return BadRequest(Messages.InvalidData);
             }
 
-            var queryable = _ordersRepository.GetAll().AsQueryable().Where(order => order.UserId == operatorId);
+            var queryable = _ordersRepository.GetAll().AsQueryable().Where(order => order.OperatorId == operatorId);
             await HttpContext.InsertPaginationParameterInResponse(queryable, pagination.EntitiesPerPage);
             return await queryable.Paginate(pagination).ToListAsync();
         }
