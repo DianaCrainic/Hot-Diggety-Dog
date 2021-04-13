@@ -19,10 +19,9 @@ namespace HotDiggetyDogTests
 
         private ProductsController Create_SystemUnderTest()
         {
-            Repository<Product> productRepository = new Repository<Product>(_controllersFixture.DataContext);
+            Repository<Product> productRepository = new(_controllersFixture.DataContext);
             return new ProductsController(productRepository);
         }
-
 
         [Fact]
         public void GetProducts_ShouldReturn_OK()
@@ -35,7 +34,6 @@ namespace HotDiggetyDogTests
             // Assert
             Assert.IsType<OkObjectResult>(actionResult.Result);
         }
-
 
         [Fact]
         public void GetProductWithNew_GeneratedGuid_ShouldReturn_NotFound()
@@ -51,7 +49,6 @@ namespace HotDiggetyDogTests
             // Assert
             Assert.IsType<NotFoundObjectResult>(actionResult.Result);
         }
-
 
         [Fact]
         public void Create_Null_Product_ShouldReturn_BadRequest()

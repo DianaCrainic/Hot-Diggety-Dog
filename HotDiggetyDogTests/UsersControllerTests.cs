@@ -23,13 +23,12 @@ namespace HotDiggetyDogTests
 
         private UsersController Create_SystemUnderTest()
         {
-            Repository<User> userRepository = new Repository<User>(_controllersFixture.DataContext);
+            Repository<User> userRepository = new(_controllersFixture.DataContext);
             IOptions<AppSettings> appSettings = Options.Create(new AppSettings());
             appSettings.Value.Secret = SECRET;
-            JwtService jwtService = new JwtService(appSettings);
+            JwtService jwtService = new(appSettings);
             return new UsersController(userRepository, jwtService);
         }
-
 
         [Fact]
         public void GetUsers_ShouldReturn_OK()
@@ -42,7 +41,6 @@ namespace HotDiggetyDogTests
             // Assert
             Assert.IsType<OkObjectResult>(actionResult.Result);
         }
-
 
         [Fact]
         public void GetUserWithNew_GeneratedGuid_ShouldReturn_NotFound()

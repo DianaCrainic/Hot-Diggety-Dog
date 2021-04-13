@@ -19,10 +19,9 @@ namespace HotDiggetyDogTests
 
         private HotDogStandsController Create_SystemUnderTest()
         {
-            Repository<HotDogStand> hotDogStandRepository = new Repository<HotDogStand>(_controllersFixture.DataContext);
+            Repository<HotDogStand> hotDogStandRepository = new(_controllersFixture.DataContext);
             return new HotDogStandsController(hotDogStandRepository);
         }
-
 
         [Fact]
         public void GetHotDogStands_ShouldReturn_OK()
@@ -72,7 +71,7 @@ namespace HotDiggetyDogTests
             HotDogStandsController hotDogStandsController = Create_SystemUnderTest();
 
             //Arrange
-            HotDogStand stand = new HotDogStand
+            HotDogStand stand = new()
             {
                 Id = Guid.NewGuid(),
                 Address = "New Adress"
