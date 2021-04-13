@@ -45,7 +45,7 @@ namespace WebAPI.Controllers
             return Ok(order);
         }
 
-        [RoleAuthorize(Role.OPERATOR)]
+        [RoleAuthorizeAttribute(Role.OPERATOR)]
         [HttpPost]
         public ActionResult CreateOrder(CreateOrderRequest orderRequest)
         {
