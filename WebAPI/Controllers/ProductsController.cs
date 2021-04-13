@@ -38,7 +38,7 @@ namespace WebAPI.Controllers
             return Ok(product);
         }
 
-        [RoleAuthorize(Role.ADMIN)]
+        [RoleAuthorize("ADMIN")]
         [HttpPost]
         public ActionResult CreateProduct(Product product)
         {
@@ -51,7 +51,7 @@ namespace WebAPI.Controllers
             return CreatedAtAction("GetProductById", new { id = product.Id }, product);
         }
 
-        [RoleAuthorize(Role.ADMIN)]
+        [RoleAuthorize("ADMIN")]
         [HttpPut]
         public ActionResult UpdateProduct(Product product)
         {
@@ -69,7 +69,7 @@ namespace WebAPI.Controllers
             return NoContent();
         }
 
-        [RoleAuthorize(Role.ADMIN)]
+        [RoleAuthorize("ADMIN")]
         [HttpDelete]
         public ActionResult RemoveProduct(Guid id)
         {

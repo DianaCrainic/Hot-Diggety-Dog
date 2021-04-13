@@ -95,7 +95,7 @@ namespace WebAPI.Controllers
             return Ok(order);
         }
 
-        [RoleAuthorize(Role.OPERATOR)]
+        [RoleAuthorize("OPERATOR")]
         [HttpPost]
         public ActionResult CreateOrder(CreateOrderRequest orderRequest)
         {
@@ -148,6 +148,7 @@ namespace WebAPI.Controllers
             return CreatedAtAction("GetOrderById", new { id = order.Id }, order);
         }
 
+        [RoleAuthorize("ADMIN")]
         [HttpGet("export-csv")]
         public IActionResult ExportOrdersAsCsv()
         {
