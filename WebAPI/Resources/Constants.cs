@@ -10,5 +10,6 @@
         public const string DefaultConnectionString = "DefaultConnection";
         public const string NumberOfPagesHeader = "numberOfPages";
         public const int EntitiesPerPage = 10;
+        public const string ReportFilename = "SalesReport.csv";
     }
 }
