@@ -1,0 +1,13 @@
+﻿using System.Linq;
+using WebAPI.Dtos;
+
+namespace WebAPI.Helpers.Extensions
+{
+    public static class IQueryableExtensions
+    {
+        public static IQueryable<T> Paginate<T>(this IQueryable<T> queryable, PaginationDto pagination)
+        {
+            return queryable.Skip((pagination.Page - 1) * pagination.EntitiesPerPage).Take(pagination.EntitiesPerPage);
+        }
+    }
+}

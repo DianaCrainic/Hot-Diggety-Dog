@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Helpers;
 using WebAPI.Data;
+using WebAPI.Dtos.Account;
 using WebAPI.Entities;
 using WebAPI.Helpers.Authorization;
 using WebAPI.Resources;

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using WebAPI.Resources;
 
-namespace WebAPI.Data
+namespace WebAPI.Dtos.Account
 {
     public class RegisterRequest
     {

@@ -1,7 +1,6 @@
 ﻿using System;
-using WebAPI.Entities;
 
-namespace WebAPI.Data
+namespace WebAPI.Dtos.Account
 {
     public class AuthenticateResult
     {

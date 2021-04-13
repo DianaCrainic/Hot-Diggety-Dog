@@ -1,10 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using WebAPI.Data;
 using WebAPI.Dtos;
 using WebAPI.Entities;
 using WebAPI.Helpers.Authorization;
+using WebAPI.Helpers.Extensions;
 using WebAPI.Resources;
 
 namespace WebAPI.Controllers
@@ -27,9 +31,49 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Order>> GetOrders()
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrders([FromQuery] PaginationDto pagination)
         {
-            return Ok(_ordersRepository.GetAll());
+            var queryable = _ordersRepository.GetAll().AsQueryable();
+            await HttpContext.InsertPaginationParameterInResponse(queryable, pagination.EntitiesPerPage);
+            return await queryable.Paginate(pagination).ToListAsync();
+        }
+
+        [HttpGet("/customers/{customerId}")]
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrdersByCustomerId(Guid customerId, [FromQuery] PaginationDto pagination)
+        {
+            User customerUser = _usersRepository.GetById(customerId);
+            if (customerUser == null)
+            {
+                return NotFound(Messages.NotFoundMessage(EntitiesConstants.UserEntity, customerId));
+            }
+
+            if (customerUser.Role != Role.CUSTOMER)
+            {
+                return BadRequest(Messages.InvalidData);
+            }
+
+            var queryable = _ordersRepository.GetAll().AsQueryable().Where(order => order.UserId == customerId);
+            await HttpContext.InsertPaginationParameterInResponse(queryable, pagination.EntitiesPerPage);
+            return await queryable.Paginate(pagination).ToListAsync();
+        }
+
+        [HttpGet("/operators/{operatorId}")]
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrdersByOperatorId(Guid operatorId, [FromQuery] PaginationDto pagination)
+        {
+            User operatorUser = _usersRepository.GetById(operatorId);
+            if (operatorUser == null)
+            {
+                return NotFound(Messages.NotFoundMessage(EntitiesConstants.UserEntity, operatorId));
+            }
+
+            if (operatorUser.Role != Role.OPERATOR)
+            {
+                return BadRequest(Messages.InvalidData);
+            }
+
+            var queryable = _ordersRepository.GetAll().AsQueryable().Where(order => order.UserId == operatorId);
+            await HttpContext.InsertPaginationParameterInResponse(queryable, pagination.EntitiesPerPage);
+            return await queryable.Paginate(pagination).ToListAsync();
         }
 
         [HttpGet("{id}")]
