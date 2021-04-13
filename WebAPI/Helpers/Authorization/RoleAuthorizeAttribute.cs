@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
+using System.Collections.Generic;
 using WebAPI.Entities;
 using WebAPI.Resources;
 
@@ -9,18 +10,18 @@ namespace WebAPI.Helpers.Authorization
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class RoleAuthorizeAttribute : Attribute, IAuthorizationFilter
     {
-        private readonly Role _role;
+        private readonly List<string> _roles;
 
-        public RoleAuthorizeAttribute(Role role)
+        public RoleAuthorizeAttribute(string roles)
         {
-            _role = role;
+            _roles = new List<string>(roles.Split(','));
         }
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             User user = (User)context.HttpContext.Items[Constants.UserItem];
 
-            if (user == null || user.Role != _role)
+            if (user == null || !_roles.Contains(user.Role.ToString()))
             {
                 context.Result = new UnauthorizedResult();
             }

@@ -25,11 +25,18 @@ namespace WebAPI.Controllers
             _jwtService = jwtService;
         }
 
-        [RoleAuthorize(Role.ADMIN)]
+        [RoleAuthorize("ADMIN")]
         [HttpGet]
         public ActionResult<IEnumerable<User>> GetUsers()
         {
             return Ok(_repository.GetAll());
+        }
+
+        [RoleAuthorize("ADMIN,OPERATOR")]
+        [HttpGet("customers")]
+        public ActionResult<IEnumerable<User>> GetCustomers()
+        {
+            return Ok(_repository.GetAll().Where(user => user.Role == Role.CUSTOMER));
         }
 
         [HttpGet("{id}")]
@@ -88,7 +95,7 @@ namespace WebAPI.Controllers
             return Ok(authenticateResult);
         }
 
-        [RoleAuthorize(Role.ADMIN)]
+        [RoleAuthorize("ADMIN")]
         [HttpDelete("{id}")]
         public ActionResult<User> DeleteUser(Guid id)
         {
