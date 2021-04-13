@@ -34,7 +34,8 @@ namespace WebAPI
                 {
                     builder.AllowAnyHeader()
                     .AllowAnyMethod()
-                    .AllowAnyOrigin();
+                    .AllowAnyOrigin()
+                    .WithExposedHeaders(Constants.NumberOfPagesHeader);
                 });
             });
 
