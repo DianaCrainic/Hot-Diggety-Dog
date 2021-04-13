@@ -13,7 +13,6 @@ namespace WebAPI.Entities
 
         public Guid ProductId { get; set; }
 
-        [JsonIgnore]
         public virtual Product Product { get; set; }
 
         public int Quantity { get; set; }

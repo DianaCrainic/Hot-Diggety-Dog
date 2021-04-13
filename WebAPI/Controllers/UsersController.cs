@@ -25,11 +25,18 @@ namespace WebAPI.Controllers
             _jwtService = jwtService;
         }
 
-        [RoleAuthorize("ADMIN,OPERATOR")]
+        [RoleAuthorize("ADMIN")]
         [HttpGet]
         public ActionResult<IEnumerable<User>> GetUsers()
         {
             return Ok(_repository.GetAll());
+        }
+
+        [RoleAuthorize("ADMIN,OPERATOR")]
+        [HttpGet("customers")]
+        public ActionResult<IEnumerable<User>> GetCustomers()
+        {
+            return Ok(_repository.GetAll().Where(user => user.Role == Role.CUSTOMER));
         }
 
         [HttpGet("{id}")]
