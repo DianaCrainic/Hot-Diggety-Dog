@@ -24,7 +24,7 @@ namespace WebAPI.Controllers
             _jwtService = jwtService;
         }
 
-        [RoleAuthorizeAttribute(Role.ADMIN)]
+        [RoleAuthorize(Role.ADMIN)]
         [HttpGet]
         public ActionResult<IEnumerable<User>> GetUsers()
         {
@@ -87,7 +87,7 @@ namespace WebAPI.Controllers
             return Ok(authenticateResult);
         }
 
-        [RoleAuthorizeAttribute(Role.ADMIN)]
+        [RoleAuthorize(Role.ADMIN)]
         [HttpDelete("{id}")]
         public ActionResult<User> DeleteUser(Guid id)
         {

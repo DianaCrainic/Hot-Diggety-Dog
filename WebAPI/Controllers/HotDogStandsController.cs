@@ -38,7 +38,7 @@ namespace WebAPI.Controllers
             return Ok(stand);
         }
 
-        [RoleAuthorizeAttribute(Role.ADMIN)]
+        [RoleAuthorize(Role.ADMIN)]
         [HttpPost]
         public ActionResult CreateStand(HotDogStand stand)
         {
@@ -51,7 +51,7 @@ namespace WebAPI.Controllers
             return CreatedAtAction("GetStandById", new { id = stand.Id }, stand);
         }
 
-        [RoleAuthorizeAttribute(Role.ADMIN)]
+        [RoleAuthorize(Role.ADMIN)]
         [HttpPut]
         public ActionResult UpdateStand(HotDogStand stand)
         {
@@ -69,7 +69,7 @@ namespace WebAPI.Controllers
             return NoContent();
         }
 
-        [RoleAuthorizeAttribute(Role.ADMIN)]
+        [RoleAuthorize(Role.ADMIN)]
         [HttpDelete]
         public ActionResult RemoveStand(Guid id)
         {

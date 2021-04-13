@@ -45,7 +45,7 @@ namespace WebAPI.Controllers
             return Ok(order);
         }
 
-        [RoleAuthorizeAttribute(Role.OPERATOR)]
+        [RoleAuthorize(Role.OPERATOR)]
         [HttpPost]
         public ActionResult CreateOrder(CreateOrderRequest orderRequest)
         {
@@ -55,7 +55,17 @@ namespace WebAPI.Controllers
             }
 
             User operatorUser = _usersRepository.GetById(orderRequest.OperatorId);
+            if (operatorUser == null)
+            {
+                return NotFound(Messages.NotFoundMessage(EntitiesConstants.UserEntity, orderRequest.OperatorId));
+            }
+
             User customerUser = _usersRepository.GetById(orderRequest.UserId);
+            if (customerUser == null)
+            {
+                return NotFound(Messages.NotFoundMessage(EntitiesConstants.UserEntity, orderRequest.UserId));
+            }
+
             if (operatorUser.Role != Role.OPERATOR || customerUser.Role != Role.CUSTOMER)
             {
                 return BadRequest(Messages.InvalidData);
