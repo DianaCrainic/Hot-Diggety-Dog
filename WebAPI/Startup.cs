@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using WebAPI.Data;
+using WebAPI.Entities;
 using WebAPI.Helpers;
 using WebAPI.Resources;
 using WebAPI.Services;
@@ -42,6 +43,7 @@ namespace WebAPI
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>))
                     .AddScoped(typeof(IJwtService), typeof(JwtService))
                     .AddScoped(typeof(ICsvService), typeof(CsvService))
+                    .AddScoped(typeof(IRepository<Order>), typeof(OrdersRepository))
                     .Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
             services.AddControllers();

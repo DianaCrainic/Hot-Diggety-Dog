@@ -6,34 +6,36 @@ namespace WebAPI.Data
 {
     public class Repository<T> : IRepository<T> where T : BaseEntity
     {
-        private readonly DataContext _context;
+        protected readonly DataContext _context;
 
         public Repository(DataContext context)
         {
             _context = context;
         }
-        void IRepository<T>.Create(T entity)
+
+        public void Create(T entity)
         {
             _context.Set<T>().Add(entity);
             _context.SaveChanges();
         }
 
-        IEnumerable<T> IRepository<T>.GetAll() => _context.Set<T>().AsEnumerable();
+        public IEnumerable<T> GetAll() => _context.Set<T>().AsEnumerable();
 
-        T IRepository<T>.GetById(Guid id) => _context.Set<T>().Find(id);
+        public virtual T GetById(Guid id) => _context.Set<T>().Find(id);
 
-        void IRepository<T>.Remove(T entity)
+        public void Remove(T entity)
         {
             _context.Set<T>().Remove(entity);
             _context.SaveChanges();
         }
-        void IRepository<T>.Update(T entity)
+
+        public void Update(T entity)
         {
             _context.Update(entity);
             _context.SaveChanges();
         }
 
-        bool IRepository<T>.Exists(T entity)
+        public bool Exists(T entity)
         {
            return _context.Set<T>().Any(en => en.Id == entity.Id);
         }

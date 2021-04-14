@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 using WebAPI.Data;
@@ -23,5 +24,7 @@ namespace WebAPI.Entities
         [JsonIgnore]
         [InverseProperty("OperatorOrders")]
         public User Operator { get; set; }
+
+        public virtual ICollection<OrderProduct> OrderProducts { get; set; }
     }
 }
