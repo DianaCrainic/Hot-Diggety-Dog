@@ -3,7 +3,7 @@ using System;
 using System.Web.Helpers;
 using WebAPI.Entities;
 
-namespace WebAPI.Data
+namespace WebAPI.Data.Context
 {
     public class DataContext : DbContext
     {
@@ -161,4 +161,3 @@ namespace WebAPI.Data
         }
     }
 }
-

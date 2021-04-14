@@ -33,4 +33,8 @@
     <PackageReference Include="View.SQL" Version="0.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
+  </ItemGroup>
+
 </Project>

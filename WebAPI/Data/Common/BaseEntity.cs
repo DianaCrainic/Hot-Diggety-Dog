@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WebAPI.Data
+namespace WebAPI.Data.Common
 {
     public abstract class BaseEntity
     {

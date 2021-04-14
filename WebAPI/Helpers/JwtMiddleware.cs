@@ -6,8 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebAPI.Data;
-using WebAPI.Entities;
+using WebAPI.Data.Repository.v1;
 using WebAPI.Resources;
 
 namespace WebAPI.Helpers
@@ -23,7 +22,7 @@ namespace WebAPI.Helpers
             _appSettings = appSettings.Value;
         }
 
-        public async Task Invoke(HttpContext context, IRepository<User> repository)
+        public async Task Invoke(HttpContext context, IUsersRepository repository)
         {
             string token = context.Request.Headers[Constants.AuthorizationHeader].FirstOrDefault()?.Split(" ").Last();
 
@@ -32,7 +31,7 @@ namespace WebAPI.Helpers
                 Guid userId = ExtractUserIdFromToken(token);
                 if (!userId.Equals(Guid.Empty))
                 {
-                    context.Items[Constants.UserItem] = repository.GetById(userId);
+                    context.Items[Constants.UserItem] = await repository.GetByIdAsync(userId);
                 }
             }
 

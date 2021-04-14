@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using WebAPI.Data;
+using System.Threading.Tasks;
+using WebAPI.Data.Repository.v1;
 using WebAPI.Entities;
 using WebAPI.Helpers.Authorization;
 using WebAPI.Resources;
@@ -20,15 +21,15 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Product>> GetProducts()
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            return Ok(_repository.GetAll());
+            return Ok(await _repository.GetAllAsync());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Product> GetProductById(Guid id)
+        public async Task<ActionResult<Product>> GetProductById(Guid id)
         {
-            Product product = _repository.GetById(id);
+            Product product = await _repository.GetByIdAsync(id);
 
             if (product == null)
             {
@@ -40,47 +41,47 @@ namespace WebAPI.Controllers
 
         [RoleAuthorize("ADMIN")]
         [HttpPost]
-        public ActionResult CreateProduct(Product product)
+        public async Task<ActionResult> CreateProduct(Product product)
         {
             if (product == null)
             {
                 return BadRequest(Messages.InvalidData);
             }
 
-            _repository.Create(product);
+            await _repository.CreateAsync(product);
             return CreatedAtAction("GetProductById", new { id = product.Id }, product);
         }
 
         [RoleAuthorize("ADMIN")]
         [HttpPut]
-        public ActionResult UpdateProduct(Product product)
+        public async Task<ActionResult> UpdateProduct(Product product)
         {
             if (product == null)
             {
                 return BadRequest(Messages.InvalidData);
             }
 
-            if (!_repository.Exists(product))
+            if (! await _repository.ExistsAsync(product.Id))
             {
                 return NotFound(Messages.NotFoundMessage(EntitiesConstants.ProductEntity, product.Id));
             }
 
-            _repository.Update(product);
+            await _repository.UpdateAsync(product);
             return NoContent();
         }
 
         [RoleAuthorize("ADMIN")]
         [HttpDelete]
-        public ActionResult RemoveProduct(Guid id)
+        public async Task<ActionResult> RemoveProduct(Guid id)
         {
-            Product product = _repository.GetById(id);
+            Product product = await _repository.GetByIdAsync(id);
 
             if (product == null)
             {
                 return NotFound(Messages.NotFoundMessage(EntitiesConstants.ProductEntity, id));
             }
 
-            _repository.Remove(product);
+            await _repository.RemoveAsync(product);
             return NoContent();
         }
     }
