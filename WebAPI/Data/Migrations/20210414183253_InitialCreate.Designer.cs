@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WebAPI.Data;
+using WebAPI.Data.Context;
 
-namespace WebAPI.Migrations
+namespace WebAPI.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210412173614_InitialCreate")]
+    [Migration("20210414183253_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,32 +37,32 @@ namespace WebAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d45045d7-0d2c-44b0-97f5-f1b11ed98dff"),
+                            Id = new Guid("98bcf46b-b4a4-45aa-82e5-1392735d0fd3"),
                             Address = "Grimmer's Road"
                         },
                         new
                         {
-                            Id = new Guid("6e4f7be7-1b8f-4d85-9498-f4eae295f451"),
+                            Id = new Guid("05516f39-3af7-4501-a70d-2cb2f44bdc04"),
                             Address = "Fieldfare Banks"
                         },
                         new
                         {
-                            Id = new Guid("2124d56f-e724-4d5a-a873-d06945af2336"),
+                            Id = new Guid("f375b413-e6ec-4d8c-9f7b-b746d6f8eb15"),
                             Address = "Imperial Passage"
                         },
                         new
                         {
-                            Id = new Guid("573fff02-9a30-4d57-b2e1-6bb9ce89b1a6"),
+                            Id = new Guid("dfffff3c-fd96-49c4-a0b3-15b8388a6238"),
                             Address = "Woodville Square"
                         },
                         new
                         {
-                            Id = new Guid("18b5105a-bd83-43b0-867b-112be45b4e30"),
+                            Id = new Guid("fdfff333-c17c-48d2-a062-c60b32a92859"),
                             Address = "Lindsey Circle"
                         },
                         new
                         {
-                            Id = new Guid("eae26977-6799-440e-8088-e8cf1e54abe5"),
+                            Id = new Guid("2a4d47c5-7b2e-4fb0-b5ed-27d4d44965cd"),
                             Address = "Alexander Banks"
                         });
                 });
@@ -162,7 +162,7 @@ namespace WebAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("99fca172-ce7a-40b4-870c-febb3d23c0c0"),
+                            Id = new Guid("6579d884-a57e-4553-99fe-993e2046d053"),
                             Category = "HotDogs",
                             Description = "Basic hot dog with ketchup/mustard",
                             Name = "Hot Dog",
@@ -170,7 +170,7 @@ namespace WebAPI.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5b4d64d9-b150-47bb-b852-a34e5b6a1bf6"),
+                            Id = new Guid("e51f66a1-c146-4ec5-aa0e-1011ca01a21a"),
                             Category = "HotDogs",
                             Description = "Hot dog with caramelized onions and ketchup",
                             Name = "Hot Onion Dog",
@@ -178,7 +178,7 @@ namespace WebAPI.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c94e970e-4804-4bec-aeee-184c15450fbf"),
+                            Id = new Guid("5595ee76-a8ab-42cf-ba23-7a2909cac346"),
                             Category = "HotDogs",
                             Description = "Hot dog with melted gouda cheese and bacon",
                             Name = "Bacon Melt",
@@ -186,7 +186,7 @@ namespace WebAPI.Migrations
                         },
                         new
                         {
-                            Id = new Guid("973a2600-e3d1-4c7e-ab49-247fcfe99e09"),
+                            Id = new Guid("06acbfb7-ba4d-470b-9ae4-1fde0c73e9e3"),
                             Category = "Extras",
                             Description = "Regular fries",
                             Name = "Fries",
@@ -194,7 +194,7 @@ namespace WebAPI.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7a16889a-3309-4471-b37d-a9098048c8d3"),
+                            Id = new Guid("665da8b1-ea15-4aa0-9192-bca63e8d94fa"),
                             Category = "Drinks",
                             Description = "Coke bottle",
                             Name = "Coke",
@@ -235,7 +235,7 @@ namespace WebAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5aabb1a0-b316-4281-9e28-fc5a0a7947cd"),
+                            Id = new Guid("4241338f-82cf-4608-9eaa-48859efd14ba"),
                             Email = "customer@gmail.com",
                             Password = "B6C45863875E34487CA3C155ED145EFE12A74581E27BEFEC5AA661B8EE8CA6DD",
                             Role = 0,
@@ -243,7 +243,7 @@ namespace WebAPI.Migrations
                         },
                         new
                         {
-                            Id = new Guid("1dc9fd95-b148-4ec3-b765-2e5eb4881094"),
+                            Id = new Guid("2aa2b8db-43cc-46e4-b604-6016e6476920"),
                             Email = "admin@gmail.com",
                             Password = "8C6976E5B5410415BDE908BD4DEE15DFB167A9C873FC4BB8A81F6F2AB448A918",
                             Role = 3,
@@ -251,7 +251,7 @@ namespace WebAPI.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5a9151ba-16f3-4f5f-8ac1-1f39d6ab357b"),
+                            Id = new Guid("5dbb6448-4628-489b-8798-60279aaf03b2"),
                             Email = "operator@gmail.com",
                             Password = "06E55B633481F7BB072957EABCF110C972E86691C3CFEDABE088024BFFE42F23",
                             Role = 1,
@@ -259,7 +259,7 @@ namespace WebAPI.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b60f2f68-612a-4607-9174-e0735d594d40"),
+                            Id = new Guid("c4cf24ca-2cf7-4924-b740-094a29db504e"),
                             Email = "supplier@gmail.com",
                             Password = "955ED10B73D6265B1ADCF768B94F8DD5D91F33309DB94B6B3AF4EFA822F1D9AF",
                             Role = 2,
@@ -289,7 +289,7 @@ namespace WebAPI.Migrations
             modelBuilder.Entity("WebAPI.Entities.OrderProduct", b =>
                 {
                     b.HasOne("WebAPI.Entities.Order", "Order")
-                        .WithMany()
+                        .WithMany("OrderProducts")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -303,6 +303,11 @@ namespace WebAPI.Migrations
                     b.Navigation("Order");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("WebAPI.Entities.Order", b =>
+                {
+                    b.Navigation("OrderProducts");
                 });
 
             modelBuilder.Entity("WebAPI.Entities.User", b =>

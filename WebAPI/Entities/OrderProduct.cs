@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text.Json.Serialization;
-using WebAPI.Data;
+using WebAPI.Data.Common;
 
 namespace WebAPI.Entities
 {

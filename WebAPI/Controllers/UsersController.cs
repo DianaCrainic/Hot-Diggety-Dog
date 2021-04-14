@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Helpers;
-using WebAPI.Data;
+using WebAPI.Data.Repository.v1;
 using WebAPI.Dtos.Account;
 using WebAPI.Entities;
 using WebAPI.Helpers.Authorization;
@@ -16,10 +16,10 @@ namespace WebAPI.Controllers
     [ApiController]
     public class UsersController : Controller
     {
-        private readonly IRepository<User> _repository;
+        private readonly IUsersRepository _repository;
         private readonly IJwtService _jwtService;
 
-        public UsersController(IRepository<User> usersRepository, IJwtService jwtService)
+        public UsersController(IUsersRepository usersRepository, IJwtService jwtService)
         {
             _repository = usersRepository;
             _jwtService = jwtService;
@@ -27,22 +27,22 @@ namespace WebAPI.Controllers
 
         [RoleAuthorize("ADMIN")]
         [HttpGet]
-        public ActionResult<IEnumerable<User>> GetUsers()
+        public async Task<ActionResult<IEnumerable<User>>> GetUsersAsync()
         {
-            return Ok(_repository.GetAll());
+            return Ok(await _repository.GetAllAsync());
         }
 
         [RoleAuthorize("ADMIN,OPERATOR")]
         [HttpGet("customers")]
-        public ActionResult<IEnumerable<User>> GetCustomers()
+        public async Task<ActionResult<IEnumerable<User>>> GetCustomers()
         {
-            return Ok(_repository.GetAll().Where(user => user.Role == Role.CUSTOMER));
+            return Ok(await _repository.GetAllByRoleAsync(Role.CUSTOMER));
         }
 
         [HttpGet("{id}")]
-        public ActionResult<User> GetUserById(Guid id)
+        public async Task<ActionResult<User>> GetUserById(Guid id)
         {
-            User user = _repository.GetById(id);
+            User user = await _repository.GetByIdAsync(id);
 
             if (user == null)
             {
@@ -53,9 +53,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("register")]
-        public ActionResult<User> Register(RegisterRequest registerRequest)
+        public async Task<ActionResult<User>> Register(RegisterRequest registerRequest)
         {
-            if (UserWithEmailExists(registerRequest.Email) || UserWithUsernameExists(registerRequest.Username))
+            if (await _repository.ExistsByEmailAsync(registerRequest.Email) || await _repository.ExistsByUsernameAsync(registerRequest.Username))
             {
                 return BadRequest(Messages.DuplicateUsernameOrEmail);
             }
@@ -68,16 +68,14 @@ namespace WebAPI.Controllers
                 Role = Role.CUSTOMER
             };
 
-            _repository.Create(user);
+            await _repository.CreateAsync(user);
             return CreatedAtAction("GetUserById", new { id = user.Id }, user);
         }
 
         [HttpPost("authenticate")]
-        public ActionResult Authenticate(AuthenticateRequest authenticateRequest)
+        public async Task<ActionResult> Authenticate(AuthenticateRequest authenticateRequest)
         {
-            User user = _repository.GetAll().SingleOrDefault(
-                u => u.Username == authenticateRequest.Username &&
-                u.Password == Crypto.SHA256(authenticateRequest.Password));
+            User user = await _repository.GetByUsernameAndPassword(authenticateRequest.Username, authenticateRequest.Password);
 
             if (user == null)
             {
@@ -97,27 +95,17 @@ namespace WebAPI.Controllers
 
         [RoleAuthorize("ADMIN")]
         [HttpDelete("{id}")]
-        public ActionResult<User> DeleteUser(Guid id)
+        public async Task<ActionResult<User>> DeleteUser(Guid id)
         {
-            User user = _repository.GetById(id);
+            User user = await _repository.GetByIdAsync(id);
             if (user == null)
             {
                 return NotFound(Messages.NotFoundMessage(EntitiesConstants.UserEntity, id));
             }
 
-            _repository.Remove(user);
+            await _repository.RemoveAsync(user);
 
             return NoContent();
-        }
-
-        private bool UserWithEmailExists(string email)
-        {
-            return _repository.GetAll().Any(u => u.Email == email);
-        }
-
-        private bool UserWithUsernameExists(string username)
-        {
-            return _repository.GetAll().Any(u => u.Username == username);
         }
     }
 }

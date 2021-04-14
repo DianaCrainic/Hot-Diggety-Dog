@@ -1,4 +1,4 @@
-﻿using WebAPI.Data;
+﻿using WebAPI.Data.Common;
 
 namespace WebAPI.Entities
 {
