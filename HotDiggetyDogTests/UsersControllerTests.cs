@@ -2,8 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WebAPI.Controllers;
 using WebAPI.Data.Repository.v1;
 using WebAPI.Dtos.Account;
@@ -55,7 +53,7 @@ namespace HotDiggetyDogTests
         public async void GetUserBy_Generated_Id_ShouldReturn_NotFound()
         {
             // Arrange
-            Guid id = Guid.NewGuid();
+            Guid id = Guid.Parse("bf6f7c57-2716-4307-9ac7-d73fc7ca6901");
 
             // Act
             ActionResult<User> actionResult = await _usersController.GetUserById(id);
@@ -103,7 +101,7 @@ namespace HotDiggetyDogTests
         public async void Delete_NonExisting_User_ShouldReturn_NotFound()
         {
             // Arrange
-            Guid id = Guid.NewGuid();
+            Guid id = Guid.Parse("88c9cb66-429e-4498-8f72-f336b35fb94a");
 
             // Act
             ActionResult<User> actionResult = await _usersController.DeleteUser(id);
@@ -111,6 +109,19 @@ namespace HotDiggetyDogTests
             // Assert
             Assert.IsType<NotFoundObjectResult>(actionResult.Result);
         }
+
+        //[Fact]
+        //public async void GetUserBy_Id_ShouldReturn_OK()
+        //{
+        //    // Arrange
+        //    var id = new Guid("3d2be2e4-44f0-446e-a29e-3f73a7aa7274");
+
+        //    // Act
+        //    ActionResult<User> actionResult = await _usersController.GetUserById(id);
+
+        //    // Assert
+        //    Assert.IsType<OkObjectResult>(actionResult.Result);
+        //}
 
     }
 }
