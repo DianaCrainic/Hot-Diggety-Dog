@@ -26,10 +26,6 @@ namespace WebAPI.Data.Context
             SetOrderProperties(modelBuilder);
             SetOrderProductProperties(modelBuilder);
 
-            SeedUsers(modelBuilder);
-            SeedHotDogStands(modelBuilder);
-            SeedProducts(modelBuilder);
-
             base.OnModelCreating(modelBuilder);
         }
 

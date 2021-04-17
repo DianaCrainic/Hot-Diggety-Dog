@@ -6,17 +6,22 @@ using WebAPI.Entities;
 
 namespace HotDiggetyDogTests
 {
-    class DatabaseInitializer
+    public class DatabaseInitializer
     {
+        private static readonly object lockMethod = new();
+
         public static void Initialize(DataContext dataContext)
         {
-            if (dataContext.Products.Any() || dataContext.Users.Any() || 
-                dataContext.HotDogStands.Any() || dataContext.Orders.Any())
+            lock (lockMethod)
             {
-                return;
-            }
+                if (dataContext.Products.Any() || dataContext.Users.Any() ||
+                    dataContext.HotDogStands.Any() || dataContext.Orders.Any())
+                {
+                    return;
+                }
 
-            Seed(dataContext);
+                Seed(dataContext);
+            }
         }
 
         private static void Seed(DataContext dataContext)
@@ -29,10 +34,10 @@ namespace HotDiggetyDogTests
         private static void SeedUsers(DataContext dataContext)
         {
             var users = new[] {
-                new User { Id = Guid.Parse("3d2be2e4-44f0-446e-a29e-3f73a7aa7274"), Username = "customer", Email = "customer@gmail.com", Password = Crypto.SHA256("customer"), Role = Role.CUSTOMER },
-                new User { Id = Guid.Parse("6065a7de-89f1-4220-8349-2c1f474ddda8"), Username = "admin", Email = "admin@gmail.com", Password = Crypto.SHA256("admin"), Role = Role.ADMIN },
-                new User { Id = Guid.Parse("1c3ea0d2-8fb1-429f-a6f8-41de7ab9aa3e"), Username = "operator", Email = "operator@gmail.com", Password = Crypto.SHA256("operator"), Role = Role.OPERATOR },
-                new User { Id = Guid.Parse("13ca072a-ee86-4eba-8f40-cc28bb44ef0f"), Username = "supplier", Email = "supplier@gmail.com", Password = Crypto.SHA256("supplier"), Role = Role.SUPPLIER }
+                new User { Id = Guid.Parse("7144f36f-3b31-4e74-984e-43e549351948"), Username = "customer", Email = "customer@gmail.com", Password = Crypto.SHA256("customer"), Role = Role.CUSTOMER },
+                new User { Id = Guid.Parse("8a1f874c-36eb-4a0a-8a6c-779e98d7f8f6"), Username = "admin", Email = "admin@gmail.com", Password = Crypto.SHA256("admin"), Role = Role.ADMIN },
+                new User { Id = Guid.Parse("dc87fcb6-b419-4219-acc6-71cd5b06a890"), Username = "operator", Email = "operator@gmail.com", Password = Crypto.SHA256("operator"), Role = Role.OPERATOR },
+                new User { Id = Guid.Parse("667ef519-1caf-4330-9a52-d2aa3cf54f05"), Username = "supplier", Email = "supplier@gmail.com", Password = Crypto.SHA256("supplier"), Role = Role.SUPPLIER }
             };
 
             dataContext.AddRange(users);
