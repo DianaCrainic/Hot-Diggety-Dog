@@ -12,16 +12,14 @@ using Xunit;
 
 namespace HotDiggetyDogTests
 {
-    public class UsersControllerTests : IClassFixture<ControllersFixture>
+    public class UsersControllerTests : DatabaseBaseTest
     {
-        private readonly ControllersFixture _controllersFixture;
         private readonly UsersController _usersController;
         private const string SECRET = "JWT SECRET LONG KEY";
 
-        public UsersControllerTests(ControllersFixture controllersFixture)
+        public UsersControllerTests()
         {
-            _controllersFixture = controllersFixture;
-            UsersRepository userRepository = new(_controllersFixture.DataContext);
+            UsersRepository userRepository = new(dataContext);
             IOptions<AppSettings> appSettings = Options.Create(new AppSettings());
             appSettings.Value.Secret = SECRET;
             JwtService jwtService = new(appSettings);
@@ -66,7 +64,7 @@ namespace HotDiggetyDogTests
         public async void RegisterRequestFor_New_User_ShouldReturn_CreatedAtAction()
         {
             // Arrange
-            RegisterRequest registerRequest = new RegisterRequest
+            RegisterRequest registerRequest = new()
             {
                 Username = "admin2",
                 Email = "admin2@gmail.com",
@@ -84,7 +82,7 @@ namespace HotDiggetyDogTests
         public async void AuthenticateRequestFor_NonExisting_User_ShouldReturn_BadRequest()
         {
             // Arrange
-            AuthenticateRequest authenticateRequest = new AuthenticateRequest
+            AuthenticateRequest authenticateRequest = new()
             {
                 Username = "administrator",
                 Password = "administrator"
@@ -110,18 +108,17 @@ namespace HotDiggetyDogTests
             Assert.IsType<NotFoundObjectResult>(actionResult.Result);
         }
 
-        //[Fact]
-        //public async void GetUserBy_Id_ShouldReturn_OK()
-        //{
-        //    // Arrange
-        //    var id = new Guid("3d2be2e4-44f0-446e-a29e-3f73a7aa7274");
+        [Fact]
+        public async void GetUserBy_Id_ShouldReturn_OK()
+        {
+            // Arrange
+            Guid id = Guid.Parse("7144f36f-3b31-4e74-984e-43e549351948");
 
-        //    // Act
-        //    ActionResult<User> actionResult = await _usersController.GetUserById(id);
+            // Act
+            ActionResult<User> actionResult = await _usersController.GetUserById(id);
 
-        //    // Assert
-        //    Assert.IsType<OkObjectResult>(actionResult.Result);
-        //}
-
+            // Assert
+            Assert.IsType<OkObjectResult>(actionResult.Result);
+        }
     }
 }

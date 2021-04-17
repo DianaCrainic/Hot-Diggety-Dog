@@ -1,37 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Nest;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebAPI.Controllers;
 using WebAPI.Data.Repository.v1;
 using WebAPI.Dtos;
 using WebAPI.Entities;
-using WebAPI.Helpers;
 using WebAPI.Services;
 using Xunit;
 
 namespace HotDiggetyDogTests
 {
-    public class OrdersControllerTests : IClassFixture<ControllersFixture>
+    public class OrdersControllerTests : DatabaseBaseTest
     {
-        private readonly ControllersFixture _controllersFixture;
         private readonly OrdersController _ordersController;
 
-        public OrdersControllerTests(ControllersFixture controllersFixture)
+        public OrdersControllerTests()
         {
-            _controllersFixture = controllersFixture;
-            OrdersRepository orderRepository = new(_controllersFixture.DataContext);
+            OrdersRepository orderRepository = new(dataContext);
+            UsersRepository userRepository = new(dataContext);
+            Repository<OrderProduct> orderPorductRepository = new(dataContext);
+            Repository<Product> productsRepository = new(dataContext);
+            CsvService csvService = new();
 
-            UsersRepository userRepository = new(_controllersFixture.DataContext);
-            Repository<OrderProduct> orderPorductRepository = new(_controllersFixture.DataContext);
-            Repository<Product> productsRepository = new(_controllersFixture.DataContext);
-            CsvService csvService = new CsvService();
-
-            _ordersController = new OrdersController(orderRepository, userRepository, orderPorductRepository, 
+            _ordersController = new OrdersController(orderRepository, userRepository, orderPorductRepository,
                                                         productsRepository, csvService);
         }
 
@@ -65,8 +55,8 @@ namespace HotDiggetyDogTests
         public async void Create_Order_With_Null_Opearator_ShouldReturn_NotFound()
         {
             //Arrange
-            CreateOrderRequest createOrderRequest = new CreateOrderRequest
-            {   
+            CreateOrderRequest createOrderRequest = new()
+            {
                 OperatorId = Guid.Empty,
                 UserId = Guid.Parse("d9500fbb-0b51-4a1d-9e65-dd88dd7389ee"),
                 Products = null,
@@ -84,7 +74,7 @@ namespace HotDiggetyDogTests
         public async void Create_Order_With_Null_Customer_ShouldReturn_NotFound()
         {
             //Arrange
-            CreateOrderRequest createOrderRequest = new CreateOrderRequest
+            CreateOrderRequest createOrderRequest = new()
             {
                 OperatorId = Guid.Parse("d9605834-2d64-416c-9e33-af9cc5c04735"),
                 UserId = Guid.Empty,
@@ -103,7 +93,7 @@ namespace HotDiggetyDogTests
         public async void Create_Order_With_Null_Products_ShouldReturn_NotFound()
         {
             //Arrange
-            CreateOrderRequest createOrderRequest = new CreateOrderRequest
+            CreateOrderRequest createOrderRequest = new()
             {
                 OperatorId = Guid.Parse("9297b757-42e9-4338-86e2-d66771ee7d56"),
                 UserId = Guid.Parse("209cbf69-2082-4bfc-8216-03b654523106"),
@@ -117,7 +107,5 @@ namespace HotDiggetyDogTests
             // Assert
             Assert.IsType<NotFoundObjectResult>(actionResult.Result);
         }
-
-
     }
 }

@@ -8,15 +8,13 @@ using Xunit;
 
 namespace HotDiggetyDogTests
 {
-    public class ProductsControllerTests : IClassFixture<ControllersFixture>
+    public class ProductsControllerTests : DatabaseBaseTest
     {
-        private readonly ControllersFixture _controllersFixture;
         private readonly ProductsController _productsController;
 
-        public ProductsControllerTests(ControllersFixture controllersFixture)
+        public ProductsControllerTests()
         {
-            _controllersFixture = controllersFixture;
-            Repository<Product> productRepository = new(_controllersFixture.DataContext);
+            Repository<Product> productRepository = new(dataContext);
             _productsController = new ProductsController(productRepository);
         }
 
@@ -47,7 +45,7 @@ namespace HotDiggetyDogTests
         public async void Create_New_Product_ShouldReturn_CreatedAtAction()
         {
             //Arrange
-            Product product = new Product
+            Product product = new()
             {
                 Id = Guid.Parse("9b6f4a18-526a-4d59-ba60-aa2429a8e174"),
                 Name = "Product",

@@ -8,15 +8,13 @@ using Xunit;
 
 namespace HotDiggetyDogTests
 {
-    public class HotDogStandsControllerTests : IClassFixture<ControllersFixture>
+    public class HotDogStandsControllerTests : DatabaseBaseTest
     {
-        private readonly ControllersFixture _controllersFixture;
         private readonly HotDogStandsController _hotDogStandsController;
 
-        public HotDogStandsControllerTests(ControllersFixture controllersFixture)
+        public HotDogStandsControllerTests()
         {
-            _controllersFixture = controllersFixture;
-            Repository<HotDogStand> hotDogStandRepository = new(_controllersFixture.DataContext);
+            Repository<HotDogStand> hotDogStandRepository = new(dataContext);
             _hotDogStandsController = new HotDogStandsController(hotDogStandRepository);
         }
 
@@ -47,7 +45,7 @@ namespace HotDiggetyDogTests
         public async void Create_New_HotDogStand_ShouldReturn_CreatedAtAction()
         {
             //Arrange
-            HotDogStand hotDogStand = new HotDogStand
+            HotDogStand hotDogStand = new()
             {
                 Id = new Guid("27ddd60f-7b93-4e51-93a7-c0b53c3c9850"),
                 Address = "Address"
@@ -87,7 +85,7 @@ namespace HotDiggetyDogTests
         }
 
         [Fact]
-        public async void Remove_NonExisting_HotDogStand_ShouldReturn_BadRequest()
+        public async void Remove_NonExisting_HotDogStand_ShouldReturn_NotFound()
         {
             //Arrange
             Guid id = Guid.Parse("0e9b0951-0788-4498-a694-f50a916c56b5");
