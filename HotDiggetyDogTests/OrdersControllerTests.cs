@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using WebAPI.Controllers;
 using WebAPI.Data.Repository.v1;
 using WebAPI.Dtos;
@@ -9,6 +10,7 @@ using Xunit;
 
 namespace HotDiggetyDogTests
 {
+    [Collection("Sequential")]
     public class OrdersControllerTests : DatabaseBaseTest
     {
         private readonly OrdersController _ordersController;
@@ -23,6 +25,42 @@ namespace HotDiggetyDogTests
 
             _ordersController = new OrdersController(orderRepository, userRepository, orderPorductRepository,
                                                         productsRepository, csvService);
+        }
+
+        [Fact]
+        public async void GetOrdersByCustomerId_WhenCustomerDoesntExists_ShouldReturn_NotFound()
+        {
+            //Arrange
+            Guid customerId = Guid.Parse("6144f36f-3b31-4e74-984e-43e549351948");
+            PaginationDto pagination = new()
+            {
+                Page = 1,
+                EntitiesPerPage = 3
+            };
+
+            // Act
+            ActionResult<IEnumerable<Order>> actionResult = await _ordersController.GetOrdersByCustomerId(customerId, pagination);
+
+            // Assert
+            Assert.IsType<NotFoundObjectResult>(actionResult.Result);
+        }
+
+        [Fact]
+        public async void GetOrdersByOperatorId_WhenOperatorDoesntExists_ShouldReturn_NotFound()
+        {
+            //Arrange
+            Guid operatorId = Guid.Parse("6144f36f-3b31-4e74-984e-43e549351948");
+            PaginationDto pagination = new()
+            {
+                Page = 1,
+                EntitiesPerPage = 3
+            };
+
+            // Act
+            ActionResult<IEnumerable<Order>> actionResult = await _ordersController.GetOrdersByOperatorId(operatorId, pagination);
+
+            // Assert
+            Assert.IsType<NotFoundObjectResult>(actionResult.Result);
         }
 
         [Fact]
@@ -52,7 +90,7 @@ namespace HotDiggetyDogTests
         }
 
         [Fact]
-        public async void Create_Order_With_Null_Opearator_ShouldReturn_NotFound()
+        public async void Create_Order_With_Null_Operator_ShouldReturn_NotFound()
         {
             //Arrange
             CreateOrderRequest createOrderRequest = new()
@@ -78,25 +116,6 @@ namespace HotDiggetyDogTests
             {
                 OperatorId = Guid.Parse("d9605834-2d64-416c-9e33-af9cc5c04735"),
                 UserId = Guid.Empty,
-                Products = null,
-                Timestamp = DateTime.Now
-            };
-
-            // Act
-            ActionResult<Order> actionResult = await _ordersController.CreateOrder(createOrderRequest);
-
-            // Assert
-            Assert.IsType<NotFoundObjectResult>(actionResult.Result);
-        }
-
-        [Fact]
-        public async void Create_Order_With_Null_Products_ShouldReturn_NotFound()
-        {
-            //Arrange
-            CreateOrderRequest createOrderRequest = new()
-            {
-                OperatorId = Guid.Parse("9297b757-42e9-4338-86e2-d66771ee7d56"),
-                UserId = Guid.Parse("209cbf69-2082-4bfc-8216-03b654523106"),
                 Products = null,
                 Timestamp = DateTime.Now
             };
