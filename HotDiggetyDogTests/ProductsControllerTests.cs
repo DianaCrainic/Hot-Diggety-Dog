@@ -8,6 +8,7 @@ using Xunit;
 
 namespace HotDiggetyDogTests
 {
+    [Collection("Sequential")]
     public class ProductsControllerTests : DatabaseBaseTest
     {
         private readonly ProductsController _productsController;
@@ -23,6 +24,32 @@ namespace HotDiggetyDogTests
         {
             // Act
             ActionResult<IEnumerable<Product>> actionResult = await _productsController.GetProducts();
+
+            // Assert
+            Assert.IsType<OkObjectResult>(actionResult.Result);
+        }
+
+        [Fact]
+        public async void GetProductBy_Generated_Id_ShouldReturn_NotFound()
+        {
+            //Arrange
+            Guid id = Guid.Parse("23737b93-4d76-4fc7-953d-0be0eae24786");
+
+            // Act
+            ActionResult<Product> actionResult = await _productsController.GetProductById(id);
+
+            // Assert
+            Assert.IsType<NotFoundObjectResult>(actionResult.Result);
+        }
+
+        [Fact]
+        public async void GetProductById_ShouldReturn_Ok()
+        {
+            //Arrange
+            Guid id = Guid.Parse("15a5c583-f1d5-444c-b142-8fccffcc394a");
+
+            // Act
+            ActionResult<Product> actionResult = await _productsController.GetProductById(id);
 
             // Assert
             Assert.IsType<OkObjectResult>(actionResult.Result);
@@ -47,7 +74,6 @@ namespace HotDiggetyDogTests
             //Arrange
             Product product = new()
             {
-                Id = Guid.Parse("9b6f4a18-526a-4d59-ba60-aa2429a8e174"),
                 Name = "Product",
                 Description = "Product Description",
                 Category = "Product Category",
@@ -59,19 +85,6 @@ namespace HotDiggetyDogTests
 
             // Assert
             Assert.IsType<CreatedAtActionResult>(actionResult.Result);
-        }
-
-        [Fact]
-        public async void GetProductBy_Generated_Id_ShouldReturn_NotFound()
-        {
-            //Arrange
-            Guid id = Guid.Parse("23737b93-4d76-4fc7-953d-0be0eae24786");
-
-            // Act
-            ActionResult<Product> actionResult = await _productsController.GetProductById(id);
-
-            // Assert
-            Assert.IsType<NotFoundObjectResult>(actionResult.Result);
         }
 
         [Fact]
@@ -98,6 +111,19 @@ namespace HotDiggetyDogTests
 
             // Assert
             Assert.IsType<NotFoundObjectResult>(actionResult.Result);
+        }
+
+        [Fact]
+        public async void RemoveProduct_ShouldReturn_NoContent()
+        {
+            //Arrange
+            Guid id = Guid.Parse("e9440e2d-a0d8-4bf9-ad21-2d93ed664eef");
+
+            // Act
+            ActionResult<Product> actionResult = await _productsController.RemoveProduct(id);
+
+            // Assert
+            Assert.IsType<NoContentResult>(actionResult.Result);
         }
     }
 }

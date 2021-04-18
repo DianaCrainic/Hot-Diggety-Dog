@@ -12,6 +12,7 @@ using Xunit;
 
 namespace HotDiggetyDogTests
 {
+    [Collection("Sequential")]
     public class UsersControllerTests : DatabaseBaseTest
     {
         private readonly UsersController _usersController;
@@ -36,7 +37,6 @@ namespace HotDiggetyDogTests
             Assert.IsType<OkObjectResult>(actionResult.Result);
         }
 
-
         [Fact]
         public async void GetCustomers_ShouldReturn_OK()
         {
@@ -58,6 +58,19 @@ namespace HotDiggetyDogTests
 
             // Assert
             Assert.IsType<NotFoundObjectResult>(actionResult.Result);
+        }
+
+        [Fact]
+        public async void GetUserById_ShouldReturn_Ok()
+        {
+            // Arrange
+            Guid id = Guid.Parse("7144f36f-3b31-4e74-984e-43e549351948");
+
+            // Act
+            ActionResult<User> actionResult = await _usersController.GetUserById(id);
+
+            // Assert
+            Assert.IsType<OkObjectResult>(actionResult.Result);
         }
 
         [Fact]
@@ -109,16 +122,16 @@ namespace HotDiggetyDogTests
         }
 
         [Fact]
-        public async void GetUserBy_Id_ShouldReturn_OK()
+        public async void Delete_Existing_User_ShouldReturn_NoContent()
         {
             // Arrange
-            Guid id = Guid.Parse("7144f36f-3b31-4e74-984e-43e549351948");
+            Guid id = Guid.Parse("8a1f874c-36eb-4a0a-8a6c-779e98d7f8f6");
 
             // Act
-            ActionResult<User> actionResult = await _usersController.GetUserById(id);
+            ActionResult<User> actionResult = await _usersController.DeleteUser(id);
 
             // Assert
-            Assert.IsType<OkObjectResult>(actionResult.Result);
+            Assert.IsType<NoContentResult>(actionResult.Result);
         }
     }
 }
