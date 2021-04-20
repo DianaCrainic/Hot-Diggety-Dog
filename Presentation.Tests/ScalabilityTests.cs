@@ -34,22 +34,6 @@ namespace HotDiggetyDogTests
         }
 
         [Fact]
-        public async void Register10000CustomersAsync_ShouldReturn_CreatedAt()
-        {
-            for (int i = 0; i < 10000; i++)
-            {
-                RegisterRequest _request = new();
-                _request.Username = $"UserName{i}";
-                _request.Email = $"{_request.Username}@gmail.com";
-                _request.Password = Crypto.SHA256(_request.Username);
-
-                ActionResult<User> actionResult = await _usersController.Register(_request);
-
-                Assert.IsType<CreatedAtActionResult>(actionResult.Result);
-            }
-        }
-
-        [Fact]
         public async void Register10000CustomersInBatchesOf100_ShouldReturn_CreatedAt()
         {
             List<RegisterRequest> _regRequests = new();
@@ -80,28 +64,51 @@ namespace HotDiggetyDogTests
         }
 
         [Fact]
-        public async void Authenticate10000Customers_ShouldReturn_Ok()
+        public async void Authenticate10000CustomersInBatchesOf100_ShouldReturn_Ok()
         {
+            List<AuthenticateRequest> _authRequests = new();
             for (int i = 0; i < 10000; i++)
             {
                 AuthenticateRequest _request = new();
                 _request.Username = "customer";
                 _request.Password = "customer";
 
-                ActionResult<User> actionResult = await _usersController.Authenticate(_request);
+            }
 
-                Assert.IsType<OkObjectResult>(actionResult.Result);
+            int batchSize = 100;
+            int numberOfBatches = (int)Math.Ceiling((double)10000 / batchSize);
+
+            for (int i = 0; i < numberOfBatches; i++)
+            {
+                var _currentRequests = _authRequests.Skip(i * batchSize).Take(batchSize);
+                var tasks = _currentRequests.Select(_req => _usersController.Authenticate(_req));
+
+                ActionResult[] actionResult = await Task.WhenAll(tasks);
+
+                foreach (var result in actionResult)
+                {
+                    Assert.IsType<OkObjectResult>(result);
+                }
             }
         }
 
         [Fact]
-        public async void GetProductsFor10000Customers_ShouldReturn_Ok()
+        public async void GetProductsFor10000CustomersInBatchesOf100_ShouldReturn_Ok()
         {
-            for (int i = 0; i < 10000; i++)
-            {
-                ActionResult<IEnumerable<Product>> actionResult = await _productsController.GetProducts();
+            int batchSize = 100;
+            int numberOfBatches = (int)Math.Ceiling((double)10000 / batchSize);
 
-                Assert.IsType<OkObjectResult>(actionResult.Result);
+            for (int i = 0; i < numberOfBatches; i++)
+            {
+                var _currentRequests = new List<int>(100);
+                var tasks = _currentRequests.Select(_req => _productsController.GetProducts());
+
+                ActionResult<IEnumerable<Product>>[] actionResult = await Task.WhenAll(tasks);
+
+                foreach (var result in actionResult)
+                {
+                    Assert.IsType<OkObjectResult>(result);
+                }
             }
         }
     }
