@@ -1,4 +1,4 @@
-namespace WebAPI.Resources
+namespace WebApi.Resources
 {
     public static class Messages
     {
