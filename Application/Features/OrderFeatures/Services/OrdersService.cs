@@ -3,7 +3,7 @@ using Domain.Entities;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Application.Features.OrderFeatures
+namespace Application.Features.OrderFeatures.Services
 {
     public class OrdersService : IOrdersService
     {
