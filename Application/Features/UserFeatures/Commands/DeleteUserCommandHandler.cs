@@ -5,7 +5,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Features.UserFeatures.Command
+namespace Application.Features.UserFeatures.Commands
 {
     class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Guid>
     {
@@ -15,6 +15,7 @@ namespace Application.Features.UserFeatures.Command
         {
             this.usersRepository = usersRepository;
         }
+
         public async Task<Guid> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
             User user = await usersRepository.GetByIdAsync(request.Id);

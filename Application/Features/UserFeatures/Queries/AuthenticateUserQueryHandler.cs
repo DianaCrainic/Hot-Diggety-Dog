@@ -17,14 +17,7 @@ namespace Application.Features.UserFeatures.Queries
 
         public async Task<User> Handle(AuthenticateUserQuery request, CancellationToken cancellationToken)
         {
-            User user = await usersRepository.GetByUsernameAndPassword(request.Username, request.Password);
-
-            if (user == null)
-            {
-                return null;
-            }
-
-            return user;
+            return await usersRepository.GetByUsernameAndPassword(request.Username, request.Password);
         }
     }
 }

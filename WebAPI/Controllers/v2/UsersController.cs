@@ -1,5 +1,5 @@
-﻿using Application.Features.UserFeatures.Command;
-using Application.Features.UserFeatures.Queries;
+﻿using Application.Features.UserFeatures.Queries;
+using Application.Features.UserFeatures.Commands;
 using Domain.Dtos.Account;
 using Domain.Entities;
 using MediatR;
@@ -23,14 +23,14 @@ namespace WebApi.Controllers.v2
             _jwtService = jwtService;
         }
 
-        [RoleAuthorize("ADMIN")]
+        //[RoleAuthorize("ADMIN")]
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
             return Ok(await mediator.Send(new GetUsersQuery()));
         }
 
-        [RoleAuthorize("ADMIN,OPERATOR")]
+        //[RoleAuthorize("ADMIN,OPERATOR")]
         [HttpGet("customers")]
         public async Task<IActionResult> GetCustomers()
         {
@@ -92,7 +92,7 @@ namespace WebApi.Controllers.v2
         }
 
 
-        [RoleAuthorize("ADMIN")]
+        //[RoleAuthorize("ADMIN")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(Guid id)
         {

@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using System;
 
-namespace Application.Features.UserFeatures.Command
+namespace Application.Features.UserFeatures.Commands
 {
     public class DeleteUserCommand : IRequest<Guid>
     {
