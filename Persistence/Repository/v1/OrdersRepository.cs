@@ -3,6 +3,7 @@ using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Context;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,6 +26,10 @@ namespace Persistence.Repository.v1
             return await _context.Orders.Include(order => order.OrderProducts)
                                   .ThenInclude(orderProduct => orderProduct.Product)
                                   .FirstOrDefaultAsync(order => order.Id == id);
+        }
+        public async Task<IEnumerable<Order>> GetByUserId(Guid id)
+        {
+            return await _context.Orders.Where(order=>order.UserId==id).ToListAsync();
         }
     }
 }
