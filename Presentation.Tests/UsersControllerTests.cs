@@ -121,18 +121,5 @@ namespace HotDiggetyDogTests
             // Assert
             Assert.IsType<NotFoundObjectResult>(actionResult.Result);
         }
-
-        [Fact]
-        public async void Delete_Existing_User_ShouldReturn_NoContent()
-        {
-            // Arrange
-            Guid id = Guid.Parse("8a1f874c-36eb-4a0a-8a6c-779e98d7f8f6");
-
-            // Act
-            ActionResult<User> actionResult = await _usersController.DeleteUser(id);
-
-            // Assert
-            Assert.IsType<NoContentResult>(actionResult.Result);
-        }
     }
 }
