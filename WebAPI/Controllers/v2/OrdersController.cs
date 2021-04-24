@@ -15,6 +15,9 @@ using Application.Features.OrderFeatures.Commands;
 using System.Linq;
 using Security.Authorization;
 using System.Text;
+using Application.Features.UserFeatures.Queries;
+using Application.Features.ProductFeatures.Queries;
+using Application.Features.OrderProductFeatures.Commands;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebApi.Controllers.v2
@@ -22,32 +25,22 @@ namespace WebApi.Controllers.v2
     [ApiVersion("2.0")]
     public class OrdersController : BaseApiController
     {
-        public OrdersController(IMediator mediator) : base(mediator)
+
+
+        private readonly IOrdersService _ordersService;
+        public OrdersController(IMediator mediator,IOrdersService orderService) : base(mediator)
         {
+            _ordersService = orderService;
         }
 
-        private readonly IOrdersRepository _ordersRepository;
-        private readonly IRepository<User> _usersRepository;
-        private readonly IRepository<OrderProduct> _orderProductRepository;
-        private readonly IRepository<Product> _productsRepository;
-        private readonly IOrdersService _ordersService;
-        public OrdersController(IMediator mediator,IOrdersRepository ordersRepository, IRepository<User> usersRepository,
-                                IRepository<OrderProduct> orderPorductRepository, IRepository<Product> productsRepository,
-                                IOrdersService ordersService):base(mediator)
-        {
-            _ordersRepository = ordersRepository;
-            _usersRepository = usersRepository;
-            _orderProductRepository = orderPorductRepository;
-            _productsRepository = productsRepository;
-            _ordersService = ordersService;
-        }
+       
 
 
        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Order>>> GetOrders([FromQuery] PaginationDto pagination)
         {
-            var queryable = _ordersRepository.GetAllAsQueryable();
+            var queryable = (await mediator.Send(new GetOrdersQuery())).AsQueryable();
             await HttpContext.InsertPaginationParameterInResponse(queryable, pagination.EntitiesPerPage);
             return await queryable.Paginate(pagination).ToListAsync();
         }
@@ -55,7 +48,7 @@ namespace WebApi.Controllers.v2
         [HttpGet("customers/{customerId}")]
         public async Task<ActionResult<IEnumerable<Order>>> GetOrdersByCustomerId(Guid customerId, [FromQuery] PaginationDto pagination)
         {
-            User customerUser = await _usersRepository.GetByIdAsync(customerId);
+            User customerUser = await mediator.Send(new GetUserByIdQuery(){Id=customerId}); 
             if (customerUser == null)
             {
                 return NotFound(Messages.NotFoundMessage(EntitiesConstants.UserEntity, customerId));
@@ -68,7 +61,6 @@ namespace WebApi.Controllers.v2
 
             var queryable = (await mediator.Send(new GetOrdersByUserIdQuery() { Id = customerId })).AsQueryable();
 
-            //var queryable = _ordersRepository.GetAllAsQueryable().Where(order => order.UserId == customerId);
             await HttpContext.InsertPaginationParameterInResponse(queryable, pagination.EntitiesPerPage);
             return await queryable.Paginate(pagination).ToListAsync();
         }
@@ -76,7 +68,7 @@ namespace WebApi.Controllers.v2
         [HttpGet("operators/{operatorId}")]
         public async Task<ActionResult<IEnumerable<Order>>> GetOrdersByOperatorId(Guid operatorId, [FromQuery] PaginationDto pagination)
         {
-            User operatorUser = await _usersRepository.GetByIdAsync(operatorId);
+            User operatorUser = await mediator.Send(new GetUserByIdQuery() { Id=operatorId}); 
             if (operatorUser == null)
             {
                 return NotFound(Messages.NotFoundMessage(EntitiesConstants.UserEntity, operatorId));
@@ -87,7 +79,7 @@ namespace WebApi.Controllers.v2
                 return BadRequest(Messages.InvalidData);
             }
             var queryable = (await mediator.Send(new GetOrdersByUserIdQuery() { Id = operatorId })).AsQueryable();
-            //var queryable = _ordersRepository.GetAllAsQueryable().Where(order => order.OperatorId == operatorId);
+           
             await HttpContext.InsertPaginationParameterInResponse(queryable, pagination.EntitiesPerPage);
             return await queryable.Paginate(pagination).ToListAsync();
         }
@@ -95,7 +87,7 @@ namespace WebApi.Controllers.v2
         [HttpGet("{id}")]
         public async Task<ActionResult<Order>> GetOrderById(Guid id)
         {
-            Order order = await _ordersRepository.GetByIdAsync(id);
+            Order order = await mediator.Send(new GetOrderByIdQuery() { Id=id}); 
 
             if (order == null)
             {
@@ -107,23 +99,23 @@ namespace WebApi.Controllers.v2
 
         [RoleAuthorize("OPERATOR")]
         [HttpPost]
-        public async Task<ActionResult> CreateOrder(CreateOrderRequest orderRequest)
+        public async Task<ActionResult> CreateOrder(CreateOrderCommand command)
         {
-            if (orderRequest == null)
+            if (command == null)
             {
                 return BadRequest(Messages.InvalidData);
             }
 
-            User operatorUser = await _usersRepository.GetByIdAsync(orderRequest.OperatorId);
+            User operatorUser = await mediator.Send(new GetUserByIdQuery() {Id=command.UserId});
             if (operatorUser == null)
             {
-                return NotFound(Messages.NotFoundMessage(EntitiesConstants.UserEntity, orderRequest.OperatorId));
+                return NotFound(Messages.NotFoundMessage(EntitiesConstants.UserEntity, command.OperatorId));
             }
 
-            User customerUser = await _usersRepository.GetByIdAsync(orderRequest.UserId);
+            User customerUser = await mediator.Send(new GetUserByIdQuery() { Id = command.OperatorId });
             if (customerUser == null)
             {
-                return NotFound(Messages.NotFoundMessage(EntitiesConstants.UserEntity, orderRequest.UserId));
+                return NotFound(Messages.NotFoundMessage(EntitiesConstants.UserEntity, command.UserId));
             }
 
             if (operatorUser.Role != Role.OPERATOR || customerUser.Role != Role.CUSTOMER)
@@ -132,9 +124,9 @@ namespace WebApi.Controllers.v2
             }
 
             double totalPrice = 0;
-            foreach (AddProductToOrderRequest request in orderRequest.Products)
+            foreach (OrderProduct request in command.OrderProducts)
             {
-                Product product = await _productsRepository.GetByIdAsync(request.ProductId);
+                Product product = await mediator.Send(new GetProductByIdQuery() { Id = request.ProductId });
                 if (product != null)
                 {
                     totalPrice += product.Price * request.Quantity;
@@ -145,25 +137,28 @@ namespace WebApi.Controllers.v2
                 }
             }
 
-            Order order = new() { OperatorId = orderRequest.OperatorId, UserId = orderRequest.UserId, Timestamp = orderRequest.Timestamp, Total = totalPrice };
-            await _ordersRepository.CreateAsync(order);
-            foreach (AddProductToOrderRequest request in orderRequest.Products)
+            Guid orderId =await  mediator.Send(new CreateOrderCommand() { OperatorId = command.OperatorId, UserId = command.UserId, Timestamp = command.Timestamp, Total = totalPrice });
+
+            command.Total = totalPrice;
+            await mediator.Send(command);
+            foreach (OrderProduct request in command.OrderProducts)
             {
-                await _orderProductRepository.CreateAsync(new OrderProduct()
+                await mediator.Send(new CreateOrderProductCommand()
                 {
-                    OrderId = order.Id,
+                    OrderId = orderId,
                     ProductId = request.ProductId,
                     Quantity = request.Quantity
                 });
+             
             }
-            return CreatedAtAction("GetOrderById", new { id = order.Id }, order);
+            return CreatedAtAction("GetOrderById", new { id = orderId }, await mediator.Send( new GetOrderByIdQuery() { Id=orderId}));
         }
         
         [RoleAuthorize("ADMIN")]
         [HttpGet("export-csv")]
         public async Task<IActionResult> ExportOrdersAsCsv()
         {
-            IEnumerable<Order> orders = await _ordersRepository.GetAllAsync();
+            IEnumerable<Order> orders = await mediator.Send(new GetOrdersQuery());
             string result = _ordersService.ConvertToCsv(orders);
             return File(Encoding.UTF8.GetBytes(result), "text/csv", Constants.ReportFilename);
         }

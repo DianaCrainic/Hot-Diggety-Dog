@@ -14,34 +14,25 @@ namespace Application.Features.OrderFeatures.Commands
 
 
         private readonly IOrdersRepository _ordersRepository;
-        private readonly IRepository<User> _usersRepository;
-        private readonly IRepository<OrderProduct> _orderProductRepository;
-        private readonly IRepository<Product> _productsRepository;
-        private readonly IOrdersService _ordersService;
+       
 
-        public CreateOrderCommandHandler(IMediator mediator, IOrdersRepository ordersRepository, IRepository<User> usersRepository,
-                                IRepository<OrderProduct> orderPorductRepository, IRepository<Product> productsRepository,
-                                IOrdersService ordersService)
+        public CreateOrderCommandHandler(IMediator mediator, IOrdersRepository ordersRepository)
         {
             _ordersRepository = ordersRepository;
-            _usersRepository = usersRepository;
-            _orderProductRepository = orderPorductRepository;
-            _productsRepository = productsRepository;
-            _ordersService = ordersService;
         }
 
         public async Task<Guid> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
-            Product product = new()
+            Order order = new()
             {
-                Name = request.Name,
-                Price = request.Price,
-                Description = request.Description,
-                Category = request.Category
+                OperatorId = request.OperatorId,
+                UserId = request.UserId,
+                Timestamp = request.Timestamp,
+                Total = request.Total
             };
 
-            await productRepository.CreateAsync(product);
-            return product.Id;
+            await _ordersRepository.CreateAsync(order);
+            return order.Id;
         }
 
     }
