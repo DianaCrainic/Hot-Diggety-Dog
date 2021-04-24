@@ -8,7 +8,7 @@ using System.Web.Helpers;
 
 namespace Application.Features.UserFeatures.Command
 {
-    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Guid>
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, User>
     {
         private readonly IUsersRepository usersRepository;
 
@@ -17,11 +17,30 @@ namespace Application.Features.UserFeatures.Command
             this.usersRepository = usersRepository; 
         }
 
-        public async Task<Guid> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        //public async Task<Guid> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        //{
+        //    if (await usersRepository.ExistsByEmailAsync(request.Email) || await usersRepository.ExistsByUsernameAsync(request.Username))
+        //    {
+        //        return Guid.Empty;
+        //    }
+
+        //    User user = new()
+        //    {
+        //        Username = request.Username,
+        //        Email = request.Email,
+        //        Password = Crypto.SHA256(request.Password),
+        //        Role = Role.CUSTOMER
+        //    };
+
+        //    await usersRepository.CreateAsync(user);
+        //    return user.Id;
+        //}
+
+        async Task<User> IRequestHandler<CreateUserCommand, User>.Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             if (await usersRepository.ExistsByEmailAsync(request.Email) || await usersRepository.ExistsByUsernameAsync(request.Username))
             {
-                return Guid.Empty;
+                return null;
             }
 
             User user = new()
@@ -33,7 +52,7 @@ namespace Application.Features.UserFeatures.Command
             };
 
             await usersRepository.CreateAsync(user);
-            return user.Id;
+            return user;
         }
     }
 }

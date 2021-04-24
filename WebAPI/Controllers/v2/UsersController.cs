@@ -1,8 +1,11 @@
 ﻿using Application.Features.UserFeatures.Command;
 using Application.Features.UserFeatures.Queries;
+using Domain.Dtos.Account;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Security.Authorization;
+using Security.Services;
 using System;
 using System.Threading.Tasks;
 using WebApi.Resources;
@@ -13,18 +16,21 @@ namespace WebApi.Controllers.v2
     [ApiVersion("2.0")]
     public class UsersController : BaseApiController
     {
-        public UsersController(IMediator mediator) : base(mediator)
+        private readonly IJwtService _jwtService;
+
+        public UsersController(IMediator mediator, IJwtService jwtService) : base(mediator)
         {
+            _jwtService = jwtService;
         }
 
-        //[RoleAuthorize("ADMIN")]
+        [RoleAuthorize("ADMIN")]
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
             return Ok(await mediator.Send(new GetUsersQuery()));
         }
 
-        //[RoleAuthorize("ADMIN,OPERATOR")]
+        [RoleAuthorize("ADMIN,OPERATOR")]
         [HttpGet("customers")]
         public async Task<IActionResult> GetCustomers()
         {
@@ -54,34 +60,39 @@ namespace WebApi.Controllers.v2
                 return BadRequest(Messages.DuplicateUsernameOrEmail);
             }
 
-            await mediator.Send(command);
-            return Ok(command.Username);
+            User user = await mediator.Send(command);
+            if (user == null)
+            {
+                return BadRequest(Messages.DuplicateUsernameOrEmail);
+            }
+
+            return CreatedAtAction("GetUserById", new { id = user.Id }, user);
         }
 
 
-        //[HttpPost("authenticate")]
-        //public async Task<ActionResult> Authenticate(AuthenticateRequest authenticateRequest)
-        //{
-        //    User user = await _repository.GetByUsernameAndPassword(authenticateRequest.Username, authenticateRequest.Password);
+        [HttpPost("authenticate")]
+        public async Task<IActionResult> Authenticate(AuthenticateUserQuery query)
+        {
+            User user = await mediator.Send(new GetUserByUsernameAndPasswordQuery { Username = query.Username, Password = query.Password });
 
-        //    if (user == null)
-        //    {
-        //        return BadRequest(Messages.InvalidCredentials);
-        //    }
+            if (query == null || user == null)
+            {
+                return BadRequest(Messages.InvalidCredentials);
+            }
 
-        //    AuthenticateResult authenticateResult = new()
-        //    {
-        //        Id = user.Id,
-        //        Username = user.Username,
-        //        Role = user.Role.ToString(),
-        //        Token = _jwtService.GenerateJwtToken(user)
-        //    };
+            AuthenticateResult authenticateResult = new()
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Role = user.Role.ToString(),
+                Token = _jwtService.GenerateJwtToken(user)
+            };
 
-        //    return Ok(authenticateResult);
-        //}
+            return Ok(authenticateResult);
+        }
 
 
-        //[RoleAuthorize("ADMIN")]
+        [RoleAuthorize("ADMIN")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(Guid id)
         {

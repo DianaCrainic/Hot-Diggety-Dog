@@ -4,7 +4,7 @@ using System;
 
 namespace Application.Features.UserFeatures.Command
 {
-    public class CreateUserCommand : IRequest<Guid>
+    public class CreateUserCommand : IRequest<User>
     {
         public string Username { get; set; }
         public string Email { get; set; }
