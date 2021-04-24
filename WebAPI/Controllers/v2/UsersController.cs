@@ -23,20 +23,19 @@ namespace WebApi.Controllers.v2
             _jwtService = jwtService;
         }
 
-        //[RoleAuthorize("ADMIN")]
+        [RoleAuthorize("ADMIN")]
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
             return Ok(await mediator.Send(new GetUsersQuery()));
         }
 
-        //[RoleAuthorize("ADMIN,OPERATOR")]
+        [RoleAuthorize("ADMIN,OPERATOR")]
         [HttpGet("customers")]
         public async Task<IActionResult> GetCustomers()
         {
             return Ok(await mediator.Send(new GetCustomersQuery()));
         }
-
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(Guid id)
@@ -50,7 +49,6 @@ namespace WebApi.Controllers.v2
 
             return Ok(user);
         }
-
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(CreateUserCommand command)
@@ -68,7 +66,6 @@ namespace WebApi.Controllers.v2
 
             return CreatedAtAction("GetUserById", new { id = user.Id }, user);
         }
-
 
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate(AuthenticateUserQuery query)
@@ -91,8 +88,7 @@ namespace WebApi.Controllers.v2
             return Ok(authenticateResult);
         }
 
-
-        //[RoleAuthorize("ADMIN")]
+        [RoleAuthorize("ADMIN")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(Guid id)
         {
