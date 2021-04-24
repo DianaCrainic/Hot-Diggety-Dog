@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Domain.Common;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
-using Domain.Common;
 
 namespace Domain.Entities
 {
@@ -13,7 +13,7 @@ namespace Domain.Entities
         [JsonIgnore]
         public string Password { get; set; }
         [JsonIgnore]
-        public ICollection<Order> ClientOrders{get;set;}
+        public ICollection<Order> ClientOrders { get; set; }
         [JsonIgnore]
         public ICollection<Order> OperatorOrders { get; set; }
     }
