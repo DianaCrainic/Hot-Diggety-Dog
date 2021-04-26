@@ -10,17 +10,17 @@ using System.Threading.Tasks;
 
 namespace Application.Features.OrderFeatures.Qureries
 {
-    public class GetOrdersQueryHandler : IRequestHandler<GetOrdersQuery, IEnumerable<Order>>
+    public class GetOrdersQueryHandler : IRequestHandler<GetOrdersQuery, IQueryable<Order>>
     {
-        private readonly IRepository<Order> ordersRepository;
+        private readonly IOrdersRepository ordersRepository;
 
-        public GetOrdersQueryHandler(IRepository<Order> ordersRepository)
+        public GetOrdersQueryHandler(IOrdersRepository ordersRepository)
         {
             this.ordersRepository = ordersRepository;
         }
-        public async Task<IEnumerable<Order>> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
+        public async Task<IQueryable<Order>> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
         {
-            return await ordersRepository.GetAllAsync();
+            return ordersRepository.GetAllAsQueryable();
         }
     }
 }

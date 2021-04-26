@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.Features.OrderFeatures.Qureries
 {
-    public class GetOrdersByUserIdHandler : IRequestHandler<GetOrdersByUserIdQuery, IEnumerable<Order>>
+    public class GetOrdersByUserIdHandler : IRequestHandler<GetOrdersByUserIdQuery, IQueryable<Order>>
     {
         private readonly IOrdersRepository _ordersRepository;
 
@@ -19,9 +19,9 @@ namespace Application.Features.OrderFeatures.Qureries
             _ordersRepository = ordersRepository;
         }
 
-        public async Task<IEnumerable<Order>> Handle(GetOrdersByUserIdQuery request, CancellationToken cancellationToken)
+        public async Task<IQueryable<Order>> Handle(GetOrdersByUserIdQuery request, CancellationToken cancellationToken)
         {
-            return await _ordersRepository.GetByUserId(request.Id);
+            return _ordersRepository.GetAllAsQueryable().Where(order=>order.UserId==request.Id);
         }
     }
 }

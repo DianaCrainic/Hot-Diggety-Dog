@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Features.OrderFeatures.Qureries
 {
-    public class GetOrdersQuery:IRequest<IEnumerable<Order>>
+    public class GetOrdersQuery: IRequest<IQueryable<Order>>
     {
     }
 }

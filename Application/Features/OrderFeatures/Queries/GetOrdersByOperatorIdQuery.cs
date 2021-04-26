@@ -6,10 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Features.OrderFeatures.Qureries
+namespace Application.Features.OrderFeatures.Queries
 {
-    public class GetOrdersByUserIdQuery:IRequest<IQueryable<Order>>
+    public class GetOrdersByOperatorIdQuery : IRequest<IQueryable<Order>>
     {
         public Guid Id { get; set; }
+    
     }
 }
