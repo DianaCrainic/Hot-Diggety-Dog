@@ -1,5 +1,4 @@
-﻿
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Domain.Entities;
 using MediatR;
 using System.Linq;
@@ -8,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace Application.Features.OrderFeatures.Queries
 {
-    public class GetOrdersByOperatorIdHandler:IRequestHandler<GetOrdersByOperatorIdQuery, IQueryable<Order>>
+    public class GetOrdersByOperatorIdHandler : IRequestHandler<GetOrdersByOperatorIdQuery, IQueryable<Order>>
     {
         private readonly IOrdersRepository _ordersRepository;
+
         public GetOrdersByOperatorIdHandler(IOrdersRepository ordersRepository)
         {
             _ordersRepository = ordersRepository;

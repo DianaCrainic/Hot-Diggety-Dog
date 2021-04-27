@@ -1,10 +1,7 @@
 ﻿using Application.Interfaces;
 using Domain.Entities;
 using MediatR;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,10 +15,9 @@ namespace Application.Features.OrderFeatures.Qureries
         {
             _ordersRepository = ordersRepository;
         }
-
         public async Task<IQueryable<Order>> Handle(GetOrdersByUserIdQuery request, CancellationToken cancellationToken)
         {
-            return _ordersRepository.GetAllAsQueryable().Where(order=>order.UserId==request.Id);
+            return _ordersRepository.GetAllAsQueryable().Where(order => order.UserId == request.Id);
         }
     }
 }

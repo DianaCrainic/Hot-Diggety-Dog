@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Features.OrderFeatures.Qureries
 {
-    public class GetOrdersByUserIdQuery:IRequest<IQueryable<Order>>
+    public class GetOrdersByUserIdQuery : IRequest<IQueryable<Order>>
     {
         public Guid Id { get; set; }
     }

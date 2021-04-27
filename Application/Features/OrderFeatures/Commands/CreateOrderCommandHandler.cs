@@ -1,6 +1,4 @@
-﻿
-
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Domain.Entities;
 using MediatR;
 using System;
@@ -12,12 +10,11 @@ namespace Application.Features.OrderFeatures.Commands
     public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Guid>
     {
         private readonly IOrdersRepository _ordersRepository;
-      
+
         public CreateOrderCommandHandler(IMediator mediator, IOrdersRepository ordersRepository)
         {
             _ordersRepository = ordersRepository;
         }
-
         public async Task<Guid> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
             Order order = new()
@@ -31,6 +28,5 @@ namespace Application.Features.OrderFeatures.Commands
             await _ordersRepository.CreateAsync(order);
             return order.Id;
         }
-
     }
 }
