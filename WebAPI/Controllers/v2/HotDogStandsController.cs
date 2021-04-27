@@ -28,7 +28,6 @@ namespace WebAPI.Controllers.v2
         {
             HotDogStand stand = await mediator.Send(new GetStandByIdQuery { Id = id });
 
-
             if (stand == null)
             {
                 return NotFound(Messages.NotFoundMessage(EntitiesConstants.HotDogStandEntity, id));

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Application.Features.OrderFeatures.Qureries
 {
-    public class GetOrdersByUserIdQuery : IRequest<IQueryable<Order>>
+    public class GetOrdersByCustomerIdQuery : IRequest<IQueryable<Order>>
     {
         public Guid Id { get; set; }
     }

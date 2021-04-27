@@ -1,24 +1,23 @@
-﻿using Application.Interfaces;
+﻿using Application.Features.OrderFeatures.Commands;
+using Application.Features.OrderFeatures.Queries;
+using Application.Features.OrderFeatures.Qureries;
+using Application.Features.OrderProductFeatures.Commands;
+using Application.Features.ProductFeatures.Queries;
+using Application.Features.UserFeatures.Queries;
+using Application.Interfaces;
 using Domain.Dtos;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Security.Authorization;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using WebApi.Extensions;
 using WebApi.Resources;
 using WebAPI.Controllers;
-using Application.Features.OrderFeatures.Qureries;
-using Application.Features.OrderFeatures.Commands;
-using Security.Authorization;
-using System.Text;
-using Application.Features.UserFeatures.Queries;
-using Application.Features.ProductFeatures.Queries;
-using Application.Features.OrderProductFeatures.Commands;
-using Application.Features.OrderFeatures.Queries;
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebApi.Controllers.v2
 {
@@ -54,7 +53,7 @@ namespace WebApi.Controllers.v2
                 return BadRequest(Messages.InvalidData);
             }
 
-            var queryable = await mediator.Send(new GetOrdersByUserIdQuery() { Id = customerId });
+            var queryable = await mediator.Send(new GetOrdersByCustomerIdQuery() { Id = customerId });
             await HttpContext.InsertPaginationParameterInResponse(queryable, pagination.EntitiesPerPage);
             return await queryable.Paginate(pagination).ToListAsync();
         }
@@ -160,5 +159,4 @@ namespace WebApi.Controllers.v2
             return File(Encoding.UTF8.GetBytes(result), "text/csv", Constants.ReportFilename);
         }
     }
-
 }
