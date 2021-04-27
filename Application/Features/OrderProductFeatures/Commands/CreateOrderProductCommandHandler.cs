@@ -18,7 +18,7 @@ namespace Application.Features.OrderProductFeatures.Commands
 
         public async Task<Guid> Handle(CreateOrderProductCommand request, CancellationToken cancellationToken)
         {
-            OrderProduct orderProduct = new OrderProduct() { Order = request.Order, Product = request.Product, OrderId = request.OrderId, ProductId = request.ProductId };
+            OrderProduct orderProduct = new() { Order = request.Order, Product = request.Product, OrderId = request.OrderId, ProductId = request.ProductId };
             await _orderProductRepository.CreateAsync(orderProduct);
             return orderProduct.Id;
         }

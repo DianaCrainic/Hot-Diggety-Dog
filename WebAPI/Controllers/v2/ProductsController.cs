@@ -7,8 +7,9 @@ using Security.Authorization;
 using System;
 using System.Threading.Tasks;
 using WebApi.Resources;
+using WebAPI.Controllers;
 
-namespace WebAPI.Controllers.v2
+namespace WebApi.Controllers.v2
 {
     [ApiVersion("2.0")]
     public class ProductsController : BaseApiController

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using WebApi.Extensions;
 using WebApi.Resources;
 
-namespace WebApi.v1.Controllers
+namespace WebApi.Controllers.v1
 {
     [ApiController]
     [Route("api/v1/orders")]

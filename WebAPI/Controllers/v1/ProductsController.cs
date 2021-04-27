@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Resources;
 
-namespace WebApi.v1.Controllers
+namespace WebApi.Controllers.v1
 {
     [ApiController]
     [Route("api/v1/products")]

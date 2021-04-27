@@ -8,10 +8,10 @@ using Security.Services;
 using Security.Settings;
 using System;
 using System.Collections.Generic;
-using WebApi.v1.Controllers;
+using WebApi.Controllers.v1;
 using Xunit;
 
-namespace HotDiggetyDogTests
+namespace HotDiggetyDogTests.Controllers.v1
 {
     [Collection("Sequential")]
     public class UsersControllerTests : DatabaseBaseTest

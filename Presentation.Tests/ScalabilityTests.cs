@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Helpers;
-using WebApi.v1.Controllers;
+using WebApi.Controllers.v1;
 using Xunit;
 
 namespace HotDiggetyDogTests
