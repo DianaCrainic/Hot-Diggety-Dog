@@ -1,13 +1,12 @@
 ﻿using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Persistence.Repository.v1;
-using Presentation.Tests;
 using System;
 using System.Collections.Generic;
-using WebApi.v1.Controllers;
+using WebApi.Controllers.v1;
 using Xunit;
 
-namespace HotDiggetyDogTests
+namespace Presentation.Tests.Controllers.v1
 {
     [Collection("Sequential")]
     public class HotDogStandsControllerTests : DatabaseBaseTest

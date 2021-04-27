@@ -4,10 +4,10 @@ using Persistence.Repository.v1;
 using Presentation.Tests;
 using System;
 using System.Collections.Generic;
-using WebApi.v1.Controllers;
+using WebApi.Controllers.v1;
 using Xunit;
 
-namespace HotDiggetyDogTests
+namespace HotDiggetyDogTests.Controllers.v1
 {
     [Collection("Sequential")]
     public class ProductsControllerTests : DatabaseBaseTest
