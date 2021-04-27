@@ -15,6 +15,7 @@ namespace Application.Features.OrderFeatures.Qureries
         {
             this.ordersRepository = ordersRepository;
         }
+
         public async Task<IQueryable<Order>> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
         {
             return ordersRepository.GetAllAsQueryable();

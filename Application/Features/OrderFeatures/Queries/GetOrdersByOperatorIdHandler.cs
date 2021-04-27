@@ -15,6 +15,7 @@ namespace Application.Features.OrderFeatures.Queries
         {
             _ordersRepository = ordersRepository;
         }
+
         public async Task<IQueryable<Order>> Handle(GetOrdersByOperatorIdQuery request, CancellationToken cancellationToken)
         {
             return _ordersRepository.GetAllAsQueryable().Where(order => order.OperatorId == request.Id);

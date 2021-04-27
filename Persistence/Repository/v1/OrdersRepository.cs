@@ -27,6 +27,7 @@ namespace Persistence.Repository.v1
                                   .ThenInclude(orderProduct => orderProduct.Product)
                                   .FirstOrDefaultAsync(order => order.Id == id);
         }
+
         public async Task<IEnumerable<Order>> GetByUserId(Guid id)
         {
             return await _context.Orders.Where(order=>order.UserId==id).ToListAsync();
