@@ -10,7 +10,5 @@ namespace Application.Interfaces
     public interface IOrdersRepository : IRepository<Order>
     {
         IQueryable<Order> GetAllAsQueryable();
-
-        Task<IEnumerable<Order>> GetByUserId(Guid id);//de fixat dependentele
     }
 }
