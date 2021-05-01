@@ -11,7 +11,7 @@ namespace Application.Features.OrderFeatures.Commands
     {
         private readonly IOrdersRepository _ordersRepository;
 
-        public CreateOrderCommandHandler(IMediator mediator, IOrdersRepository ordersRepository)
+        public CreateOrderCommandHandler(IOrdersRepository ordersRepository)
         {
             _ordersRepository = ordersRepository;
         }

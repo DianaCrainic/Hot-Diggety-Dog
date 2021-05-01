@@ -136,16 +136,7 @@ namespace WebApi.Controllers.v2
             }
 
             Guid orderId = await mediator.Send(new CreateOrderCommand() { OperatorId = command.OperatorId, UserId = command.UserId, Timestamp = command.Timestamp, Total = totalPrice });
-
-            foreach (AddProductToOrderRequest request in command.Products)
-            {
-                await mediator.Send(new CreateOrderProductCommand()
-                {
-                    OrderId = orderId,
-                    ProductId = request.ProductId,
-                    Quantity = request.Quantity
-                });
-            }
+            CreateProductOrder(orderId, command);
 
             return CreatedAtAction("GetOrderById", new { id = orderId }, await mediator.Send(new GetOrderByIdQuery() { Id = orderId }));
         }
@@ -157,6 +148,19 @@ namespace WebApi.Controllers.v2
             IEnumerable<Order> orders = await mediator.Send(new GetOrdersQuery());
             string result = _ordersService.ConvertToCsv(orders);
             return File(Encoding.UTF8.GetBytes(result), "text/csv", Constants.ReportFilename);
+        }
+
+        private async void CreateProductOrder(Guid orderId, CreateOrderRequest request)
+        {
+            foreach (AddProductToOrderRequest addProductToOrderRequest in request.Products)
+            {
+                await mediator.Send(new CreateOrderProductCommand()
+                {
+                    OrderId = orderId,
+                    ProductId = addProductToOrderRequest.ProductId,
+                    Quantity = addProductToOrderRequest.Quantity
+                });
+            }
         }
     }
 }

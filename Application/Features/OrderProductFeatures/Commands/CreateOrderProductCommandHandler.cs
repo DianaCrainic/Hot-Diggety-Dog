@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.Features.OrderProductFeatures.Commands
 {
-    public class CreateOrderProductCommandHandler:IRequestHandler<CreateOrderProductCommand, Guid>
+    public class CreateOrderProductCommandHandler : IRequestHandler<CreateOrderProductCommand, Guid>
     {
         private readonly IRepository<OrderProduct> _orderProductRepository;
 

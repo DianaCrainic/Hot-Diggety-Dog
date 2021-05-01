@@ -136,15 +136,8 @@ namespace WebApi.Controllers.v1
 
             Order order = new() { OperatorId = orderRequest.OperatorId, UserId = orderRequest.UserId, Timestamp = orderRequest.Timestamp, Total = totalPrice };
             await _ordersRepository.CreateAsync(order);
-            foreach (AddProductToOrderRequest request in orderRequest.Products)
-            {
-                await _orderProductRepository.CreateAsync(new OrderProduct()
-                {
-                    OrderId = order.Id,
-                    ProductId = request.ProductId,
-                    Quantity = request.Quantity
-                });
-            }
+            CreateProductOrder(order.Id, orderRequest);
+
             return CreatedAtAction("GetOrderById", new { id = order.Id }, order);
         }
 
@@ -155,6 +148,19 @@ namespace WebApi.Controllers.v1
             IEnumerable<Order> orders = await _ordersRepository.GetAllAsync();
             string result = _ordersService.ConvertToCsv(orders);
             return File(Encoding.UTF8.GetBytes(result), "text/csv", Constants.ReportFilename);
+        }
+
+        private async void CreateProductOrder(Guid orderId, CreateOrderRequest orderRequest)
+        {
+            foreach (AddProductToOrderRequest request in orderRequest.Products)
+            {
+                await _orderProductRepository.CreateAsync(new OrderProduct()
+                {
+                    OrderId = orderId,
+                    ProductId = request.ProductId,
+                    Quantity = request.Quantity
+                });
+            }
         }
     }
 }
