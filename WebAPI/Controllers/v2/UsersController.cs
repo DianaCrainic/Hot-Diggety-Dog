@@ -1,5 +1,5 @@
-﻿using Application.Features.UserFeatures.Queries;
-using Application.Features.UserFeatures.Commands;
+﻿using Application.Features.UserFeatures.Commands;
+using Application.Features.UserFeatures.Queries;
 using Domain.Dtos.Account;
 using Domain.Entities;
 using MediatR;
@@ -8,6 +8,7 @@ using Security.Authorization;
 using Security.Services;
 using System;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 using WebApi.Resources;
 using WebAPI.Controllers;
 
@@ -17,10 +18,12 @@ namespace WebApi.Controllers.v2
     public class UsersController : BaseApiController
     {
         private readonly IJwtService _jwtService;
+        private readonly IFacebookAuthService _facebookService;
 
-        public UsersController(IMediator mediator, IJwtService jwtService) : base(mediator)
+        public UsersController(IMediator mediator, IJwtService jwtService, IFacebookAuthService fbService) : base(mediator)
         {
             _jwtService = jwtService;
+            _facebookService = fbService;
         }
 
         [RoleAuthorize("ADMIN")]
@@ -75,6 +78,42 @@ namespace WebApi.Controllers.v2
             if (query == null || user == null)
             {
                 return BadRequest(Messages.InvalidCredentials);
+            }
+
+            AuthenticateResult authenticateResult = new()
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Role = user.Role.ToString(),
+                Token = _jwtService.GenerateJwtToken(user)
+            };
+
+            return Ok(authenticateResult);
+        }
+
+        [HttpPost("facebook-authenticate")]
+        public async Task<IActionResult> FacebookAuthenticate(FacebookAuthenticateRequest facebookLoginRequest)
+        {
+            var validToken = await _facebookService.ValidateAccessTokenAsync(facebookLoginRequest.AccessToken);
+            if (!validToken.TokenData.IsValid)
+            {
+                return BadRequest(Messages.FacebookLoginFailed);
+            }
+
+            var userInfo = await _facebookService.GetUserInfoAsync(facebookLoginRequest.AccessToken);
+
+            CreateUserCommand command = new()
+            {
+                Username = $"{userInfo.FirstName}.{userInfo.LastName}",
+                Email = userInfo.Email,
+                Password = Crypto.SHA256($"{userInfo.FirstName}.{userInfo.LastName}"),
+                Role = Role.CUSTOMER
+            };
+
+            User user = await mediator.Send(command);
+            if (user == null)
+            {
+                user = await mediator.Send(new GetUserByUsernameAndPasswordQuery { Username = $"{userInfo.FirstName}.{userInfo.LastName}", Password = Crypto.SHA256($"{userInfo.FirstName}.{userInfo.LastName}") });
             }
 
             AuthenticateResult authenticateResult = new()
