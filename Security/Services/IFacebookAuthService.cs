@@ -5,7 +5,7 @@ namespace Security.Services
 {
     public interface IFacebookAuthService
     {
-        Task<FBTokenValidationResult> ValidateAccessTokenAsync(string accessToken);
-        Task<FBUserInfoResult> GetUserInfoAsync(string accessToken);
+        Task<FacebookTokenValidationResult> ValidateAccessTokenAsync(string accessToken);
+        Task<FacebookUserInfoResult> GetUserInfoAsync(string accessToken);
     }
 }

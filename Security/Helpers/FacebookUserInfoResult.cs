@@ -3,7 +3,7 @@ using System;
 
 namespace Security.Helpers
 {
-    public class FBUserInfoResult
+    public class FacebookUserInfoResult
     {
         [JsonProperty("first_name")]
         public string FirstName { get; set; }
@@ -19,16 +19,15 @@ namespace Security.Helpers
 
         [JsonProperty("id")]
         public string Id { get; set; }
-
     }
 
     public class Picture
     {
         [JsonProperty("data")]
-        public FBPictureData PictureData { get; set; }
+        public FacebookPictureData PictureData { get; set; }
     }
 
-    public class FBPictureData
+    public class FacebookPictureData
     {
         [JsonProperty("height")]
         public long Height { get; set; }

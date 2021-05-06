@@ -2,13 +2,13 @@
 
 namespace Security.Helpers
 {
-    public class FBTokenValidationResult
+    public class FacebookTokenValidationResult
     {
         [JsonProperty("data")]
-        public FBTokenData tokenData { get; set; }
+        public FacebookTokenData TokenData { get; set; }
     }
 
-    public class FBTokenData
+    public class FacebookTokenData
     {
         [JsonProperty("app_id")]
         public string AppId { get; set; }

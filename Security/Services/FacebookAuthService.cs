@@ -9,18 +9,18 @@ namespace Security.Services
 {
     public class FacebookAuthService : IFacebookAuthService
     {
-        private readonly FBAuthSettings _facebookAuthSettings;
+        private readonly FacebookAuthSettings _facebookAuthSettings;
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public FacebookAuthService(IOptions<FBAuthSettings> facebookAuthSettings, IHttpClientFactory httpClientFactory)
+        public FacebookAuthService(IOptions<FacebookAuthSettings> facebookAuthSettings, IHttpClientFactory httpClientFactory)
         {
             _facebookAuthSettings = facebookAuthSettings.Value;
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<FBUserInfoResult> GetUserInfoAsync(string accessToken)
+        public async Task<FacebookUserInfoResult> GetUserInfoAsync(string accessToken)
         {
-            var formattedUrl = string.Format(Constants.FBGetUserInfoURL, accessToken, _facebookAuthSettings.AppId, _facebookAuthSettings.AppSecret);
+            var formattedUrl = string.Format(Constants.FacebookGetUserInfoURL, accessToken, _facebookAuthSettings.AppId, _facebookAuthSettings.AppSecret);
 
             var result = await _httpClientFactory.CreateClient().GetAsync(formattedUrl);
 
@@ -28,12 +28,12 @@ namespace Security.Services
 
             var responseAsString = await result.Content.ReadAsStringAsync();
 
-            return JsonConvert.DeserializeObject<FBUserInfoResult>(responseAsString);
+            return JsonConvert.DeserializeObject<FacebookUserInfoResult>(responseAsString);
         }
 
-        public async Task<FBTokenValidationResult> ValidateAccessTokenAsync(string accessToken)
+        public async Task<FacebookTokenValidationResult> ValidateAccessTokenAsync(string accessToken)
         {
-            var formattedUrl = string.Format(Constants.FBTokenValidationURL, accessToken, _facebookAuthSettings.AppId, _facebookAuthSettings.AppSecret);
+            var formattedUrl = string.Format(Constants.FacebookTokenValidationURL, accessToken, _facebookAuthSettings.AppId, _facebookAuthSettings.AppSecret);
 
             var result = await _httpClientFactory.CreateClient().GetAsync(formattedUrl);
 
@@ -41,7 +41,7 @@ namespace Security.Services
 
             var responseAsString = await result.Content.ReadAsStringAsync();
 
-            return JsonConvert.DeserializeObject<FBTokenValidationResult>(responseAsString);
+            return JsonConvert.DeserializeObject<FacebookTokenValidationResult>(responseAsString);
         }
     }
 }

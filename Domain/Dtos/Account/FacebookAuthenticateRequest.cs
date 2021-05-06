@@ -2,10 +2,9 @@
 
 namespace Domain.Dtos.Account
 {
-    public class FBAuthenticateRequest
+    public class FacebookAuthenticateRequest
     {
         [Required]
         public string AccessToken { get; set; }
-
     }
 }

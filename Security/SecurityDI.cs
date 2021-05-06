@@ -13,7 +13,7 @@ namespace Security
             services.AddScoped(typeof(IJwtService), typeof(JwtService))
                 .AddScoped(typeof(IFacebookAuthService), typeof(FacebookAuthService))
                 .Configure<SecuritySettings>(configuration.GetSection("SecuritySettings"))
-                .Configure<FBAuthSettings>(configuration.GetSection("FBSettings"));
+                .Configure<FacebookAuthSettings>(configuration.GetSection("FacebookSettings"));
         }
     }
 }
