@@ -40,6 +40,13 @@ namespace WebApi.Controllers.v2
             return Ok(await mediator.Send(new GetCustomersQuery()));
         }
 
+        [RoleAuthorize("ADMIN")]
+        [HttpGet("operators")]
+        public async Task<IActionResult> GetOperators()
+        {
+            return Ok(await mediator.Send(new GetOperatorsQuery()));
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(Guid id)
         {

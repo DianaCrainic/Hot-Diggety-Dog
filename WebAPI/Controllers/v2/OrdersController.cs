@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Security.Authorization;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebApi.Extensions;
@@ -32,15 +33,16 @@ namespace WebApi.Controllers.v2
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Order>>> GetOrders([FromQuery] PaginationDto pagination)
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrders([FromQuery] PaginationDto pagination, [FromQuery] OrderFilterDto filter)
         {
             var queryable = await mediator.Send(new GetOrdersQuery());
+            queryable = _ordersService.Filter(queryable, filter);
             await HttpContext.InsertPaginationParameterInResponse(queryable, pagination.EntitiesPerPage);
             return await queryable.Paginate(pagination).ToListAsync();
         }
 
         [HttpGet("customers/{customerId}")]
-        public async Task<ActionResult<IEnumerable<Order>>> GetOrdersByCustomerId(Guid customerId, [FromQuery] PaginationDto pagination)
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrdersByCustomerId(Guid customerId, [FromQuery] PaginationDto pagination, [FromQuery] OrderFilterDto filter)
         {
             User customerUser = await mediator.Send(new GetUserByIdQuery() { Id = customerId });
             if (customerUser == null)
@@ -54,12 +56,13 @@ namespace WebApi.Controllers.v2
             }
 
             var queryable = await mediator.Send(new GetOrdersByCustomerIdQuery() { Id = customerId });
+            queryable = _ordersService.Filter(queryable, filter);
             await HttpContext.InsertPaginationParameterInResponse(queryable, pagination.EntitiesPerPage);
             return await queryable.Paginate(pagination).ToListAsync();
         }
 
         [HttpGet("operators/{operatorId}")]
-        public async Task<ActionResult<IEnumerable<Order>>> GetOrdersByOperatorId(Guid operatorId, [FromQuery] PaginationDto pagination)
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrdersByOperatorId(Guid operatorId, [FromQuery] PaginationDto pagination, [FromQuery] OrderFilterDto filter)
         {
             User operatorUser = await mediator.Send(new GetUserByIdQuery() { Id = operatorId });
 
@@ -74,6 +77,7 @@ namespace WebApi.Controllers.v2
             }
 
             var queryable = await mediator.Send(new GetOrdersByOperatorIdQuery() { Id = operatorId });
+            queryable = _ordersService.Filter(queryable, filter);
             await HttpContext.InsertPaginationParameterInResponse(queryable, pagination.EntitiesPerPage);
             return await queryable.Paginate(pagination).ToListAsync();
         }
@@ -89,6 +93,12 @@ namespace WebApi.Controllers.v2
             }
 
             return Ok(await mediator.Send(new GetOrderByIdQuery() { Id = id }));
+        }
+
+        [HttpGet("max-price")]
+        public async Task<ActionResult<double>> GetMaxPriceOfOrder()
+        {
+            return await mediator.Send(new GetMaxPriceOfOrderQuery());
         }
 
         [RoleAuthorize("OPERATOR")]
@@ -143,10 +153,11 @@ namespace WebApi.Controllers.v2
 
         [RoleAuthorize("ADMIN")]
         [HttpGet("export-csv")]
-        public async Task<IActionResult> ExportOrdersAsCsv()
+        public async Task<IActionResult> ExportOrdersAsCsv([FromQuery] OrderFilterDto filter)
         {
             IEnumerable<Order> orders = await mediator.Send(new GetOrdersQuery());
-            string result = _ordersService.ConvertToCsv(orders);
+            var queryable = _ordersService.Filter(orders.AsQueryable(), filter);
+            string result = _ordersService.ConvertToCsv(queryable);
             return File(Encoding.UTF8.GetBytes(result), "text/csv", Constants.ReportFilename);
         }
 
