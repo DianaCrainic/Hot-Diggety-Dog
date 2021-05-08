@@ -22,10 +22,10 @@ namespace Presentation.Tests.Controllers.v2
         public void Mediatr_GetProducts_ShouldReturn_OK()
         {
             Mediator.Setup(x => x.Send(It.IsAny<GetProductsQuery>(), new System.Threading.CancellationToken()));
-            var productController = new ProductsController(Mediator.Object);
+            var productsController = new ProductsController(Mediator.Object);
 
             //Action
-            var result = productController.Get().Result;
+            var result = productsController.Get().Result;
 
             //Assert
             Assert.IsType<OkObjectResult>(result);
@@ -37,10 +37,10 @@ namespace Presentation.Tests.Controllers.v2
             //Arrange
             Guid productId = Guid.Parse("27da19e4-e1a5-4713-8643-8441630249cf");
             Mediator.Setup(x => x.Send(It.IsAny<GetProductByIdQuery>(), new System.Threading.CancellationToken()));
-            var productController = new ProductsController(Mediator.Object);
+            var productsController = new ProductsController(Mediator.Object);
 
             //Action
-            var result = productController.GetById(productId).Result;
+            var result = productsController.GetById(productId).Result;
 
             //Assert
             Assert.IsType<NotFoundObjectResult>(result);
@@ -53,10 +53,10 @@ namespace Presentation.Tests.Controllers.v2
             CreateProductCommand createdProduct = null;
 
             Mediator.Setup(x => x.Send(It.IsAny<CreateProductCommand>(), new System.Threading.CancellationToken()));
-            var productController = new ProductsController(Mediator.Object);
+            var productsController = new ProductsController(Mediator.Object);
 
             //Action
-            var result = productController.Create(createdProduct).Result;
+            var result = productsController.Create(createdProduct).Result;
 
             //Assert
             Assert.IsType<BadRequestObjectResult>(result);
@@ -75,10 +75,10 @@ namespace Presentation.Tests.Controllers.v2
             };
 
             Mediator.Setup(x => x.Send(It.IsAny<CreateProductCommand>(), new System.Threading.CancellationToken()));
-            var productController = new ProductsController(Mediator.Object);
+            var productsController = new ProductsController(Mediator.Object);
 
             //Action
-            var result = productController.Create(createdProduct).Result;
+            var result = productsController.Create(createdProduct).Result;
 
             //Assert
             Assert.IsType<OkObjectResult>(result);
@@ -91,7 +91,7 @@ namespace Presentation.Tests.Controllers.v2
             Guid productId = Guid.Parse("86a2006d-4f8a-4e74-b969-9ffa9563efd1");
             UpdateProductCommand updatedProduct = new UpdateProductCommand
             {
-                Id = Guid.Parse("86a2006d-4f8a-4e74-b969-9ffa9563efd1"),
+                Id = productId,
                 Name = "Test",
                 Description = "Test",
                 Price = 25,
@@ -99,10 +99,26 @@ namespace Presentation.Tests.Controllers.v2
             };
 
             Mediator.Setup(x => x.Send(It.IsAny<UpdateProductCommand>(), new System.Threading.CancellationToken()));
-            var productController = new ProductsController(Mediator.Object);
+            var productsController = new ProductsController(Mediator.Object);
 
             //Action
-            var result = productController.Update(productId, updatedProduct).Result;
+            var result = productsController.Update(productId, updatedProduct).Result;
+
+            //Assert
+            Assert.IsType<NotFoundObjectResult>(result);
+        }
+
+        [Fact]
+        public void Mediatr_Remove_NonExisting_Product_ShouldReturn_NotFound()
+        {
+            //Arrange
+            Guid productId = Guid.Parse("2ef4b146-9d1d-403a-8ab2-6cf043b8c449");
+
+            Mediator.Setup(x => x.Send(It.IsAny<UpdateProductCommand>(), new System.Threading.CancellationToken()));
+            var productsController = new ProductsController(Mediator.Object);
+
+            //Action
+            var result = productsController.Remove(productId).Result;
 
             //Assert
             Assert.IsType<NotFoundObjectResult>(result);
