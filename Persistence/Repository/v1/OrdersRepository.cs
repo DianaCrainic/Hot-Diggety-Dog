@@ -26,5 +26,10 @@ namespace Persistence.Repository.v1
                                   .ThenInclude(orderProduct => orderProduct.Product)
                                   .FirstOrDefaultAsync(order => order.Id == id);
         }
+
+        public double GetMaxPriceOfOrders()
+        {
+            return _context.Orders.Max(order => order.Total);
+        }
     }
 }
