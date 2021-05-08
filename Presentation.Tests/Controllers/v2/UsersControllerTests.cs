@@ -1,6 +1,5 @@
 ﻿using Application.Features.UserFeatures.Commands;
 using Application.Features.UserFeatures.Queries;
-using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -114,7 +113,7 @@ namespace Presentation.Tests.Controllers.v2
         {
             //Arrange
             Guid userId = Guid.Parse("ef7b6f44-d1a4-4bcf-8a2a-bc66424afb4d");
-            
+
             Mediator.Setup(x => x.Send(It.IsAny<DeleteUserCommand>(), new System.Threading.CancellationToken()));
             JwtService jwtService = GetJwt();
             var usersController = new UsersController(Mediator.Object, jwtService, _facebookService);
