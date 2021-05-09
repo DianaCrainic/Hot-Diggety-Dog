@@ -50,6 +50,32 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "HotDogStandProduct",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    StandId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    ProductId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Quantity = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HotDogStandProduct", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_HotDogStandProduct_HotDogStands_StandId",
+                        column: x => x.StandId,
+                        principalTable: "HotDogStands",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HotDogStandProduct_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -105,77 +131,112 @@ namespace Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "HotDogStands",
                 columns: new[] { "id", "address" },
-                values: new object[] { new Guid("1d597806-7b37-4472-95c9-764b110da867"), "Grimmer's Road" });
+                values: new object[] { new Guid("12bd8fbf-967a-422d-b385-b47aba932514"), "Grimmer's Road" });
 
             migrationBuilder.InsertData(
                 table: "HotDogStands",
                 columns: new[] { "id", "address" },
-                values: new object[] { new Guid("7b2c1346-1969-4cee-8a5d-22ba2621145d"), "Fieldfare Banks" });
+                values: new object[] { new Guid("6dd91e54-82b9-4a6e-a4f4-076b0d8994d0"), "Fieldfare Banks" });
 
             migrationBuilder.InsertData(
                 table: "HotDogStands",
                 columns: new[] { "id", "address" },
-                values: new object[] { new Guid("71a6f687-ce9b-432c-96d7-3721d4f8fdde"), "Imperial Passage" });
+                values: new object[] { new Guid("32e43d6a-bade-454d-8154-2a7bdb859644"), "Imperial Passage" });
 
             migrationBuilder.InsertData(
                 table: "HotDogStands",
                 columns: new[] { "id", "address" },
-                values: new object[] { new Guid("19cf4e8b-a637-40e5-b64e-0e7c515c7d62"), "Woodville Square" });
+                values: new object[] { new Guid("42551a0a-6709-43e6-ad91-eceb6e19b844"), "Woodville Square" });
 
             migrationBuilder.InsertData(
                 table: "HotDogStands",
                 columns: new[] { "id", "address" },
-                values: new object[] { new Guid("ba79e9cd-eb4e-4ffb-a546-7f21a8c5fac4"), "Lindsey Circle" });
+                values: new object[] { new Guid("a59a3ee3-ab25-45ac-91e8-bad0b2c9d364"), "Lindsey Circle" });
 
             migrationBuilder.InsertData(
                 table: "HotDogStands",
                 columns: new[] { "id", "address" },
-                values: new object[] { new Guid("c9b52335-fac9-4fd6-95e0-8ccdb9ea8840"), "Alexander Banks" });
+                values: new object[] { new Guid("0a8805cf-66e2-4b14-8ad9-9438cd713fc8"), "Alexander Banks" });
 
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "id", "category", "description", "name", "Price" },
-                values: new object[] { new Guid("1f6185ca-1e9a-457e-9f0c-99121fa92cd3"), "HotDogs", "Basic hot dog with ketchup/mustard", "Hot Dog", 10f });
+                values: new object[] { new Guid("91627bef-b215-4fcb-a639-caba212daf71"), "HotDogs", "Basic hot dog with ketchup/mustard", "Hot Dog", 10f });
 
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "id", "category", "description", "name", "Price" },
-                values: new object[] { new Guid("b219d7b3-a868-421e-8f51-3dfeaee20a4b"), "HotDogs", "Hot dog with caramelized onions and ketchup", "Hot Onion Dog", 12.5f });
+                values: new object[] { new Guid("7c323cb5-ff68-48e5-9bee-33efeb01f85d"), "HotDogs", "Hot dog with caramelized onions and ketchup", "Hot Onion Dog", 12.5f });
 
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "id", "category", "description", "name", "Price" },
-                values: new object[] { new Guid("2c8e6a1c-6109-46b9-8004-662d76c9e9bf"), "HotDogs", "Hot dog with melted gouda cheese and bacon", "Bacon Melt", 15f });
+                values: new object[] { new Guid("efac8b2a-c966-4b15-83a4-8716855d3b27"), "HotDogs", "Hot dog with melted gouda cheese and bacon", "Bacon Melt", 15f });
 
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "id", "category", "description", "name", "Price" },
-                values: new object[] { new Guid("b134cb00-8415-4d89-81e9-cbe1216e71f0"), "Extras", "Regular fries", "Fries", 7.5f });
+                values: new object[] { new Guid("09727a40-bd9b-4bc7-83cc-0e64c9d75e9c"), "Extras", "Regular fries", "Fries", 7.5f });
 
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "id", "category", "description", "name", "Price" },
-                values: new object[] { new Guid("0ee7d70d-32cd-4ece-99f0-9e7d0ecb6783"), "Drinks", "Coke bottle", "Coke", 5f });
+                values: new object[] { new Guid("b9c775d4-b160-4528-aced-dc36e3110133"), "Drinks", "Coke bottle", "Coke", 5f });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "id", "email", "password", "role", "username" },
-                values: new object[] { new Guid("f289e705-1c90-4510-921e-1b98a7f11f08"), "customer@gmail.com", "B6C45863875E34487CA3C155ED145EFE12A74581E27BEFEC5AA661B8EE8CA6DD", 0, "customer" });
+                values: new object[] { new Guid("8af2b5c0-a6fe-4c49-a748-9ec50e833d02"), "customer@gmail.com", "B6C45863875E34487CA3C155ED145EFE12A74581E27BEFEC5AA661B8EE8CA6DD", 0, "customer" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "id", "email", "password", "role", "username" },
-                values: new object[] { new Guid("d39a8d41-3dda-4498-8d9d-db365744220a"), "admin@gmail.com", "8C6976E5B5410415BDE908BD4DEE15DFB167A9C873FC4BB8A81F6F2AB448A918", 3, "admin" });
+                values: new object[] { new Guid("4a14a992-0c7d-472b-92e4-082e525a7c47"), "admin@gmail.com", "8C6976E5B5410415BDE908BD4DEE15DFB167A9C873FC4BB8A81F6F2AB448A918", 3, "admin" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "id", "email", "password", "role", "username" },
-                values: new object[] { new Guid("39b365ea-b521-4d6d-b8ec-abe494f19819"), "operator@gmail.com", "06E55B633481F7BB072957EABCF110C972E86691C3CFEDABE088024BFFE42F23", 1, "operator" });
+                values: new object[] { new Guid("e0798259-73a2-460a-84a6-c34b97ea024d"), "operator@gmail.com", "06E55B633481F7BB072957EABCF110C972E86691C3CFEDABE088024BFFE42F23", 1, "operator" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "id", "email", "password", "role", "username" },
-                values: new object[] { new Guid("a9d3e8ec-7716-428f-bb70-71496ddba384"), "supplier@gmail.com", "955ED10B73D6265B1ADCF768B94F8DD5D91F33309DB94B6B3AF4EFA822F1D9AF", 2, "supplier" });
+                values: new object[] { new Guid("70f1a609-a6f2-4152-9dd7-9246f6502a27"), "supplier@gmail.com", "955ED10B73D6265B1ADCF768B94F8DD5D91F33309DB94B6B3AF4EFA822F1D9AF", 2, "supplier" });
+
+            migrationBuilder.InsertData(
+                table: "HotDogStandProduct",
+                columns: new[] { "Id", "ProductId", "Quantity", "StandId" },
+                values: new object[] { new Guid("da123ad9-c972-4d6b-a73a-5bc9ec2c86ba"), new Guid("91627bef-b215-4fcb-a639-caba212daf71"), 7, new Guid("12bd8fbf-967a-422d-b385-b47aba932514") });
+
+            migrationBuilder.InsertData(
+                table: "HotDogStandProduct",
+                columns: new[] { "Id", "ProductId", "Quantity", "StandId" },
+                values: new object[] { new Guid("fbf2c7e6-6cbd-4537-9068-698f6d93d68a"), new Guid("91627bef-b215-4fcb-a639-caba212daf71"), 20, new Guid("6dd91e54-82b9-4a6e-a4f4-076b0d8994d0") });
+
+            migrationBuilder.InsertData(
+                table: "HotDogStandProduct",
+                columns: new[] { "Id", "ProductId", "Quantity", "StandId" },
+                values: new object[] { new Guid("262a9b55-2ea1-4453-a80d-aba55b3d6016"), new Guid("7c323cb5-ff68-48e5-9bee-33efeb01f85d"), 10, new Guid("12bd8fbf-967a-422d-b385-b47aba932514") });
+
+            migrationBuilder.InsertData(
+                table: "HotDogStandProduct",
+                columns: new[] { "Id", "ProductId", "Quantity", "StandId" },
+                values: new object[] { new Guid("535b43aa-3ac6-4c14-9a6d-73c4f8861d11"), new Guid("7c323cb5-ff68-48e5-9bee-33efeb01f85d"), 6, new Guid("6dd91e54-82b9-4a6e-a4f4-076b0d8994d0") });
+
+            migrationBuilder.InsertData(
+                table: "HotDogStandProduct",
+                columns: new[] { "Id", "ProductId", "Quantity", "StandId" },
+                values: new object[] { new Guid("8bfc5c93-626e-419d-9507-f414cc80994b"), new Guid("efac8b2a-c966-4b15-83a4-8716855d3b27"), 13, new Guid("12bd8fbf-967a-422d-b385-b47aba932514") });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HotDogStandProduct_ProductId",
+                table: "HotDogStandProduct",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HotDogStandProduct_StandId",
+                table: "HotDogStandProduct",
+                column: "StandId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_operator_id",
@@ -201,10 +262,13 @@ namespace Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "HotDogStands");
+                name: "HotDogStandProduct");
 
             migrationBuilder.DropTable(
                 name: "OrdersProducts");
+
+            migrationBuilder.DropTable(
+                name: "HotDogStands");
 
             migrationBuilder.DropTable(
                 name: "Orders");

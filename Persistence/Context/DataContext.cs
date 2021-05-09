@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Web.Helpers;
 
 namespace Persistence.Context
@@ -25,6 +26,9 @@ namespace Persistence.Context
             SetProductProperties(modelBuilder);
             SetOrderProperties(modelBuilder);
             SetOrderProductProperties(modelBuilder);
+
+            SeedUsers(modelBuilder);
+            SeedHotDogStandsWithProducts(modelBuilder);
 
             base.OnModelCreating(modelBuilder);
         }
@@ -154,6 +158,40 @@ namespace Persistence.Context
                     new Product { Id = Guid.NewGuid(), Name = "Fries", Description = "Regular fries", Category = "Extras", Price = 7.5F },
                     new Product { Id = Guid.NewGuid(), Name = "Coke", Description = "Coke bottle", Category = "Drinks", Price = 5 }
                 );
+        }
+
+        private static void SeedHotDogStandsWithProducts(ModelBuilder model)
+        {
+            HotDogStand stand1 = new HotDogStand { Id = Guid.NewGuid(), Address = "Grimmer's Road" };
+            HotDogStand stand2 = new HotDogStand { Id = Guid.NewGuid(), Address = "Fieldfare Banks" };
+            HotDogStand stand3 = new HotDogStand { Id = Guid.NewGuid(), Address = "Imperial Passage" };
+            HotDogStand stand4 = new HotDogStand { Id = Guid.NewGuid(), Address = "Woodville Square" };
+            HotDogStand stand5 = new HotDogStand { Id = Guid.NewGuid(), Address = "Lindsey Circle" };
+            HotDogStand stand6 = new HotDogStand { Id = Guid.NewGuid(), Address = "Alexander Banks" };
+
+            Product product1 = new Product { Id = Guid.NewGuid(), Name = "Hot Dog", Description = "Basic hot dog with ketchup/mustard", Category = "HotDogs", Price = 10 };
+            Product product2 = new Product { Id = Guid.NewGuid(), Name = "Hot Onion Dog", Description = "Hot dog with caramelized onions and ketchup", Category = "HotDogs", Price = 12.5F };
+            Product product3 = new Product { Id = Guid.NewGuid(), Name = "Bacon Melt", Description = "Hot dog with melted gouda cheese and bacon", Category = "HotDogs", Price = 15 };
+            Product product4 = new Product { Id = Guid.NewGuid(), Name = "Fries", Description = "Regular fries", Category = "Extras", Price = 7.5F };
+            Product product5 = new Product { Id = Guid.NewGuid(), Name = "Coke", Description = "Coke bottle", Category = "Drinks", Price = 5 };
+
+            //stand1
+            HotDogStandProduct standProduct1 = new HotDogStandProduct { Id = Guid.NewGuid(), StandId = stand1.Id, ProductId = product1.Id, Quantity = 7 };
+            HotDogStandProduct standProduct2 = new HotDogStandProduct { Id = Guid.NewGuid(), StandId = stand1.Id, ProductId = product2.Id,  Quantity = 10 };
+            HotDogStandProduct standProduct3 = new HotDogStandProduct { Id = Guid.NewGuid(), StandId = stand1.Id,  ProductId = product3.Id,  Quantity = 13 };
+
+            //stand2
+            HotDogStandProduct standProduct4 = new HotDogStandProduct { Id = Guid.NewGuid(), StandId = stand2.Id, ProductId = product1.Id, Quantity = 20 };
+            HotDogStandProduct standProduct5 = new HotDogStandProduct { Id = Guid.NewGuid(), StandId = stand2.Id, ProductId = product2.Id,  Quantity = 6 };
+
+            model.Entity<HotDogStand>()
+                .HasData(stand1, stand2, stand3, stand4, stand5, stand6);
+
+            model.Entity<Product>()
+                .HasData(product1, product2, product3, product4, product5);
+
+            model.Entity<HotDogStandProduct>()
+                .HasData(standProduct1, standProduct2, standProduct3, standProduct4, standProduct5);
         }
     }
 }
