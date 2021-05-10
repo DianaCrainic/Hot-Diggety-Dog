@@ -8,10 +8,14 @@ namespace WebApi.Resources
         public const string PasswordLengthError = "The Password field must be a minimum of 6 characters.";
         public const string InvalidData = "Invalid data.";
         public const string FacebookLoginFailed = "Something went wrong! (invalid facebook token)";
-
+        
         public static string NotFoundMessage(string entityName, System.Guid entityId)
         {
             return $"{entityName} with id {entityId} not found.";
+        }
+        public static string StandByOperatorNotFoundMessage(System.Guid operatorId)
+        {
+            return $"{EntitiesConstants.HotDogStandEntity} with operator id {operatorId} not found.";
         }
     }
 }

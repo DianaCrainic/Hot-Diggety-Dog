@@ -19,7 +19,8 @@ namespace Persistence
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>))
                     .AddScoped(typeof(IOrdersRepository), typeof(OrdersRepository))
-                    .AddScoped(typeof(IUsersRepository), typeof(UsersRepository));
+                    .AddScoped(typeof(IUsersRepository), typeof(UsersRepository))
+                    .AddScoped(typeof(IHotDogStandRepository), typeof(HotDogStandRepository));
         }
     }
 }

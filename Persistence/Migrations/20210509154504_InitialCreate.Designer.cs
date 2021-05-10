@@ -9,7 +9,7 @@ using Persistence.Context;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210508155937_InitialCreate")]
+    [Migration("20210509154504_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,6 +30,9 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("address");
 
+                    b.Property<Guid>("OperatorId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.ToTable("HotDogStands");
@@ -37,33 +40,39 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("12bd8fbf-967a-422d-b385-b47aba932514"),
-                            Address = "Grimmer's Road"
+                            Id = new Guid("70f9917f-c66d-46a2-aa21-bfd9a4fe6c17"),
+                            Address = "Grimmer's Road",
+                            OperatorId = new Guid("3622398d-c8ea-475d-800e-18c76c169939")
                         },
                         new
                         {
-                            Id = new Guid("6dd91e54-82b9-4a6e-a4f4-076b0d8994d0"),
-                            Address = "Fieldfare Banks"
+                            Id = new Guid("ff213fc9-9545-49e4-8344-eade3591c1c4"),
+                            Address = "Fieldfare Banks",
+                            OperatorId = new Guid("6bf1323f-4c28-4355-8440-258f796b78cb")
                         },
                         new
                         {
-                            Id = new Guid("32e43d6a-bade-454d-8154-2a7bdb859644"),
-                            Address = "Imperial Passage"
+                            Id = new Guid("4ff14256-a670-47d2-9410-d03b7c53654a"),
+                            Address = "Imperial Passage",
+                            OperatorId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("42551a0a-6709-43e6-ad91-eceb6e19b844"),
-                            Address = "Woodville Square"
+                            Id = new Guid("be5fcf01-498c-4e77-b8e1-545c634fb417"),
+                            Address = "Woodville Square",
+                            OperatorId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("a59a3ee3-ab25-45ac-91e8-bad0b2c9d364"),
-                            Address = "Lindsey Circle"
+                            Id = new Guid("461715be-00c9-4a47-be4a-c76b73668bb7"),
+                            Address = "Lindsey Circle",
+                            OperatorId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("0a8805cf-66e2-4b14-8ad9-9438cd713fc8"),
-                            Address = "Alexander Banks"
+                            Id = new Guid("4858edf6-9d80-4f6b-8248-3bb849c61477"),
+                            Address = "Alexander Banks",
+                            OperatorId = new Guid("00000000-0000-0000-0000-000000000000")
                         });
                 });
 
@@ -93,38 +102,38 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("da123ad9-c972-4d6b-a73a-5bc9ec2c86ba"),
-                            ProductId = new Guid("91627bef-b215-4fcb-a639-caba212daf71"),
+                            Id = new Guid("8c32089d-9330-42d1-8fd1-0d9805c0976a"),
+                            ProductId = new Guid("44d52564-876b-47d1-9580-c0afca617389"),
                             Quantity = 7,
-                            StandId = new Guid("12bd8fbf-967a-422d-b385-b47aba932514")
+                            StandId = new Guid("70f9917f-c66d-46a2-aa21-bfd9a4fe6c17")
                         },
                         new
                         {
-                            Id = new Guid("262a9b55-2ea1-4453-a80d-aba55b3d6016"),
-                            ProductId = new Guid("7c323cb5-ff68-48e5-9bee-33efeb01f85d"),
+                            Id = new Guid("6a260edd-129c-446a-81b5-8ca451a81274"),
+                            ProductId = new Guid("7ae695fe-697e-46ad-8b8c-8f995ec08d19"),
                             Quantity = 10,
-                            StandId = new Guid("12bd8fbf-967a-422d-b385-b47aba932514")
+                            StandId = new Guid("70f9917f-c66d-46a2-aa21-bfd9a4fe6c17")
                         },
                         new
                         {
-                            Id = new Guid("8bfc5c93-626e-419d-9507-f414cc80994b"),
-                            ProductId = new Guid("efac8b2a-c966-4b15-83a4-8716855d3b27"),
+                            Id = new Guid("dca638b3-f4b2-4cfa-b935-0ca72327c3b8"),
+                            ProductId = new Guid("3424f816-446d-4bea-bc40-7ef0f785422f"),
                             Quantity = 13,
-                            StandId = new Guid("12bd8fbf-967a-422d-b385-b47aba932514")
+                            StandId = new Guid("70f9917f-c66d-46a2-aa21-bfd9a4fe6c17")
                         },
                         new
                         {
-                            Id = new Guid("fbf2c7e6-6cbd-4537-9068-698f6d93d68a"),
-                            ProductId = new Guid("91627bef-b215-4fcb-a639-caba212daf71"),
+                            Id = new Guid("b3fdf0bb-91f7-4e73-966e-d0785e4bbe7e"),
+                            ProductId = new Guid("44d52564-876b-47d1-9580-c0afca617389"),
                             Quantity = 20,
-                            StandId = new Guid("6dd91e54-82b9-4a6e-a4f4-076b0d8994d0")
+                            StandId = new Guid("ff213fc9-9545-49e4-8344-eade3591c1c4")
                         },
                         new
                         {
-                            Id = new Guid("535b43aa-3ac6-4c14-9a6d-73c4f8861d11"),
-                            ProductId = new Guid("7c323cb5-ff68-48e5-9bee-33efeb01f85d"),
+                            Id = new Guid("93fee340-cff2-49ea-baf2-9f3674ae0a6b"),
+                            ProductId = new Guid("7ae695fe-697e-46ad-8b8c-8f995ec08d19"),
                             Quantity = 6,
-                            StandId = new Guid("6dd91e54-82b9-4a6e-a4f4-076b0d8994d0")
+                            StandId = new Guid("ff213fc9-9545-49e4-8344-eade3591c1c4")
                         });
                 });
 
@@ -223,7 +232,7 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("91627bef-b215-4fcb-a639-caba212daf71"),
+                            Id = new Guid("44d52564-876b-47d1-9580-c0afca617389"),
                             Category = "HotDogs",
                             Description = "Basic hot dog with ketchup/mustard",
                             Name = "Hot Dog",
@@ -231,7 +240,7 @@ namespace Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7c323cb5-ff68-48e5-9bee-33efeb01f85d"),
+                            Id = new Guid("7ae695fe-697e-46ad-8b8c-8f995ec08d19"),
                             Category = "HotDogs",
                             Description = "Hot dog with caramelized onions and ketchup",
                             Name = "Hot Onion Dog",
@@ -239,7 +248,7 @@ namespace Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("efac8b2a-c966-4b15-83a4-8716855d3b27"),
+                            Id = new Guid("3424f816-446d-4bea-bc40-7ef0f785422f"),
                             Category = "HotDogs",
                             Description = "Hot dog with melted gouda cheese and bacon",
                             Name = "Bacon Melt",
@@ -247,7 +256,7 @@ namespace Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("09727a40-bd9b-4bc7-83cc-0e64c9d75e9c"),
+                            Id = new Guid("9e6aaf35-34f4-4c94-8db6-e3578a931142"),
                             Category = "Extras",
                             Description = "Regular fries",
                             Name = "Fries",
@@ -255,7 +264,7 @@ namespace Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b9c775d4-b160-4528-aced-dc36e3110133"),
+                            Id = new Guid("e385ba99-4967-44ad-89dc-32dabb39422c"),
                             Category = "Drinks",
                             Description = "Coke bottle",
                             Name = "Coke",
@@ -296,7 +305,7 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("8af2b5c0-a6fe-4c49-a748-9ec50e833d02"),
+                            Id = new Guid("9fc728c9-9568-4649-817a-9d8060bde6bf"),
                             Email = "customer@gmail.com",
                             Password = "B6C45863875E34487CA3C155ED145EFE12A74581E27BEFEC5AA661B8EE8CA6DD",
                             Role = 0,
@@ -304,7 +313,7 @@ namespace Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("4a14a992-0c7d-472b-92e4-082e525a7c47"),
+                            Id = new Guid("71cb42b6-5cde-4a04-abc7-60cbb9ac48fb"),
                             Email = "admin@gmail.com",
                             Password = "8C6976E5B5410415BDE908BD4DEE15DFB167A9C873FC4BB8A81F6F2AB448A918",
                             Role = 3,
@@ -312,19 +321,27 @@ namespace Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e0798259-73a2-460a-84a6-c34b97ea024d"),
-                            Email = "operator@gmail.com",
-                            Password = "06E55B633481F7BB072957EABCF110C972E86691C3CFEDABE088024BFFE42F23",
-                            Role = 1,
-                            Username = "operator"
-                        },
-                        new
-                        {
-                            Id = new Guid("70f1a609-a6f2-4152-9dd7-9246f6502a27"),
+                            Id = new Guid("a9baaf62-38fb-44ca-8e08-0219bbf0a548"),
                             Email = "supplier@gmail.com",
                             Password = "955ED10B73D6265B1ADCF768B94F8DD5D91F33309DB94B6B3AF4EFA822F1D9AF",
                             Role = 2,
                             Username = "supplier"
+                        },
+                        new
+                        {
+                            Id = new Guid("3622398d-c8ea-475d-800e-18c76c169939"),
+                            Email = "operator1@gmail.com",
+                            Password = "941E65AF88E0945C9F7DB5C306B0EF0FC5763DF6BFC9D339FF235195885083A2",
+                            Role = 1,
+                            Username = "operator1"
+                        },
+                        new
+                        {
+                            Id = new Guid("6bf1323f-4c28-4355-8440-258f796b78cb"),
+                            Email = "operator2@gmail.com",
+                            Password = "6EED3508EEE654F48CC4D57910EAD9310E4B2B386248D56BD40BBF16FCD9A77F",
+                            Role = 1,
+                            Username = "operator2"
                         });
                 });
 

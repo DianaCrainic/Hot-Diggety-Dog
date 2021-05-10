@@ -130,7 +130,6 @@ namespace Persistence.Context
                 .HasData(
                     new User { Id = Guid.NewGuid(), Username = "customer", Email = "customer@gmail.com", Password = Crypto.SHA256("customer"), Role = Role.CUSTOMER },
                     new User { Id = Guid.NewGuid(), Username = "admin", Email = "admin@gmail.com", Password = Crypto.SHA256("admin"), Role = Role.ADMIN },
-                    new User { Id = Guid.NewGuid(), Username = "operator", Email = "operator@gmail.com", Password = Crypto.SHA256("operator"), Role = Role.OPERATOR },
                     new User { Id = Guid.NewGuid(), Username = "supplier", Email = "supplier@gmail.com", Password = Crypto.SHA256("supplier"), Role = Role.SUPPLIER }
                 );
         }
@@ -162,8 +161,11 @@ namespace Persistence.Context
 
         private static void SeedHotDogStandsWithProducts(ModelBuilder model)
         {
-            HotDogStand stand1 = new HotDogStand { Id = Guid.NewGuid(), Address = "Grimmer's Road" };
-            HotDogStand stand2 = new HotDogStand { Id = Guid.NewGuid(), Address = "Fieldfare Banks" };
+            User operator1 = new User { Id = Guid.NewGuid(), Username = "operator1", Email = "operator1@gmail.com", Password = Crypto.SHA256("operator1"), Role = Role.OPERATOR };
+            User operator2 = new User { Id = Guid.NewGuid(), Username = "operator2", Email = "operator2@gmail.com", Password = Crypto.SHA256("operator2"), Role = Role.OPERATOR };
+
+            HotDogStand stand1 = new HotDogStand { Id = Guid.NewGuid(), Address = "Grimmer's Road", OperatorId = operator1.Id };
+            HotDogStand stand2 = new HotDogStand { Id = Guid.NewGuid(), Address = "Fieldfare Banks", OperatorId = operator2.Id };
             HotDogStand stand3 = new HotDogStand { Id = Guid.NewGuid(), Address = "Imperial Passage" };
             HotDogStand stand4 = new HotDogStand { Id = Guid.NewGuid(), Address = "Woodville Square" };
             HotDogStand stand5 = new HotDogStand { Id = Guid.NewGuid(), Address = "Lindsey Circle" };
@@ -184,6 +186,11 @@ namespace Persistence.Context
             HotDogStandProduct standProduct4 = new HotDogStandProduct { Id = Guid.NewGuid(), StandId = stand2.Id, ProductId = product1.Id, Quantity = 20 };
             HotDogStandProduct standProduct5 = new HotDogStandProduct { Id = Guid.NewGuid(), StandId = stand2.Id, ProductId = product2.Id,  Quantity = 6 };
 
+
+
+            model.Entity<User>()
+                .HasData(operator1, operator2);
+
             model.Entity<HotDogStand>()
                 .HasData(stand1, stand2, stand3, stand4, stand5, stand6);
 
@@ -192,6 +199,7 @@ namespace Persistence.Context
 
             model.Entity<HotDogStandProduct>()
                 .HasData(standProduct1, standProduct2, standProduct3, standProduct4, standProduct5);
+            
         }
     }
 }
