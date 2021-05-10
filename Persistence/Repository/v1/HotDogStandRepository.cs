@@ -14,7 +14,7 @@ namespace Persistence.Repository.v1
 
         }
 
-        public async Task<HotDogStand> GetStandByOperatorId(Guid operatorId)
+        public async Task<HotDogStand> GetStandByOperatorIdAsync(Guid operatorId)
         {
             return await _context.HotDogStands
                 .Include(stand => stand.StandProducts)

@@ -1,7 +1,6 @@
 ﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Web.Helpers;
 
 namespace Persistence.Context
@@ -161,32 +160,30 @@ namespace Persistence.Context
 
         private static void SeedHotDogStandsWithProducts(ModelBuilder model)
         {
-            User operator1 = new User { Id = Guid.NewGuid(), Username = "operator1", Email = "operator1@gmail.com", Password = Crypto.SHA256("operator1"), Role = Role.OPERATOR };
-            User operator2 = new User { Id = Guid.NewGuid(), Username = "operator2", Email = "operator2@gmail.com", Password = Crypto.SHA256("operator2"), Role = Role.OPERATOR };
+            User operator1 = new() { Id = Guid.NewGuid(), Username = "operator1", Email = "operator1@gmail.com", Password = Crypto.SHA256("operator1"), Role = Role.OPERATOR };
+            User operator2 = new() { Id = Guid.NewGuid(), Username = "operator2", Email = "operator2@gmail.com", Password = Crypto.SHA256("operator2"), Role = Role.OPERATOR };
 
-            HotDogStand stand1 = new HotDogStand { Id = Guid.NewGuid(), Address = "Grimmer's Road", OperatorId = operator1.Id };
-            HotDogStand stand2 = new HotDogStand { Id = Guid.NewGuid(), Address = "Fieldfare Banks", OperatorId = operator2.Id };
-            HotDogStand stand3 = new HotDogStand { Id = Guid.NewGuid(), Address = "Imperial Passage" };
-            HotDogStand stand4 = new HotDogStand { Id = Guid.NewGuid(), Address = "Woodville Square" };
-            HotDogStand stand5 = new HotDogStand { Id = Guid.NewGuid(), Address = "Lindsey Circle" };
-            HotDogStand stand6 = new HotDogStand { Id = Guid.NewGuid(), Address = "Alexander Banks" };
+            HotDogStand stand1 = new() { Id = Guid.NewGuid(), Address = "Grimmer's Road", OperatorId = operator1.Id };
+            HotDogStand stand2 = new() { Id = Guid.NewGuid(), Address = "Fieldfare Banks", OperatorId = operator2.Id };
+            HotDogStand stand3 = new() { Id = Guid.NewGuid(), Address = "Imperial Passage" };
+            HotDogStand stand4 = new() { Id = Guid.NewGuid(), Address = "Woodville Square" };
+            HotDogStand stand5 = new() { Id = Guid.NewGuid(), Address = "Lindsey Circle" };
+            HotDogStand stand6 = new() { Id = Guid.NewGuid(), Address = "Alexander Banks" };
 
-            Product product1 = new Product { Id = Guid.NewGuid(), Name = "Hot Dog", Description = "Basic hot dog with ketchup/mustard", Category = "HotDogs", Price = 10 };
-            Product product2 = new Product { Id = Guid.NewGuid(), Name = "Hot Onion Dog", Description = "Hot dog with caramelized onions and ketchup", Category = "HotDogs", Price = 12.5F };
-            Product product3 = new Product { Id = Guid.NewGuid(), Name = "Bacon Melt", Description = "Hot dog with melted gouda cheese and bacon", Category = "HotDogs", Price = 15 };
-            Product product4 = new Product { Id = Guid.NewGuid(), Name = "Fries", Description = "Regular fries", Category = "Extras", Price = 7.5F };
-            Product product5 = new Product { Id = Guid.NewGuid(), Name = "Coke", Description = "Coke bottle", Category = "Drinks", Price = 5 };
+            Product product1 = new() { Id = Guid.NewGuid(), Name = "Hot Dog", Description = "Basic hot dog with ketchup/mustard", Category = "HotDogs", Price = 10 };
+            Product product2 = new() { Id = Guid.NewGuid(), Name = "Hot Onion Dog", Description = "Hot dog with caramelized onions and ketchup", Category = "HotDogs", Price = 12.5F };
+            Product product3 = new() { Id = Guid.NewGuid(), Name = "Bacon Melt", Description = "Hot dog with melted gouda cheese and bacon", Category = "HotDogs", Price = 15 };
+            Product product4 = new() { Id = Guid.NewGuid(), Name = "Fries", Description = "Regular fries", Category = "Extras", Price = 7.5F };
+            Product product5 = new() { Id = Guid.NewGuid(), Name = "Coke", Description = "Coke bottle", Category = "Drinks", Price = 5 };
 
             //stand1
-            HotDogStandProduct standProduct1 = new HotDogStandProduct { Id = Guid.NewGuid(), StandId = stand1.Id, ProductId = product1.Id, Quantity = 7 };
-            HotDogStandProduct standProduct2 = new HotDogStandProduct { Id = Guid.NewGuid(), StandId = stand1.Id, ProductId = product2.Id,  Quantity = 10 };
-            HotDogStandProduct standProduct3 = new HotDogStandProduct { Id = Guid.NewGuid(), StandId = stand1.Id,  ProductId = product3.Id,  Quantity = 13 };
+            HotDogStandProduct standProduct1 = new() { Id = Guid.NewGuid(), StandId = stand1.Id, ProductId = product1.Id, Quantity = 7 };
+            HotDogStandProduct standProduct2 = new() { Id = Guid.NewGuid(), StandId = stand1.Id, ProductId = product2.Id, Quantity = 10 };
+            HotDogStandProduct standProduct3 = new() { Id = Guid.NewGuid(), StandId = stand1.Id, ProductId = product3.Id, Quantity = 13 };
 
             //stand2
-            HotDogStandProduct standProduct4 = new HotDogStandProduct { Id = Guid.NewGuid(), StandId = stand2.Id, ProductId = product1.Id, Quantity = 20 };
-            HotDogStandProduct standProduct5 = new HotDogStandProduct { Id = Guid.NewGuid(), StandId = stand2.Id, ProductId = product2.Id,  Quantity = 6 };
-
-
+            HotDogStandProduct standProduct4 = new() { Id = Guid.NewGuid(), StandId = stand2.Id, ProductId = product1.Id, Quantity = 20 };
+            HotDogStandProduct standProduct5 = new() { Id = Guid.NewGuid(), StandId = stand2.Id, ProductId = product2.Id, Quantity = 6 };
 
             model.Entity<User>()
                 .HasData(operator1, operator2);
@@ -199,7 +196,6 @@ namespace Persistence.Context
 
             model.Entity<HotDogStandProduct>()
                 .HasData(standProduct1, standProduct2, standProduct3, standProduct4, standProduct5);
-            
         }
     }
 }

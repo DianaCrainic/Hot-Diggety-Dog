@@ -16,10 +16,9 @@ namespace Application.Features.HotDogStandsFeatures.Queries
             this.standRepository = standRepository;
         }
 
-
         public async Task<HotDogStand> Handle(GetStandByOperatorQuery request, CancellationToken cancellationToken)
         {
-            return await standRepository.GetStandByOperatorId(request.OperatorId);
+            return await standRepository.GetStandByOperatorIdAsync(request.OperatorId);
         }
     }
 }

@@ -6,6 +6,6 @@ namespace Application.Interfaces
 {
     public interface IHotDogStandRepository : IRepository<HotDogStand>
     {
-        Task<HotDogStand> GetStandByOperatorId(Guid id);
+        Task<HotDogStand> GetStandByOperatorIdAsync(Guid id);
     }
 }

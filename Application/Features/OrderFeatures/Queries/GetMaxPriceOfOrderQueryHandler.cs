@@ -16,7 +16,7 @@ namespace Application.Features.OrderFeatures.Queries
 
         public async Task<double> Handle(GetMaxPriceOfOrderQuery request, CancellationToken cancellationToken)
         {
-            return await Task.FromResult(orderRepository.GetMaxPriceOfOrders());
+            return await orderRepository.GetMaxPriceOfOrdersAsync();
         }
     }
 }

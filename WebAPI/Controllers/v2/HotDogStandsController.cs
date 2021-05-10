@@ -42,7 +42,6 @@ namespace WebApi.Controllers.v2
         public async Task<IActionResult> GetStandByOperator(Guid operatorId)
         {
             User operatorUser = await mediator.Send(new GetUserByIdQuery() { Id = operatorId });
-
             if (operatorUser == null)
             {
                 return NotFound(Messages.NotFoundMessage(EntitiesConstants.UserEntity, operatorId));
@@ -54,14 +53,12 @@ namespace WebApi.Controllers.v2
             }
 
             HotDogStand stand = await mediator.Send(new GetStandByOperatorQuery { OperatorId = operatorId });
-
-            if(stand == null)
+            if (stand == null)
             {
                 return NotFound(Messages.StandByOperatorNotFoundMessage(operatorId));
             }
 
             return Ok(stand);
-
         }
 
         [RoleAuthorize("ADMIN")]

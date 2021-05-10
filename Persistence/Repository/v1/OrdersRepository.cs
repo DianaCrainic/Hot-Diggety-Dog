@@ -3,6 +3,7 @@ using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Context;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,9 +28,14 @@ namespace Persistence.Repository.v1
                                   .FirstOrDefaultAsync(order => order.Id == id);
         }
 
-        public double GetMaxPriceOfOrders()
+        public async Task<double> GetMaxPriceOfOrdersAsync()
         {
-            return _context.Orders.Max(order => order.Total);
+            List<Order> orders = await _context.Orders.ToListAsync();
+            if (orders.Count == 0)
+            {
+                return 0.0;
+            }
+            return orders.Select(order => order.Total).Max();
         }
     }
 }

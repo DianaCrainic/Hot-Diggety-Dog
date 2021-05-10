@@ -20,7 +20,8 @@ namespace Application.Features.HotDogStandsFeatures.Commands
         {
             HotDogStand stand = new()
             {
-                Address = request.Address
+                Address = request.Address,
+                OperatorId = request.OperatorId
             };
 
             await standRepository.CreateAsync(stand);
