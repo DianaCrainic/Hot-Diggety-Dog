@@ -1,4 +1,5 @@
-﻿using Application.Features.UserFeatures.Commands;
+﻿using Application.Features.OrderFeatures.Qureries;
+using Application.Features.UserFeatures.Commands;
 using Application.Features.UserFeatures.Queries;
 using Domain.Dtos.Account;
 using Domain.Entities;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Security.Authorization;
 using Security.Services;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Helpers;
 using WebApi.Resources;
@@ -46,6 +48,7 @@ namespace WebApi.Controllers.v2
         {
             return Ok(await mediator.Send(new GetOperatorsQuery()));
         }
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(Guid id)

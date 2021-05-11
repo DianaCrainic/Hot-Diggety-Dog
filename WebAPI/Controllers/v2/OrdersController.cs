@@ -94,7 +94,28 @@ namespace WebApi.Controllers.v2
 
             return Ok(await mediator.Send(new GetOrderByIdQuery() { Id = id }));
         }
+        
 
+        [HttpGet("discount/{id}")]
+        public async Task<ActionResult<bool>> GetUserDiscountableStatus(Guid id)
+        {
+            int ordersNumber = mediator.Send(new GetOrdersByCustomerIdQuery() { Id = id }).Result.Count();
+            if (ordersNumber == 0)
+            {
+                return Ok(false);
+            }
+            else
+            {
+                if (ordersNumber % Constants.DiscountedOrder == Constants.DiscountedOrder-1)
+                {
+                    return Ok(true);
+                }
+                else 
+                { 
+                    return Ok(false);
+                }
+            }
+        }
         [HttpGet("max-price")]
         public async Task<ActionResult<double>> GetMaxPriceOfOrder()
         {
