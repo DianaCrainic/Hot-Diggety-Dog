@@ -41,7 +41,7 @@ namespace Presentation.Tests.Controllers.v2
         public void Mediatr_GetOrders_By_NonExisting_Customer_ShouldReturn_NotFound()
         {
             //Arrange
-            PaginationDto paginationDto = new PaginationDto
+            PaginationDto paginationDto = new()
             {
                 EntitiesPerPage = 10,
                 Page = 1
@@ -51,7 +51,7 @@ namespace Presentation.Tests.Controllers.v2
             var ordersController = new OrdersController(Mediator.Object, _ordersService);
 
             //Action
-            var result = (ordersController.GetOrdersByCustomerId(customerId, paginationDto).Result).Result;
+            var result = (ordersController.GetOrdersByCustomerId(customerId, paginationDto, new OrderFilterDto()).Result).Result;
 
             //Assert
             Assert.IsType<NotFoundObjectResult>(result);
@@ -61,7 +61,7 @@ namespace Presentation.Tests.Controllers.v2
         public void Mediatr_GetOrders_By_NonExisting_Operator_ShouldReturn_NotFound()
         {
             //Arrange
-            PaginationDto paginationDto = new PaginationDto
+            PaginationDto paginationDto = new()
             {
                 EntitiesPerPage = 10,
                 Page = 1
@@ -71,7 +71,7 @@ namespace Presentation.Tests.Controllers.v2
             var ordersController = new OrdersController(Mediator.Object, _ordersService);
 
             //Action
-            var result = (ordersController.GetOrdersByOperatorId(operatorId, paginationDto).Result).Result;
+            var result = (ordersController.GetOrdersByOperatorId(operatorId, paginationDto, new OrderFilterDto()).Result).Result;
 
             //Assert
             Assert.IsType<NotFoundObjectResult>(result);

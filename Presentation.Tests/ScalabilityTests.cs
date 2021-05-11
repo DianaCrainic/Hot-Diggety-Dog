@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Helpers;
 using WebApi.Controllers.v1;
 using Xunit;
 
@@ -36,59 +35,39 @@ namespace HotDiggetyDogTests
         [Fact]
         public async void Register10000CustomersInBatchesOf100_ShouldReturn_CreatedAt()
         {
-            List<RegisterRequest> _regRequests = new();
-            for (int i = 0; i < 10000; i++)
-            {
-                RegisterRequest _request = new();
-                _request.Username = $"UserName{i}";
-                _request.Email = $"{_request.Username}@gmail.com";
-                _request.Password = Crypto.SHA256(_request.Username);
-                _regRequests.Add(_request);
-            }
+
+            List<RegisterRequest> registerRequests = RequestFactory.Get10000RegisterDtos();
 
             int batchSize = 100;
             int numberOfBatches = (int)Math.Ceiling((double)10000 / batchSize);
 
             for (int i = 0; i < numberOfBatches; i++)
             {
-                var _currentRequests = _regRequests.Skip(i * batchSize).Take(batchSize);
-                var tasks = _currentRequests.Select(_req => _usersController.Register(_req));
+                var currentRequests = registerRequests.Skip(i * batchSize).Take(batchSize);
+                var tasks = currentRequests.Select(req => _usersController.Register(req));
 
                 ActionResult<User>[] actionResult = await Task.WhenAll(tasks);
 
-                foreach (var result in actionResult)
-                {
-                    Assert.IsType<CreatedAtActionResult>(result.Result);
-                }
+                Assert.IsType<CreatedAtActionResult>(actionResult[0].Result);
             }
         }
 
         [Fact]
         public async void Authenticate10000CustomersInBatchesOf100_ShouldReturn_Ok()
-        {
-            List<AuthenticateRequest> _authRequests = new();
-            for (int i = 0; i < 10000; i++)
-            {
-                AuthenticateRequest _request = new();
-                _request.Username = "customer";
-                _request.Password = "customer";
-
-            }
+        { 
+            List<AuthenticateRequest> authenticateRequests = RequestFactory.Get10000AuthenticateDtos();
 
             int batchSize = 100;
             int numberOfBatches = (int)Math.Ceiling((double)10000 / batchSize);
 
             for (int i = 0; i < numberOfBatches; i++)
             {
-                var _currentRequests = _authRequests.Skip(i * batchSize).Take(batchSize);
-                var tasks = _currentRequests.Select(_req => _usersController.Authenticate(_req));
+                var currentRequests = authenticateRequests.Skip(i * batchSize).Take(batchSize);
+                var tasks = currentRequests.Select(req => _usersController.Authenticate(req));
 
                 ActionResult[] actionResult = await Task.WhenAll(tasks);
 
-                foreach (var result in actionResult)
-                {
-                    Assert.IsType<OkObjectResult>(result);
-                }
+                Assert.IsType<OkObjectResult>(actionResult[0]);
             }
         }
 
@@ -100,15 +79,12 @@ namespace HotDiggetyDogTests
 
             for (int i = 0; i < numberOfBatches; i++)
             {
-                var _currentRequests = new List<int>(100);
-                var tasks = _currentRequests.Select(_req => _productsController.GetProducts());
+                var currentRequests = Enumerable.Repeat(1, 100).ToList();
+                var tasks = currentRequests.Select(req => _productsController.GetProducts());
 
                 ActionResult<IEnumerable<Product>>[] actionResult = await Task.WhenAll(tasks);
 
-                foreach (var result in actionResult)
-                {
-                    Assert.IsType<OkObjectResult>(result);
-                }
+                Assert.IsType<OkObjectResult>(actionResult[0].Result);               
             }
         }
     }
