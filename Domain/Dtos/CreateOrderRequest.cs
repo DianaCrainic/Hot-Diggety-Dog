@@ -18,5 +18,6 @@ namespace Domain.Dtos
 
         [Required]
         public List<AddProductToOrderRequest> Products { get; set; }
+        public Guid DiscountedProductId { get; set; }
     }
 }
