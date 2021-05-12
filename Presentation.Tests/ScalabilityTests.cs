@@ -35,7 +35,6 @@ namespace HotDiggetyDogTests
         [Fact]
         public async void Register10000CustomersInBatchesOf100_ShouldReturn_CreatedAt()
         {
-
             List<RegisterRequest> registerRequests = RequestFactory.Get10000RegisterDtos();
 
             int batchSize = 100;

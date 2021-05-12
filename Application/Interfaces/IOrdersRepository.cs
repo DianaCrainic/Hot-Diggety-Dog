@@ -7,6 +7,6 @@ namespace Application.Interfaces
     public interface IOrdersRepository : IRepository<Order>
     {
         IQueryable<Order> GetAllAsQueryable();
-        double GetMaxPriceOfOrders();
+        Task<double> GetMaxPriceOfOrdersAsync();
     }
 }

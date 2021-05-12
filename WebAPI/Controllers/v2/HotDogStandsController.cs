@@ -1,5 +1,6 @@
 using Application.Features.HotDogStandsFeatures.Commands;
 using Application.Features.HotDogStandsFeatures.Queries;
+using Application.Features.UserFeatures.Queries;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +33,29 @@ namespace WebApi.Controllers.v2
             if (stand == null)
             {
                 return NotFound(Messages.NotFoundMessage(EntitiesConstants.HotDogStandEntity, id));
+            }
+
+            return Ok(stand);
+        }
+
+        [HttpGet("operator/{operatorId}")]
+        public async Task<IActionResult> GetStandByOperator(Guid operatorId)
+        {
+            User operatorUser = await mediator.Send(new GetUserByIdQuery() { Id = operatorId });
+            if (operatorUser == null)
+            {
+                return NotFound(Messages.NotFoundMessage(EntitiesConstants.UserEntity, operatorId));
+            }
+
+            if (operatorUser.Role != Role.OPERATOR)
+            {
+                return BadRequest(Messages.InvalidData);
+            }
+
+            HotDogStand stand = await mediator.Send(new GetStandByOperatorQuery { OperatorId = operatorId });
+            if (stand == null)
+            {
+                return NotFound(Messages.StandByOperatorNotFoundMessage(operatorId));
             }
 
             return Ok(stand);

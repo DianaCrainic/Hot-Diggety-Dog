@@ -14,7 +14,7 @@ namespace Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "5.0.5");
+                .HasAnnotation("ProductVersion", "6.0.0-preview.3.21201.2");
 
             modelBuilder.Entity("Domain.Entities.HotDogStand", b =>
                 {
@@ -28,6 +28,9 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("address");
 
+                    b.Property<Guid>("OperatorId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.ToTable("HotDogStands");
@@ -35,33 +38,100 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1d597806-7b37-4472-95c9-764b110da867"),
-                            Address = "Grimmer's Road"
+                            Id = new Guid("70f9917f-c66d-46a2-aa21-bfd9a4fe6c17"),
+                            Address = "Grimmer's Road",
+                            OperatorId = new Guid("3622398d-c8ea-475d-800e-18c76c169939")
                         },
                         new
                         {
-                            Id = new Guid("7b2c1346-1969-4cee-8a5d-22ba2621145d"),
-                            Address = "Fieldfare Banks"
+                            Id = new Guid("ff213fc9-9545-49e4-8344-eade3591c1c4"),
+                            Address = "Fieldfare Banks",
+                            OperatorId = new Guid("6bf1323f-4c28-4355-8440-258f796b78cb")
                         },
                         new
                         {
-                            Id = new Guid("71a6f687-ce9b-432c-96d7-3721d4f8fdde"),
-                            Address = "Imperial Passage"
+                            Id = new Guid("4ff14256-a670-47d2-9410-d03b7c53654a"),
+                            Address = "Imperial Passage",
+                            OperatorId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("19cf4e8b-a637-40e5-b64e-0e7c515c7d62"),
-                            Address = "Woodville Square"
+                            Id = new Guid("be5fcf01-498c-4e77-b8e1-545c634fb417"),
+                            Address = "Woodville Square",
+                            OperatorId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("ba79e9cd-eb4e-4ffb-a546-7f21a8c5fac4"),
-                            Address = "Lindsey Circle"
+                            Id = new Guid("461715be-00c9-4a47-be4a-c76b73668bb7"),
+                            Address = "Lindsey Circle",
+                            OperatorId = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            Id = new Guid("c9b52335-fac9-4fd6-95e0-8ccdb9ea8840"),
-                            Address = "Alexander Banks"
+                            Id = new Guid("4858edf6-9d80-4f6b-8248-3bb849c61477"),
+                            Address = "Alexander Banks",
+                            OperatorId = new Guid("00000000-0000-0000-0000-000000000000")
+                        });
+                });
+
+            modelBuilder.Entity("Domain.Entities.HotDogStandProduct", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("StandId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("StandId");
+
+                    b.ToTable("HotDogStandProduct");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("8c32089d-9330-42d1-8fd1-0d9805c0976a"),
+                            ProductId = new Guid("44d52564-876b-47d1-9580-c0afca617389"),
+                            Quantity = 7,
+                            StandId = new Guid("70f9917f-c66d-46a2-aa21-bfd9a4fe6c17")
+                        },
+                        new
+                        {
+                            Id = new Guid("6a260edd-129c-446a-81b5-8ca451a81274"),
+                            ProductId = new Guid("7ae695fe-697e-46ad-8b8c-8f995ec08d19"),
+                            Quantity = 10,
+                            StandId = new Guid("70f9917f-c66d-46a2-aa21-bfd9a4fe6c17")
+                        },
+                        new
+                        {
+                            Id = new Guid("dca638b3-f4b2-4cfa-b935-0ca72327c3b8"),
+                            ProductId = new Guid("3424f816-446d-4bea-bc40-7ef0f785422f"),
+                            Quantity = 13,
+                            StandId = new Guid("70f9917f-c66d-46a2-aa21-bfd9a4fe6c17")
+                        },
+                        new
+                        {
+                            Id = new Guid("b3fdf0bb-91f7-4e73-966e-d0785e4bbe7e"),
+                            ProductId = new Guid("44d52564-876b-47d1-9580-c0afca617389"),
+                            Quantity = 20,
+                            StandId = new Guid("ff213fc9-9545-49e4-8344-eade3591c1c4")
+                        },
+                        new
+                        {
+                            Id = new Guid("93fee340-cff2-49ea-baf2-9f3674ae0a6b"),
+                            ProductId = new Guid("7ae695fe-697e-46ad-8b8c-8f995ec08d19"),
+                            Quantity = 6,
+                            StandId = new Guid("ff213fc9-9545-49e4-8344-eade3591c1c4")
                         });
                 });
 
@@ -160,7 +230,7 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1f6185ca-1e9a-457e-9f0c-99121fa92cd3"),
+                            Id = new Guid("44d52564-876b-47d1-9580-c0afca617389"),
                             Category = "HotDogs",
                             Description = "Basic hot dog with ketchup/mustard",
                             Name = "Hot Dog",
@@ -168,7 +238,7 @@ namespace Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b219d7b3-a868-421e-8f51-3dfeaee20a4b"),
+                            Id = new Guid("7ae695fe-697e-46ad-8b8c-8f995ec08d19"),
                             Category = "HotDogs",
                             Description = "Hot dog with caramelized onions and ketchup",
                             Name = "Hot Onion Dog",
@@ -176,7 +246,7 @@ namespace Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("2c8e6a1c-6109-46b9-8004-662d76c9e9bf"),
+                            Id = new Guid("3424f816-446d-4bea-bc40-7ef0f785422f"),
                             Category = "HotDogs",
                             Description = "Hot dog with melted gouda cheese and bacon",
                             Name = "Bacon Melt",
@@ -184,7 +254,7 @@ namespace Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b134cb00-8415-4d89-81e9-cbe1216e71f0"),
+                            Id = new Guid("9e6aaf35-34f4-4c94-8db6-e3578a931142"),
                             Category = "Extras",
                             Description = "Regular fries",
                             Name = "Fries",
@@ -192,7 +262,7 @@ namespace Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("0ee7d70d-32cd-4ece-99f0-9e7d0ecb6783"),
+                            Id = new Guid("e385ba99-4967-44ad-89dc-32dabb39422c"),
                             Category = "Drinks",
                             Description = "Coke bottle",
                             Name = "Coke",
@@ -233,7 +303,7 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f289e705-1c90-4510-921e-1b98a7f11f08"),
+                            Id = new Guid("9fc728c9-9568-4649-817a-9d8060bde6bf"),
                             Email = "customer@gmail.com",
                             Password = "B6C45863875E34487CA3C155ED145EFE12A74581E27BEFEC5AA661B8EE8CA6DD",
                             Role = 0,
@@ -241,7 +311,7 @@ namespace Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d39a8d41-3dda-4498-8d9d-db365744220a"),
+                            Id = new Guid("71cb42b6-5cde-4a04-abc7-60cbb9ac48fb"),
                             Email = "admin@gmail.com",
                             Password = "8C6976E5B5410415BDE908BD4DEE15DFB167A9C873FC4BB8A81F6F2AB448A918",
                             Role = 3,
@@ -249,20 +319,47 @@ namespace Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("39b365ea-b521-4d6d-b8ec-abe494f19819"),
-                            Email = "operator@gmail.com",
-                            Password = "06E55B633481F7BB072957EABCF110C972E86691C3CFEDABE088024BFFE42F23",
-                            Role = 1,
-                            Username = "operator"
-                        },
-                        new
-                        {
-                            Id = new Guid("a9d3e8ec-7716-428f-bb70-71496ddba384"),
+                            Id = new Guid("a9baaf62-38fb-44ca-8e08-0219bbf0a548"),
                             Email = "supplier@gmail.com",
                             Password = "955ED10B73D6265B1ADCF768B94F8DD5D91F33309DB94B6B3AF4EFA822F1D9AF",
                             Role = 2,
                             Username = "supplier"
+                        },
+                        new
+                        {
+                            Id = new Guid("3622398d-c8ea-475d-800e-18c76c169939"),
+                            Email = "operator1@gmail.com",
+                            Password = "941E65AF88E0945C9F7DB5C306B0EF0FC5763DF6BFC9D339FF235195885083A2",
+                            Role = 1,
+                            Username = "operator1"
+                        },
+                        new
+                        {
+                            Id = new Guid("6bf1323f-4c28-4355-8440-258f796b78cb"),
+                            Email = "operator2@gmail.com",
+                            Password = "6EED3508EEE654F48CC4D57910EAD9310E4B2B386248D56BD40BBF16FCD9A77F",
+                            Role = 1,
+                            Username = "operator2"
                         });
+                });
+
+            modelBuilder.Entity("Domain.Entities.HotDogStandProduct", b =>
+                {
+                    b.HasOne("Domain.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.HotDogStand", "Stand")
+                        .WithMany("StandProducts")
+                        .HasForeignKey("StandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Stand");
                 });
 
             modelBuilder.Entity("Domain.Entities.Order", b =>
@@ -301,6 +398,11 @@ namespace Persistence.Migrations
                     b.Navigation("Order");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Domain.Entities.HotDogStand", b =>
+                {
+                    b.Navigation("StandProducts");
                 });
 
             modelBuilder.Entity("Domain.Entities.Order", b =>

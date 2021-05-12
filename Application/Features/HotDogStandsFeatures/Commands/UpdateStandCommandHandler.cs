@@ -26,6 +26,7 @@ namespace Application.Features.HotDogStandsFeatures.Commands
             }
 
             stand.Address = request.Address;
+            stand.OperatorId = request.OperatorId;
 
             await standRepository.UpdateAsync(stand);
             return stand.Id;

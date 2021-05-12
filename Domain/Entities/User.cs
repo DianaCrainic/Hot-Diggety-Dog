@@ -11,6 +11,8 @@ namespace Domain.Entities
         public Role Role { get; set; }
 
         [JsonIgnore]
+        public virtual HotDogStand Stand { get; set; }
+        [JsonIgnore]
         public string Password { get; set; }
         [JsonIgnore]
         public ICollection<Order> ClientOrders { get; set; }
