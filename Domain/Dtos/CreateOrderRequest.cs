@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -17,5 +18,6 @@ namespace Domain.Dtos
 
         [Required]
         public List<AddProductToOrderRequest> Products { get; set; }
+        public Guid DiscountedProductId { get; set; }
     }
 }
