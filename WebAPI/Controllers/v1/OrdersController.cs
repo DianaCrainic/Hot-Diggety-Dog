@@ -136,7 +136,7 @@ namespace WebApi.Controllers.v1
 
             Order order = new() { OperatorId = orderRequest.OperatorId, UserId = orderRequest.UserId, Timestamp = orderRequest.Timestamp, Total = totalPrice };
             await _ordersRepository.CreateAsync(order);
-            CreateProductOrder(order.Id, orderRequest);
+            await CreateProductOrder(order.Id, orderRequest);
 
             return CreatedAtAction("GetOrderById", new { id = order.Id }, order);
         }
@@ -150,7 +150,7 @@ namespace WebApi.Controllers.v1
             return File(Encoding.UTF8.GetBytes(result), "text/csv", Constants.ReportFilename);
         }
 
-        private async void CreateProductOrder(Guid orderId, CreateOrderRequest orderRequest)
+        private async Task CreateProductOrder(Guid orderId, CreateOrderRequest orderRequest)
         {
             foreach (AddProductToOrderRequest request in orderRequest.Products)
             {

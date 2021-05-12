@@ -66,7 +66,7 @@ namespace Presentation.Tests.Controllers.v2
         public void Mediatr_Create_New_Product_ShouldReturn_OK()
         {
             //Arrange
-            CreateProductCommand createdProduct = new CreateProductCommand
+            CreateProductCommand createdProduct = new()
             {
                 Name = "Test",
                 Description = "Test Description",
@@ -89,7 +89,7 @@ namespace Presentation.Tests.Controllers.v2
         {
             //Arrange
             Guid productId = Guid.Parse("86a2006d-4f8a-4e74-b969-9ffa9563efd1");
-            UpdateProductCommand updatedProduct = new UpdateProductCommand
+            UpdateProductCommand updatedProduct = new()
             {
                 Id = productId,
                 Name = "Test",

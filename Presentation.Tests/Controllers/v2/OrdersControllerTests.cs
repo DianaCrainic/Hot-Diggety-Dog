@@ -1,6 +1,7 @@
 ﻿using Application.Features.OrderFeatures.Commands;
 using Application.Features.OrderFeatures.Queries;
 using Application.Features.OrderFeatures.Qureries;
+using Application.Features.OrderFeatures.Services;
 using Application.Interfaces;
 using Domain.Dtos;
 using MediatR;
@@ -20,6 +21,7 @@ namespace Presentation.Tests.Controllers.v2
         public OrdersControllerTests()
         {
             Mediator = new Mock<IMediator>();
+            _ordersService = new OrdersService();
         }
 
         [Fact]
@@ -96,7 +98,7 @@ namespace Presentation.Tests.Controllers.v2
         public void Mediatr_Create_Order_With_Null_Operator_ShouldReturn_NotFound()
         {
             //Arrange
-            CreateOrderRequest orderRequest = new CreateOrderRequest
+            CreateOrderRequest orderRequest = new()
             {
                 OperatorId = Guid.Empty,
                 UserId = Guid.Parse("d9500fbb-0b51-4a1d-9e65-dd88dd7389ee"),
@@ -117,7 +119,7 @@ namespace Presentation.Tests.Controllers.v2
         public void Mediatr_Create_Order_With_Null_Customer_ShouldReturn_NotFound()
         {
             //Arrange
-            CreateOrderRequest orderRequest = new CreateOrderRequest
+            CreateOrderRequest orderRequest = new()
             {
                 OperatorId = Guid.Parse("d9605834-2d64-416c-9e33-af9cc5c04735"),
                 UserId = Guid.Empty,
