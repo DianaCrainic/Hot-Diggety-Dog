@@ -66,7 +66,7 @@ namespace Presentation.Tests.Controllers.v2
         public void Mediatr_Create_New_Stand_ShouldReturn_OK()
         {
             //Arrange
-            CreateStandCommand createdstand = new CreateStandCommand
+            CreateStandCommand createdstand = new()
             {
                 Address = "Address Test"
             };
@@ -86,7 +86,7 @@ namespace Presentation.Tests.Controllers.v2
         {
             //Arrange
             Guid standId = Guid.Parse("612fd332-5859-4192-af39-94c183cdf328");
-            UpdateStandCommand updatedstand = new UpdateStandCommand
+            UpdateStandCommand updatedstand = new()
             {
                 Id = standId,
                 Address = "Test Address"

@@ -14,12 +14,12 @@ namespace Persistence.Repository.v1
 
         }
 
-        public async Task<HotDogStand> GetStandByOperatorIdAsync(Guid operatorId)
+        public async Task<HotDogStand> GetStandByOperatorIdAsync(Guid id)
         {
             return await _context.HotDogStands
                 .Include(stand => stand.StandProducts)
                 .ThenInclude(standProduct => standProduct.Product)
-                .FirstOrDefaultAsync(stand => stand.OperatorId == operatorId);
+                .FirstOrDefaultAsync(stand => stand.OperatorId == id);
         }
     }
 }
