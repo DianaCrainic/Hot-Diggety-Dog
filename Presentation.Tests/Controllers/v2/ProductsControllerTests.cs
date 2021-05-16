@@ -11,20 +11,21 @@ namespace Presentation.Tests.Controllers.v2
 {
     public class ProductsControllerTests : DatabaseBaseTest
     {
-        private readonly Mock<IMediator> Mediator;
+        private readonly Mock<IMediator> _mediator;
 
         public ProductsControllerTests()
         {
-            Mediator = new Mock<IMediator>();
+            _mediator = new Mock<IMediator>();
         }
 
         [Fact]
         public void Mediatr_GetProducts_ShouldReturn_OK()
         {
-            Mediator.Setup(x => x.Send(It.IsAny<GetProductsQuery>(), new System.Threading.CancellationToken()));
-            var productsController = new ProductsController(Mediator.Object);
+            //Arrange
+            _mediator.Setup(x => x.Send(It.IsAny<GetProductsQuery>(), new System.Threading.CancellationToken()));
+            var productsController = new ProductsController(_mediator.Object);
 
-            //Action
+            //Act
             var result = productsController.Get().Result;
 
             //Assert
@@ -35,11 +36,11 @@ namespace Presentation.Tests.Controllers.v2
         public void Mediatr_GetProductBy_NonExisting_Id_ShouldReturn_NotFound()
         {
             //Arrange
+            _mediator.Setup(x => x.Send(It.IsAny<GetProductByIdQuery>(), new System.Threading.CancellationToken()));
+            var productsController = new ProductsController(_mediator.Object);
             Guid productId = Guid.Parse("27da19e4-e1a5-4713-8643-8441630249cf");
-            Mediator.Setup(x => x.Send(It.IsAny<GetProductByIdQuery>(), new System.Threading.CancellationToken()));
-            var productsController = new ProductsController(Mediator.Object);
 
-            //Action
+            //Act
             var result = productsController.GetById(productId).Result;
 
             //Assert
@@ -50,12 +51,11 @@ namespace Presentation.Tests.Controllers.v2
         public void Mediatr_Create_Null_Product_ShouldReturn_BadRequest()
         {
             //Arrange
+            _mediator.Setup(x => x.Send(It.IsAny<CreateProductCommand>(), new System.Threading.CancellationToken()));
+            var productsController = new ProductsController(_mediator.Object);
             CreateProductCommand createdProduct = null;
 
-            Mediator.Setup(x => x.Send(It.IsAny<CreateProductCommand>(), new System.Threading.CancellationToken()));
-            var productsController = new ProductsController(Mediator.Object);
-
-            //Action
+            //Act
             var result = productsController.Create(createdProduct).Result;
 
             //Assert
@@ -66,6 +66,8 @@ namespace Presentation.Tests.Controllers.v2
         public void Mediatr_Create_New_Product_ShouldReturn_OK()
         {
             //Arrange
+            _mediator.Setup(x => x.Send(It.IsAny<CreateProductCommand>(), new System.Threading.CancellationToken()));
+            var productsController = new ProductsController(_mediator.Object);
             CreateProductCommand createdProduct = new()
             {
                 Name = "Test",
@@ -74,10 +76,7 @@ namespace Presentation.Tests.Controllers.v2
                 Price = 25
             };
 
-            Mediator.Setup(x => x.Send(It.IsAny<CreateProductCommand>(), new System.Threading.CancellationToken()));
-            var productsController = new ProductsController(Mediator.Object);
-
-            //Action
+            //Act
             var result = productsController.Create(createdProduct).Result;
 
             //Assert
@@ -88,6 +87,8 @@ namespace Presentation.Tests.Controllers.v2
         public void Mediatr_Update_NonExisting_Product_ShouldReturn_NotFound()
         {
             //Arrange
+            _mediator.Setup(x => x.Send(It.IsAny<UpdateProductCommand>(), new System.Threading.CancellationToken()));
+            var productsController = new ProductsController(_mediator.Object);
             Guid productId = Guid.Parse("86a2006d-4f8a-4e74-b969-9ffa9563efd1");
             UpdateProductCommand updatedProduct = new()
             {
@@ -98,10 +99,7 @@ namespace Presentation.Tests.Controllers.v2
                 Category = "Test"
             };
 
-            Mediator.Setup(x => x.Send(It.IsAny<UpdateProductCommand>(), new System.Threading.CancellationToken()));
-            var productsController = new ProductsController(Mediator.Object);
-
-            //Action
+            //Act
             var result = productsController.Update(productId, updatedProduct).Result;
 
             //Assert
@@ -112,12 +110,11 @@ namespace Presentation.Tests.Controllers.v2
         public void Mediatr_Remove_NonExisting_Product_ShouldReturn_NotFound()
         {
             //Arrange
+            _mediator.Setup(x => x.Send(It.IsAny<UpdateProductCommand>(), new System.Threading.CancellationToken()));
+            var productsController = new ProductsController(_mediator.Object);
             Guid productId = Guid.Parse("2ef4b146-9d1d-403a-8ab2-6cf043b8c449");
 
-            Mediator.Setup(x => x.Send(It.IsAny<UpdateProductCommand>(), new System.Threading.CancellationToken()));
-            var productsController = new ProductsController(Mediator.Object);
-
-            //Action
+            //Act
             var result = productsController.Remove(productId).Result;
 
             //Assert
