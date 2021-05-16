@@ -6,5 +6,6 @@
         public const string ProductEntity = "Product";
         public const string HotDogStandEntity = "HotDogStand";
         public const string OrderEntity = "Order";
+        public const string StandProductEntity = "StandProduct";
     }
 }

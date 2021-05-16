@@ -1,6 +1,8 @@
 using Application.Features.HotDogStandsFeatures.Commands;
 using Application.Features.HotDogStandsFeatures.Queries;
+using Application.Features.StandProductsFeatures.Commands;
 using Application.Features.UserFeatures.Queries;
+using Domain.Dtos;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -56,6 +58,24 @@ namespace WebApi.Controllers.v2
             if (stand == null)
             {
                 return NotFound(Messages.StandByOperatorNotFoundMessage(operatorId));
+            }
+
+            return Ok(stand);
+        }
+
+        [HttpPost("update-products")]
+        public async Task<IActionResult> UpdateStandProductsByOrder(CreateOrderRequest order)
+        {
+            HotDogStand stand = await mediator.Send(new GetStandByOperatorQuery { OperatorId = order.OperatorId });
+
+            if (stand == null)
+            {
+                return NotFound(Messages.StandByOperatorNotFoundMessage(order.OperatorId));
+            }
+
+            foreach (AddProductToOrderRequest product in order.Products)
+            {
+                Guid standProductId = await mediator.Send(new UpdateStandProductCommand { StandId = stand.Id, ProductId = product.ProductId, QuantityOrdered = product.Quantity });
             }
 
             return Ok(stand);

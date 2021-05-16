@@ -18,6 +18,7 @@ namespace Persistence.Context
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderProduct> OrdersProducts { get; set; }
         public DbSet<InventoryProduct> InventoryProducts { get; set; }
+        public DbSet<HotDogStandProduct> HotDogStandProducts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -101,6 +102,10 @@ namespace Persistence.Context
                 .Property(s => s.Address)
                 .IsRequired()
                 .HasColumnName("address");
+            modelBuilder.Entity<HotDogStand>()
+                .Property(s => s.OperatorId)
+                .IsRequired()
+                .HasColumnName("operator_id");
         }
 
         private static void SetProductProperties(ModelBuilder modelBuilder)
