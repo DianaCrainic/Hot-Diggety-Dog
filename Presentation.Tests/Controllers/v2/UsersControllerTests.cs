@@ -16,14 +16,14 @@ namespace Presentation.Tests.Controllers.v2
 {
     public class UsersControllerTests : DatabaseBaseTest
     {
-        private readonly Mock<IMediator> Mediator;
+        private readonly Mock<IMediator> _mediator;
         private const string SECRET = "JWT SECRET LONG KEY";
         private readonly IFacebookAuthService _facebookService;
         private readonly IJwtService _jwtService;
 
         public UsersControllerTests()
         {
-            Mediator = new Mock<IMediator>();
+            _mediator = new Mock<IMediator>();
             _jwtService = GetJwt();
             _facebookService = GetFacebookService();
         }
@@ -32,10 +32,10 @@ namespace Presentation.Tests.Controllers.v2
         public void Mediatr_GetUsers_ShouldReturn_OK()
         {
             //Arrange
-            Mediator.Setup(x => x.Send(It.IsAny<GetUsersQuery>(), new System.Threading.CancellationToken()));
-            var usersController = new UsersController(Mediator.Object, _jwtService, _facebookService);
+            _mediator.Setup(x => x.Send(It.IsAny<GetUsersQuery>(), new System.Threading.CancellationToken()));
+            var usersController = new UsersController(_mediator.Object, _jwtService, _facebookService);
 
-            //Action
+            //Act
             var result = usersController.GetUsers().Result;
 
             //Assert
@@ -46,11 +46,11 @@ namespace Presentation.Tests.Controllers.v2
         public void Mediatr_GetCustomers_ShouldReturn_OK()
         {
             //Arrange
-            Mediator.Setup(x => x.Send(It.IsAny<GetCustomersQuery>(), new System.Threading.CancellationToken()));
+            _mediator.Setup(x => x.Send(It.IsAny<GetCustomersQuery>(), new System.Threading.CancellationToken()));
             JwtService jwtService = GetJwt();
-            var usersController = new UsersController(Mediator.Object, jwtService, _facebookService);
+            var usersController = new UsersController(_mediator.Object, jwtService, _facebookService);
 
-            //Action
+            //Act
             var result = usersController.GetCustomers().Result;
 
             //Assert
@@ -61,12 +61,11 @@ namespace Presentation.Tests.Controllers.v2
         public void Mediatr_GetUserBy_Generated_Id_ShouldReturn_NotFound()
         {
             //Arrange
+            _mediator.Setup(x => x.Send(It.IsAny<GetUserByIdQuery>(), new System.Threading.CancellationToken()));
+            var usersController = new UsersController(_mediator.Object, _jwtService, _facebookService);
             Guid userId = Guid.Parse("c5c230eb-e39c-4a04-a6f0-89d577e85a1d");
 
-            Mediator.Setup(x => x.Send(It.IsAny<GetUserByIdQuery>(), new System.Threading.CancellationToken()));
-            var usersController = new UsersController(Mediator.Object, _jwtService, _facebookService);
-
-            //Action
+            //Act
             var result = usersController.GetUserById(userId).Result;
 
             //Assert
@@ -77,12 +76,11 @@ namespace Presentation.Tests.Controllers.v2
         public void Mediatr_Create_Null_User_ShouldReturn_BadRequest()
         {
             //Arrange
+            _mediator.Setup(x => x.Send(It.IsAny<CreateUserCommand>(), new System.Threading.CancellationToken()));
+            var usersController = new UsersController(_mediator.Object, _jwtService, _facebookService);
             CreateUserCommand createUser = null;
 
-            Mediator.Setup(x => x.Send(It.IsAny<CreateUserCommand>(), new System.Threading.CancellationToken()));
-            var usersController = new UsersController(Mediator.Object, _jwtService, _facebookService);
-
-            //Action
+            //Act
             var result = usersController.Register(createUser).Result;
 
             //Assert
@@ -93,16 +91,15 @@ namespace Presentation.Tests.Controllers.v2
         public void Mediatr_Authenticate_NonExisting_User_ShouldReturn_BadRequest()
         {
             //Arrange
+            _mediator.Setup(x => x.Send(It.IsAny<AuthenticateUserQuery>(), new System.Threading.CancellationToken()));
+            var usersController = new UsersController(_mediator.Object, _jwtService, _facebookService);
             AuthenticateUserQuery authenticateUser = new()
             {
                 Username = "Test",
                 Password = "Test"
             };
 
-            Mediator.Setup(x => x.Send(It.IsAny<AuthenticateUserQuery>(), new System.Threading.CancellationToken()));
-            var usersController = new UsersController(Mediator.Object, _jwtService, _facebookService);
-
-            //Action
+            //Act
             var result = usersController.Authenticate(authenticateUser).Result;
 
             //Assert
@@ -113,12 +110,11 @@ namespace Presentation.Tests.Controllers.v2
         public void Mediatr_Delete_NonExisting_User_ShouldReturn_NotFound()
         {
             //Arrange
+            _mediator.Setup(x => x.Send(It.IsAny<DeleteUserCommand>(), new System.Threading.CancellationToken()));
+            var usersController = new UsersController(_mediator.Object, _jwtService, _facebookService);
             Guid userId = Guid.Parse("ef7b6f44-d1a4-4bcf-8a2a-bc66424afb4d");
 
-            Mediator.Setup(x => x.Send(It.IsAny<DeleteUserCommand>(), new System.Threading.CancellationToken()));
-            var usersController = new UsersController(Mediator.Object, _jwtService, _facebookService);
-
-            //Action
+            //Act
             var result = usersController.DeleteUser(userId).Result;
 
             //Assert
