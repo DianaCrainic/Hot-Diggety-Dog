@@ -64,24 +64,22 @@ namespace WebApi.Controllers.v2
         }
 
         [RoleAuthorize("OPERATOR")]
-        [HttpPost("update-products")]
+        [HttpPut("products")]
         public async Task<IActionResult> UpdateStandProducts(UpdateStandProductsRequest request)
         {
-            HotDogStand stand = await mediator.Send(new GetStandByIdQuery { Id = request.StandId});
-
+            HotDogStand stand = await mediator.Send(new GetStandByIdQuery { Id = request.StandId });
             if (stand == null)
             {
                 return NotFound(Messages.NotFoundMessage(EntitiesConstants.HotDogStandEntity, request.StandId));
             }
 
-            foreach (HotDogStandProduct product in request.Products)
+            foreach (AddProductToStandRequest product in request.Products)
             {
-                Guid standProductId = await mediator.Send(new UpdateStandProductCommand { StandId = stand.Id, ProductId = product.ProductId, NewQuantity = product.Quantity });
+                await mediator.Send(new UpdateStandProductCommand { StandId = stand.Id, ProductId = product.ProductId, NewQuantity = product.Quantity });
             }
 
-            return Ok(stand);
+            return NoContent();
         }
-
 
         [RoleAuthorize("ADMIN")]
         [HttpPost]

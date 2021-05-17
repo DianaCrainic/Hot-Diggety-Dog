@@ -22,18 +22,26 @@ namespace Application.Features.StandProductsFeatures.Commands
 
             if (standProduct == null)
             {
-                return Guid.Empty;
-            }
-
-            standProduct.Quantity = request.NewQuantity;
-
-            if(standProduct.Quantity == 0)
-            {
-                await _standProductRepository.RemoveAsync(standProduct);
+                standProduct = new HotDogStandProduct()
+                {
+                    StandId = request.StandId,
+                    ProductId = request.ProductId,
+                    Quantity = request.NewQuantity
+                };
+                await _standProductRepository.CreateAsync(standProduct);
             }
             else
             {
-                await _standProductRepository.UpdateAsync(standProduct);
+                standProduct.Quantity = request.NewQuantity;
+
+                if (standProduct.Quantity == 0)
+                {
+                    await _standProductRepository.RemoveAsync(standProduct);
+                }
+                else
+                {
+                    await _standProductRepository.UpdateAsync(standProduct);
+                }
             }
 
             return standProduct.Id;
