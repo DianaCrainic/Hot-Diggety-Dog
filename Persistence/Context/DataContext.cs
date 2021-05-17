@@ -17,6 +17,7 @@ namespace Persistence.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderProduct> OrdersProducts { get; set; }
+        public DbSet<InventoryProduct> InventoryProducts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -25,6 +26,7 @@ namespace Persistence.Context
             SetProductProperties(modelBuilder);
             SetOrderProperties(modelBuilder);
             SetOrderProductProperties(modelBuilder);
+            SetInventoryProductProperties(modelBuilder);
 
             SeedUsers(modelBuilder);
             SeedHotDogStandsWithProducts(modelBuilder);
@@ -123,6 +125,19 @@ namespace Persistence.Context
                .HasColumnName("category");
         }
 
+        private static void SetInventoryProductProperties(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<InventoryProduct>()
+                .Property(p => p.Id)
+                .HasColumnName("id");
+            modelBuilder.Entity<InventoryProduct>()
+                .Property(p => p.ProductId)
+                .HasColumnName("product_id");
+            modelBuilder.Entity<InventoryProduct>()
+                .Property(q => q.Quantity)
+                .HasColumnName("quantity");
+        }
+
         private static void SeedUsers(ModelBuilder model)
         {
             model.Entity<User>()
@@ -133,42 +148,17 @@ namespace Persistence.Context
                 );
         }
 
-        private static void SeedHotDogStands(ModelBuilder model)
-        {
-            model.Entity<HotDogStand>()
-                .HasData(
-                    new HotDogStand { Id = Guid.NewGuid(), Address = "Grimmer's Road" },
-                    new HotDogStand { Id = Guid.NewGuid(), Address = "Fieldfare Banks" },
-                    new HotDogStand { Id = Guid.NewGuid(), Address = "Imperial Passage" },
-                    new HotDogStand { Id = Guid.NewGuid(), Address = "Woodville Square" },
-                    new HotDogStand { Id = Guid.NewGuid(), Address = "Lindsey Circle" },
-                    new HotDogStand { Id = Guid.NewGuid(), Address = "Alexander Banks" }
-                );
-        }
-
-        private static void SeedProducts(ModelBuilder model)
-        {
-            model.Entity<Product>()
-                .HasData(
-                    new Product { Id = Guid.NewGuid(), Name = "Hot Dog", Description = "Basic hot dog with ketchup/mustard", Category = "HotDogs", Price = 10 },
-                    new Product { Id = Guid.NewGuid(), Name = "Hot Onion Dog", Description = "Hot dog with caramelized onions and ketchup", Category = "HotDogs", Price = 12.5F },
-                    new Product { Id = Guid.NewGuid(), Name = "Bacon Melt", Description = "Hot dog with melted gouda cheese and bacon", Category = "HotDogs", Price = 15 },
-                    new Product { Id = Guid.NewGuid(), Name = "Fries", Description = "Regular fries", Category = "Extras", Price = 7.5F },
-                    new Product { Id = Guid.NewGuid(), Name = "Coke", Description = "Coke bottle", Category = "Drinks", Price = 5 }
-                );
-        }
-
         private static void SeedHotDogStandsWithProducts(ModelBuilder model)
         {
             User operator1 = new() { Id = Guid.NewGuid(), Username = "operator1", Email = "operator1@gmail.com", Password = Crypto.SHA256("operator1"), Role = Role.OPERATOR };
             User operator2 = new() { Id = Guid.NewGuid(), Username = "operator2", Email = "operator2@gmail.com", Password = Crypto.SHA256("operator2"), Role = Role.OPERATOR };
+            User operator3 = new() { Id = Guid.NewGuid(), Username = "operator3", Email = "operator3@gmail.com", Password = Crypto.SHA256("operator3"), Role = Role.OPERATOR };
+            User operator4 = new() { Id = Guid.NewGuid(), Username = "operator4", Email = "operator4@gmail.com", Password = Crypto.SHA256("operator4"), Role = Role.OPERATOR };
 
             HotDogStand stand1 = new() { Id = Guid.NewGuid(), Address = "Grimmer's Road", OperatorId = operator1.Id };
             HotDogStand stand2 = new() { Id = Guid.NewGuid(), Address = "Fieldfare Banks", OperatorId = operator2.Id };
-            HotDogStand stand3 = new() { Id = Guid.NewGuid(), Address = "Imperial Passage" };
-            HotDogStand stand4 = new() { Id = Guid.NewGuid(), Address = "Woodville Square" };
-            HotDogStand stand5 = new() { Id = Guid.NewGuid(), Address = "Lindsey Circle" };
-            HotDogStand stand6 = new() { Id = Guid.NewGuid(), Address = "Alexander Banks" };
+            HotDogStand stand3 = new() { Id = Guid.NewGuid(), Address = "Imperial Passage", OperatorId = operator3.Id };
+            HotDogStand stand4 = new() { Id = Guid.NewGuid(), Address = "Woodville Square", OperatorId = operator4.Id };
 
             Product product1 = new() { Id = Guid.NewGuid(), Name = "Hot Dog", Description = "Basic hot dog with ketchup/mustard", Category = "HotDogs", Price = 10 };
             Product product2 = new() { Id = Guid.NewGuid(), Name = "Hot Onion Dog", Description = "Hot dog with caramelized onions and ketchup", Category = "HotDogs", Price = 12.5F };
@@ -186,10 +176,10 @@ namespace Persistence.Context
             HotDogStandProduct standProduct5 = new() { Id = Guid.NewGuid(), StandId = stand2.Id, ProductId = product2.Id, Quantity = 6 };
 
             model.Entity<User>()
-                .HasData(operator1, operator2);
+                .HasData(operator1, operator2, operator3, operator4);
 
             model.Entity<HotDogStand>()
-                .HasData(stand1, stand2, stand3, stand4, stand5, stand6);
+                .HasData(stand1, stand2, stand3, stand4);
 
             model.Entity<Product>()
                 .HasData(product1, product2, product3, product4, product5);

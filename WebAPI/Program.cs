@@ -1,13 +1,15 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using System.Threading.Tasks;
+using WebApi.Extensions;
 
 namespace WebApi
 {
     public static class Program
     {
-        public static void Main(string[] args)
+        public async static Task Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            (await CreateHostBuilder(args).Build().SeedInventoryProducts()).Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
