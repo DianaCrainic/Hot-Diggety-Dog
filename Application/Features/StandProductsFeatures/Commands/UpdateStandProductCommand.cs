@@ -7,6 +7,6 @@ namespace Application.Features.StandProductsFeatures.Commands
     {
         public Guid StandId { set; get; }
         public Guid ProductId { set; get; }
-        public int QuantityOrdered { set; get; }
+        public int NewQuantity { set; get; }
     }
 }

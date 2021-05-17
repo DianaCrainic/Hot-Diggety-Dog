@@ -25,7 +25,7 @@ namespace Application.Features.StandProductsFeatures.Commands
                 return Guid.Empty;
             }
 
-            standProduct.Quantity -= request.QuantityOrdered;
+            standProduct.Quantity = request.NewQuantity;
 
             if(standProduct.Quantity == 0)
             {
