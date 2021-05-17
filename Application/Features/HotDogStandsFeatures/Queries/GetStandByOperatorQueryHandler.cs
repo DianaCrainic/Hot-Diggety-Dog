@@ -1,7 +1,6 @@
 ﻿using Application.Interfaces;
 using Domain.Entities;
 using MediatR;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,9 +8,9 @@ namespace Application.Features.HotDogStandsFeatures.Queries
 {
     public class GetStandByOperatorQueryHandler : IRequestHandler<GetStandByOperatorQuery, HotDogStand>
     {
-        private readonly IHotDogStandRepository standRepository;
+        private readonly IHotDogStandsRepository standRepository;
 
-        public GetStandByOperatorQueryHandler(IHotDogStandRepository standRepository)
+        public GetStandByOperatorQueryHandler(IHotDogStandsRepository standRepository)
         {
             this.standRepository = standRepository;
         }

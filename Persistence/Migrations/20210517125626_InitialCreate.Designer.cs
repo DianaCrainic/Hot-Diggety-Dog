@@ -9,7 +9,7 @@ using Persistence.Context;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210509154504_InitialCreate")]
+    [Migration("20210517125626_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,44 +35,35 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("OperatorId")
+                        .IsUnique();
+
                     b.ToTable("HotDogStands");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("70f9917f-c66d-46a2-aa21-bfd9a4fe6c17"),
+                            Id = new Guid("a63a5198-b139-490e-81bf-18dac00a8700"),
                             Address = "Grimmer's Road",
-                            OperatorId = new Guid("3622398d-c8ea-475d-800e-18c76c169939")
+                            OperatorId = new Guid("afb6fe28-3d7e-4498-9472-131229b4ba36")
                         },
                         new
                         {
-                            Id = new Guid("ff213fc9-9545-49e4-8344-eade3591c1c4"),
+                            Id = new Guid("aca46489-167a-404f-93f9-0fc97358961d"),
                             Address = "Fieldfare Banks",
-                            OperatorId = new Guid("6bf1323f-4c28-4355-8440-258f796b78cb")
+                            OperatorId = new Guid("40f70218-632b-4130-8254-4137ff4ed57d")
                         },
                         new
                         {
-                            Id = new Guid("4ff14256-a670-47d2-9410-d03b7c53654a"),
+                            Id = new Guid("ae9e8c60-bfbd-486f-9a3d-c98da3bcbec9"),
                             Address = "Imperial Passage",
-                            OperatorId = new Guid("00000000-0000-0000-0000-000000000000")
+                            OperatorId = new Guid("4e1bea32-296d-49b0-a63d-98e592d44fdc")
                         },
                         new
                         {
-                            Id = new Guid("be5fcf01-498c-4e77-b8e1-545c634fb417"),
+                            Id = new Guid("10515d8f-50a9-4e06-8dd2-8c6dcc3548e4"),
                             Address = "Woodville Square",
-                            OperatorId = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("461715be-00c9-4a47-be4a-c76b73668bb7"),
-                            Address = "Lindsey Circle",
-                            OperatorId = new Guid("00000000-0000-0000-0000-000000000000")
-                        },
-                        new
-                        {
-                            Id = new Guid("4858edf6-9d80-4f6b-8248-3bb849c61477"),
-                            Address = "Alexander Banks",
-                            OperatorId = new Guid("00000000-0000-0000-0000-000000000000")
+                            OperatorId = new Guid("4b5eaa24-d8bd-492c-90b1-84c26c1ba885")
                         });
                 });
 
@@ -102,39 +93,61 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("8c32089d-9330-42d1-8fd1-0d9805c0976a"),
-                            ProductId = new Guid("44d52564-876b-47d1-9580-c0afca617389"),
+                            Id = new Guid("5d7255f2-a66e-484c-8ccf-dbf4d8e5055b"),
+                            ProductId = new Guid("34ab4a2a-8c69-4298-9a44-c868ee47375b"),
                             Quantity = 7,
-                            StandId = new Guid("70f9917f-c66d-46a2-aa21-bfd9a4fe6c17")
+                            StandId = new Guid("a63a5198-b139-490e-81bf-18dac00a8700")
                         },
                         new
                         {
-                            Id = new Guid("6a260edd-129c-446a-81b5-8ca451a81274"),
-                            ProductId = new Guid("7ae695fe-697e-46ad-8b8c-8f995ec08d19"),
+                            Id = new Guid("59306bb2-6f55-4647-8fe3-996313af8b16"),
+                            ProductId = new Guid("92743ec9-aec8-4a72-8b91-f0a61d28f6c4"),
                             Quantity = 10,
-                            StandId = new Guid("70f9917f-c66d-46a2-aa21-bfd9a4fe6c17")
+                            StandId = new Guid("a63a5198-b139-490e-81bf-18dac00a8700")
                         },
                         new
                         {
-                            Id = new Guid("dca638b3-f4b2-4cfa-b935-0ca72327c3b8"),
-                            ProductId = new Guid("3424f816-446d-4bea-bc40-7ef0f785422f"),
+                            Id = new Guid("fc9b7d9d-ec19-46f7-8490-38fa205cc0b9"),
+                            ProductId = new Guid("fe7b2b0f-26b0-424c-bf7f-ccd875bc5c18"),
                             Quantity = 13,
-                            StandId = new Guid("70f9917f-c66d-46a2-aa21-bfd9a4fe6c17")
+                            StandId = new Guid("a63a5198-b139-490e-81bf-18dac00a8700")
                         },
                         new
                         {
-                            Id = new Guid("b3fdf0bb-91f7-4e73-966e-d0785e4bbe7e"),
-                            ProductId = new Guid("44d52564-876b-47d1-9580-c0afca617389"),
+                            Id = new Guid("f5917d65-f51a-4910-ba61-59b81d5b99e8"),
+                            ProductId = new Guid("34ab4a2a-8c69-4298-9a44-c868ee47375b"),
                             Quantity = 20,
-                            StandId = new Guid("ff213fc9-9545-49e4-8344-eade3591c1c4")
+                            StandId = new Guid("aca46489-167a-404f-93f9-0fc97358961d")
                         },
                         new
                         {
-                            Id = new Guid("93fee340-cff2-49ea-baf2-9f3674ae0a6b"),
-                            ProductId = new Guid("7ae695fe-697e-46ad-8b8c-8f995ec08d19"),
+                            Id = new Guid("afd9cfc1-7e1c-47d0-a095-757f4b2fbef1"),
+                            ProductId = new Guid("92743ec9-aec8-4a72-8b91-f0a61d28f6c4"),
                             Quantity = 6,
-                            StandId = new Guid("ff213fc9-9545-49e4-8344-eade3591c1c4")
+                            StandId = new Guid("aca46489-167a-404f-93f9-0fc97358961d")
                         });
+                });
+
+            modelBuilder.Entity("Domain.Entities.InventoryProduct", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("product_id");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("quantity");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("InventoryProducts");
                 });
 
             modelBuilder.Entity("Domain.Entities.Order", b =>
@@ -232,7 +245,7 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("44d52564-876b-47d1-9580-c0afca617389"),
+                            Id = new Guid("34ab4a2a-8c69-4298-9a44-c868ee47375b"),
                             Category = "HotDogs",
                             Description = "Basic hot dog with ketchup/mustard",
                             Name = "Hot Dog",
@@ -240,7 +253,7 @@ namespace Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7ae695fe-697e-46ad-8b8c-8f995ec08d19"),
+                            Id = new Guid("92743ec9-aec8-4a72-8b91-f0a61d28f6c4"),
                             Category = "HotDogs",
                             Description = "Hot dog with caramelized onions and ketchup",
                             Name = "Hot Onion Dog",
@@ -248,7 +261,7 @@ namespace Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3424f816-446d-4bea-bc40-7ef0f785422f"),
+                            Id = new Guid("fe7b2b0f-26b0-424c-bf7f-ccd875bc5c18"),
                             Category = "HotDogs",
                             Description = "Hot dog with melted gouda cheese and bacon",
                             Name = "Bacon Melt",
@@ -256,7 +269,7 @@ namespace Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("9e6aaf35-34f4-4c94-8db6-e3578a931142"),
+                            Id = new Guid("958dc136-e4b9-4be3-a2f2-3f8a1b92bceb"),
                             Category = "Extras",
                             Description = "Regular fries",
                             Name = "Fries",
@@ -264,7 +277,7 @@ namespace Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e385ba99-4967-44ad-89dc-32dabb39422c"),
+                            Id = new Guid("3c918fbd-8262-404c-983e-0b9987fc5eec"),
                             Category = "Drinks",
                             Description = "Coke bottle",
                             Name = "Coke",
@@ -305,7 +318,7 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9fc728c9-9568-4649-817a-9d8060bde6bf"),
+                            Id = new Guid("ee64e669-9268-4a6b-b39d-7617bdaae89c"),
                             Email = "customer@gmail.com",
                             Password = "B6C45863875E34487CA3C155ED145EFE12A74581E27BEFEC5AA661B8EE8CA6DD",
                             Role = 0,
@@ -313,7 +326,7 @@ namespace Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("71cb42b6-5cde-4a04-abc7-60cbb9ac48fb"),
+                            Id = new Guid("2dc1f841-4afa-46ac-aaaf-93699fa7e2f6"),
                             Email = "admin@gmail.com",
                             Password = "8C6976E5B5410415BDE908BD4DEE15DFB167A9C873FC4BB8A81F6F2AB448A918",
                             Role = 3,
@@ -321,7 +334,7 @@ namespace Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("a9baaf62-38fb-44ca-8e08-0219bbf0a548"),
+                            Id = new Guid("9fa4bd49-474d-4de0-9ed2-db9c358ed862"),
                             Email = "supplier@gmail.com",
                             Password = "955ED10B73D6265B1ADCF768B94F8DD5D91F33309DB94B6B3AF4EFA822F1D9AF",
                             Role = 2,
@@ -329,7 +342,7 @@ namespace Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3622398d-c8ea-475d-800e-18c76c169939"),
+                            Id = new Guid("afb6fe28-3d7e-4498-9472-131229b4ba36"),
                             Email = "operator1@gmail.com",
                             Password = "941E65AF88E0945C9F7DB5C306B0EF0FC5763DF6BFC9D339FF235195885083A2",
                             Role = 1,
@@ -337,12 +350,39 @@ namespace Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("6bf1323f-4c28-4355-8440-258f796b78cb"),
+                            Id = new Guid("40f70218-632b-4130-8254-4137ff4ed57d"),
                             Email = "operator2@gmail.com",
                             Password = "6EED3508EEE654F48CC4D57910EAD9310E4B2B386248D56BD40BBF16FCD9A77F",
                             Role = 1,
                             Username = "operator2"
+                        },
+                        new
+                        {
+                            Id = new Guid("4e1bea32-296d-49b0-a63d-98e592d44fdc"),
+                            Email = "operator3@gmail.com",
+                            Password = "0A722A639AB7D77124CDD29A0AD96FF421D50DC97A079705C4D5B2D97CF347B0",
+                            Role = 1,
+                            Username = "operator3"
+                        },
+                        new
+                        {
+                            Id = new Guid("4b5eaa24-d8bd-492c-90b1-84c26c1ba885"),
+                            Email = "operator4@gmail.com",
+                            Password = "D71C5645CC3D232BCBD657888C4FF6AC0C6E33E2B89FB2162F8D96F276E8623A",
+                            Role = 1,
+                            Username = "operator4"
                         });
+                });
+
+            modelBuilder.Entity("Domain.Entities.HotDogStand", b =>
+                {
+                    b.HasOne("Domain.Entities.User", "Operator")
+                        .WithOne("Stand")
+                        .HasForeignKey("Domain.Entities.HotDogStand", "OperatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Operator");
                 });
 
             modelBuilder.Entity("Domain.Entities.HotDogStandProduct", b =>
@@ -362,6 +402,17 @@ namespace Persistence.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("Stand");
+                });
+
+            modelBuilder.Entity("Domain.Entities.InventoryProduct", b =>
+                {
+                    b.HasOne("Domain.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Domain.Entities.Order", b =>
@@ -417,6 +468,8 @@ namespace Persistence.Migrations
                     b.Navigation("ClientOrders");
 
                     b.Navigation("OperatorOrders");
+
+                    b.Navigation("Stand");
                 });
 #pragma warning restore 612, 618
         }

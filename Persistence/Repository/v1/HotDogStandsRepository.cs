@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Persistence.Repository.v1
 {
-    public class HotDogStandRepository : Repository<HotDogStand>, IHotDogStandRepository
+    public class HotDogStandsRepository : Repository<HotDogStand>, IHotDogStandsRepository
     {
-        public HotDogStandRepository(DataContext context) : base(context)
+        public HotDogStandsRepository(DataContext context) : base(context)
         {
 
         }
