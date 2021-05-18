@@ -3,10 +3,12 @@ using Application.Features.ProductFeatures.Queries;
 using Application.Features.ProductRequestFeatures.Queries;
 using Application.Features.ProductsRequestFeatures.Commands;
 using Application.Features.ProductsRequestFeatures.Queries;
+using Application.Features.UserFeatures.Queries;
 using Domain.Dtos;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Security.Authorization;
 using System;
 using System.Threading.Tasks;
 using WebApi.Resources;
@@ -40,7 +42,7 @@ namespace WebApi.Controllers.v2
             return Ok(productRequest);
         }
 
-        //[RoleAuthorize("OPERATOR")]
+        [RoleAuthorize("OPERATOR")]
         [HttpPost]
         public async Task<ActionResult> CreateProductsRequests(CreateProductsRequestDto command)
         {
@@ -49,17 +51,17 @@ namespace WebApi.Controllers.v2
                 return BadRequest(Messages.InvalidData);
             }
 
-            //User operatorUser = await mediator.Send(new GetUserByIdQuery() { Id = command.OperatorId });
+            User operatorUser = await mediator.Send(new GetUserByIdQuery() { Id = command.OperatorId });
 
-            //if (operatorUser == null)
-            //{
-            //    return NotFound(Messages.NotFoundMessage(EntitiesConstants.UserEntity, command.OperatorId));
-            //}
+            if (operatorUser == null)
+            {
+                return NotFound(Messages.NotFoundMessage(EntitiesConstants.UserEntity, command.OperatorId));
+            }
 
-            //if (operatorUser.Role != Role.OPERATOR)
-            //{
-            //    return BadRequest(Messages.InvalidData);
-            //}
+            if (operatorUser.Role != Role.OPERATOR)
+            {
+                return BadRequest(Messages.InvalidData);
+            }
 
             Guid productsRequestId = await mediator.Send(new CreateProductsRequestCommand() { OperatorId = command.OperatorId, Timestamp = command.Timestamp });
 
@@ -75,7 +77,7 @@ namespace WebApi.Controllers.v2
                 await mediator.Send(new CreateProductRequestCommand() { RequestId = productsRequestId, ProductId = productRequest.ProductId, Quantity = productRequest.Quantity });
             }
 
-            return CreatedAtAction("GetProductsRequestById", new { id = productsRequestId }, await mediator.Send(new GetProductsRequestByIdQuery() { Id = productsRequestId }));
+            return CreatedAtAction("GetById", new { id = productsRequestId }, await mediator.Send(new GetProductsRequestByIdQuery() { Id = productsRequestId }));
         }
     }
 }

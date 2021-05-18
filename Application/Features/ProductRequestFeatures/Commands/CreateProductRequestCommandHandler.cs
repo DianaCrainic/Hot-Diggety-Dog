@@ -20,16 +20,13 @@ namespace Application.Features.ProductFeatures.Commands
         {
             ProductRequest productRequest = new()
             {
-                ProductsRequest = request.ProductsRequest,
-                Id = request.RequestId,
+                ProductsRequestId = request.RequestId,
                 ProductId = request.ProductId,
-                Product = request.Product,
                 Quantity = request.Quantity
             };
 
             await productRequestRepository.CreateAsync(productRequest);
             return productRequest.Id;
-
         }
     }
 }

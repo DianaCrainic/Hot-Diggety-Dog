@@ -6,7 +6,7 @@ namespace Domain.Entities
 {
     public class ProductRequest : BaseEntity
     {
-        public Guid RequestId { get; set; }
+        public Guid ProductsRequestId { get; set; }
 
         [JsonIgnore]
         public virtual ProductsRequest ProductsRequest { get; set; }

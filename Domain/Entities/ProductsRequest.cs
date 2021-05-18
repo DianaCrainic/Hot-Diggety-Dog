@@ -12,10 +12,11 @@ namespace Domain.Entities
         [ForeignKey("Operator")]
         public Guid OperatorId { set; get; }
 
+        [InverseProperty("OperatorRequests")]
         [JsonIgnore]
         public virtual User Operator { get; set; }
 
-        public List<ProductRequest> ProductRequest { get; set; }
+        public virtual ICollection<ProductRequest> ProductRequest { get; set; }
 
         [Required]
         public DateTime Timestamp { get; set; }

@@ -15,6 +15,7 @@ namespace Application.Features.ProductsRequestFeatures.Queries
         {
             this.productsRequestRepository = productsRequestRepository;
         }
+
         public async Task<IEnumerable<ProductsRequest>> Handle(GetProductsRequestsQuery request, CancellationToken cancellationToken)
         {
             return await productsRequestRepository.GetAllAsync();

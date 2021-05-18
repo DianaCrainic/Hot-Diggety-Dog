@@ -1,5 +1,4 @@
-﻿using Domain.Dtos;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Web.Helpers;
@@ -31,8 +30,6 @@ namespace Persistence.Context
             SetOrderProperties(modelBuilder);
             SetOrderProductProperties(modelBuilder);
             SetInventoryProductProperties(modelBuilder);
-            SetProductRequestProperties(modelBuilder);
-            SetProductsRequestProperties(modelBuilder);
 
             SeedUsers(modelBuilder);
             SeedHotDogStandsWithProducts(modelBuilder);
@@ -146,35 +143,6 @@ namespace Persistence.Context
             modelBuilder.Entity<InventoryProduct>()
                 .Property(q => q.Quantity)
                 .HasColumnName("quantity");
-        }
-
-        private static void SetProductRequestProperties(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<ProductRequest>()
-                .Property(p => p.Id)
-                .HasColumnName("id");
-            modelBuilder.Entity<ProductRequest>()
-                .Property(p => p.RequestId)
-                .HasColumnName("request_id");
-            modelBuilder.Entity<ProductRequest>()
-                .Property(p => p.ProductId)
-                .HasColumnName("product_id");
-            modelBuilder.Entity<ProductRequest>()
-                .Property(p => p.Quantity)
-                .HasColumnName("quantity");
-        }
-
-        private static void SetProductsRequestProperties(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<ProductsRequest>()
-                .Property(p => p.Id)
-                .HasColumnName("id");
-            modelBuilder.Entity<ProductsRequest>()
-                .Property(p => p.OperatorId)
-                .HasColumnName("operator_id");
-            modelBuilder.Entity<ProductsRequest>()
-                .Property(p => p.Timestamp)
-                .HasColumnName("timestamp");
         }
 
         private static void SeedUsers(ModelBuilder model)

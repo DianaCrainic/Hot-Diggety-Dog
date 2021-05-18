@@ -18,5 +18,7 @@ namespace Domain.Entities
         public ICollection<Order> ClientOrders { get; set; }
         [JsonIgnore]
         public ICollection<Order> OperatorOrders { get; set; }
+        [JsonIgnore]
+        public ICollection<ProductsRequest> OperatorRequests { get; set; }
     }
 }
