@@ -19,6 +19,8 @@ namespace Persistence.Context
         public DbSet<OrderProduct> OrdersProducts { get; set; }
         public DbSet<InventoryProduct> InventoryProducts { get; set; }
         public DbSet<HotDogStandProduct> HotDogStandProducts { get; set; }
+        public DbSet<ProductRequest> ProductRequests { get; set; }
+        public DbSet<ProductsRequest> ProductsRequests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
