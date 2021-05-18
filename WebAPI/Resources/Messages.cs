@@ -17,5 +17,9 @@ namespace WebApi.Resources
         {
             return $"{EntitiesConstants.HotDogStandEntity} with operator id {operatorId} not found.";
         }
+        public static string StandProductByProductIdNotFoundMessage(System.Guid standId, System.Guid productId)
+        {
+            return $"{EntitiesConstants.StandProductEntity} with stand id {standId} and product id {productId} not found.";
+        }
     }
 }

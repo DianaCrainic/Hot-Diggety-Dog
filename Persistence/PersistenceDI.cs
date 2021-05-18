@@ -21,7 +21,8 @@ namespace Persistence
                     .AddScoped(typeof(IOrdersRepository), typeof(OrdersRepository))
                     .AddScoped(typeof(IUsersRepository), typeof(UsersRepository))
                     .AddScoped(typeof(IHotDogStandsRepository), typeof(HotDogStandsRepository))
-                    .AddScoped(typeof(IInventoryProductsRepository), typeof(InventoryProductsRepository));
+                    .AddScoped(typeof(IInventoryProductsRepository), typeof(InventoryProductsRepository))
+                    .AddScoped(typeof(IStandProductRepository), typeof(StandProductRepository));
         }
     }
 }
