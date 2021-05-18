@@ -154,6 +154,9 @@ namespace Persistence.Context
                 .Property(p => p.Id)
                 .HasColumnName("id");
             modelBuilder.Entity<ProductRequest>()
+                .Property(p => p.RequestId)
+                .HasColumnName("request_id");
+            modelBuilder.Entity<ProductRequest>()
                 .Property(p => p.ProductId)
                 .HasColumnName("product_id");
             modelBuilder.Entity<ProductRequest>()

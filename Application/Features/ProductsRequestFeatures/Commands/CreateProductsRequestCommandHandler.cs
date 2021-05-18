@@ -5,7 +5,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Features.ProductRequestFeatures.Commands
+namespace Application.Features.ProductsRequestFeatures.Commands
 {
     public class CreateProductsRequestCommandHandler : IRequestHandler<CreateProductsRequestCommand, Guid>
     {
@@ -20,7 +20,6 @@ namespace Application.Features.ProductRequestFeatures.Commands
         {
             ProductsRequest productsRequest = new()
             {
-                ProductRequest = request.ProductRequest,
                 OperatorId = request.OperatorId,
                 Timestamp = request.Timestamp
             };

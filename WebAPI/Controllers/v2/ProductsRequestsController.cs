@@ -1,13 +1,13 @@
 ﻿using Application.Features.ProductFeatures.Commands;
 using Application.Features.ProductFeatures.Queries;
-using Application.Features.ProductRequestFeatures.Commands;
 using Application.Features.ProductRequestFeatures.Queries;
+using Application.Features.ProductsRequestFeatures.Commands;
+using Application.Features.ProductsRequestFeatures.Queries;
 using Domain.Dtos;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Resources;
 using WebAPI.Controllers;
@@ -72,22 +72,10 @@ namespace WebApi.Controllers.v2
                     return NotFound(Messages.NotFoundMessage(EntitiesConstants.ProductRequestEntity, productRequest.ProductId));
                 }
 
-                await mediator.Send(new CreateProductRequestCommand() { ProductId = productRequest.ProductId, Quantity = productRequest.Quantity });
+                await mediator.Send(new CreateProductRequestCommand() { RequestId = productsRequestId, ProductId = productRequest.ProductId, Quantity = productRequest.Quantity });
             }
 
             return CreatedAtAction("GetProductsRequestById", new { id = productsRequestId }, await mediator.Send(new GetProductsRequestByIdQuery() { Id = productsRequestId }));
         }
-
-        //private async Task CreateProductRequest(Guid productRequestId, CreateProductsRequestDto request)
-        //{
-        //    foreach (CreateProductRequestDto createProductRequestDto in request.Products)
-        //    {
-        //        await mediator.Send(new CreateProductRequestCommand()
-        //        {
-        //            ProductId = createProductRequestDto.ProductId,
-        //            Quantity = createProductRequestDto.Quantity
-        //        });
-        //    }
-        //}
     }
 }

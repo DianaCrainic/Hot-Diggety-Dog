@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces;
-using Domain.Dtos;
+using Domain.Entities;
 using MediatR;
 using System;
 using System.Threading;
@@ -20,6 +20,8 @@ namespace Application.Features.ProductFeatures.Commands
         {
             ProductRequest productRequest = new()
             {
+                ProductsRequest = request.ProductsRequest,
+                Id = request.RequestId,
                 ProductId = request.ProductId,
                 Product = request.Product,
                 Quantity = request.Quantity

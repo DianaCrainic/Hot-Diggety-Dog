@@ -2,7 +2,7 @@
 using MediatR;
 using System;
 
-namespace Application.Features.ProductRequestFeatures.Queries
+namespace Application.Features.ProductsRequestFeatures.Queries
 {
     public class GetProductsRequestByIdQuery : IRequest<ProductsRequest>
     {

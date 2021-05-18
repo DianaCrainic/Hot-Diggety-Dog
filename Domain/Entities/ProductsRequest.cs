@@ -1,21 +1,20 @@
 ﻿using Domain.Common;
-using Domain.Dtos;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Domain.Entities
 {
     public class ProductsRequest : BaseEntity
     {
-        [Required]
+        [ForeignKey("Operator")]
         public Guid OperatorId { set; get; }
-        
-        [Required]
+
+        [JsonIgnore]
         public virtual User Operator { get; set; }
 
-        [Required]
         public List<ProductRequest> ProductRequest { get; set; }
 
         [Required]

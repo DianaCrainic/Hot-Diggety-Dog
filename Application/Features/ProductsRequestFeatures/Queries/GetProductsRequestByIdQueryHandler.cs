@@ -4,7 +4,7 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Features.ProductRequestFeatures.Queries
+namespace Application.Features.ProductsRequestFeatures.Queries
 {
     public class GetProductsRequestByIdQueryHandler : IRequestHandler<GetProductsRequestByIdQuery, ProductsRequest>
     {

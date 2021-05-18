@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Features.ProductRequestFeatures.Queries
+namespace Application.Features.ProductsRequestFeatures.Queries
 {
     public class GetProductsRequestsQueryHandler : IRequestHandler<GetProductsRequestsQuery, IEnumerable<ProductsRequest>>
     {
