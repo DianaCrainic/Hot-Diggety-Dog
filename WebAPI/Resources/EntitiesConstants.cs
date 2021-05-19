@@ -8,5 +8,6 @@
         public const string OrderEntity = "Order";
         public const string StandProductEntity = "StandProduct";
         public const string ProductRequestEntity = "ProductRequest";
+        public const string ProductsRequestEntity = "ProductsRequest";
     }
 }
