@@ -78,5 +78,18 @@ namespace WebApi.Controllers.v2
 
             return CreatedAtAction("GetById", new { id = productsRequestId }, await mediator.Send(new GetProductsRequestByIdQuery() { Id = productsRequestId }));
         }
+        
+        [RoleAuthorize("SUPPLIER")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Remove(Guid id)
+        {
+            Guid requestId = await mediator.Send(new DeleteProductsRequestCommand { Id = id });
+            if (requestId == Guid.Empty)
+            {
+                return NotFound(Messages.NotFoundMessage(EntitiesConstants.ProductsRequestEntity, id));
+            }
+
+            return NoContent();
+        }
     }
 }
