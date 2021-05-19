@@ -1,6 +1,5 @@
 ﻿using Application.Features.ProductFeatures.Commands;
 using Application.Features.ProductFeatures.Queries;
-using Application.Features.ProductRequestFeatures.Queries;
 using Application.Features.ProductsRequestFeatures.Commands;
 using Application.Features.ProductsRequestFeatures.Queries;
 using Application.Features.UserFeatures.Queries;
@@ -32,14 +31,14 @@ namespace WebApi.Controllers.v2
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            ProductRequest productRequest = await mediator.Send(new GetProductRequestByIdQuery { Id = id });
+            ProductsRequest productsRequest = await mediator.Send(new GetProductsRequestByIdQuery { Id = id });
 
-            if (productRequest == null)
+            if (productsRequest == null)
             {
                 return NotFound(Messages.NotFoundMessage(EntitiesConstants.ProductRequestEntity, id));
             }
 
-            return Ok(productRequest);
+            return Ok(productsRequest);
         }
 
         [RoleAuthorize("OPERATOR")]

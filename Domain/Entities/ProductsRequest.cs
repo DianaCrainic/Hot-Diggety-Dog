@@ -16,7 +16,7 @@ namespace Domain.Entities
         [JsonIgnore]
         public virtual User Operator { get; set; }
 
-        public virtual ICollection<ProductRequest> ProductRequest { get; set; }
+        public virtual ICollection<ProductRequest> ProductRequests { get; set; }
 
         [Required]
         public DateTime Timestamp { get; set; }
