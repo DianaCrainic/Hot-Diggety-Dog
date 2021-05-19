@@ -29,7 +29,7 @@ namespace WebApi.Extensions
             foreach (Product product in context.Products)
             {
                 await context.InventoryProducts.AddAsync(
-                    new InventoryProduct { Id = new Guid(), ProductId = product.Id, Product = product, Quantity = 0 }
+                    new InventoryProduct { Id = Guid.NewGuid(), ProductId = product.Id, Product = product, Quantity = 0 }
                 );
             }
             await context.SaveChangesAsync();

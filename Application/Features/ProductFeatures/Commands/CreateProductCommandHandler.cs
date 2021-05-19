@@ -31,7 +31,7 @@ namespace Application.Features.ProductFeatures.Commands
 
             InventoryProduct inventoryProduct = new()
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 ProductId = product.Id,
                 Product = product,
                 Quantity = 0
