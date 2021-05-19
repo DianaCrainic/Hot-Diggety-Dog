@@ -8,9 +8,9 @@ namespace Application.Features.ProductsRequestFeatures.Queries
 {
     public class GetProductsRequestByIdQueryHandler : IRequestHandler<GetProductsRequestByIdQuery, ProductsRequest>
     {
-        private readonly IRepository<ProductsRequest> productsRequestRepository;
+        private readonly IProductsRequestsRepository productsRequestRepository;
 
-        public GetProductsRequestByIdQueryHandler(IRepository<ProductsRequest> productsRequestRepository)
+        public GetProductsRequestByIdQueryHandler(IProductsRequestsRepository productsRequestRepository)
         {
             this.productsRequestRepository = productsRequestRepository;
         }
