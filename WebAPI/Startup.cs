@@ -43,7 +43,7 @@ namespace WebApi
             });
 
             services.AddControllers();
-            services.AddApplication();
+            services.AddApplication(Configuration);
             services.AddPersistence(Configuration);
             services.AddSecurity(Configuration);
 
